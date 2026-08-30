@@ -128,12 +128,12 @@ export default function MotionCards() {
             {/* ─── Part 1: Bold Heading Text with SVG Sticker Placeholders ─── */}
             <div className="motion-card__heading">
                 <h2 className="motion-card__title">
-                    an agency built
+                    a community built
                     <br />
-                    for the future.
+                    for student tech leaders.
                 </h2>
                 <p className="motion-card__subtitle">
-                    from TV to TikTok.
+                    from code to community.
                     {/* SVG sticker placeholder — top-right area */}
                     <span className="motion-card__sticker motion-card__sticker--top">
                         <img
@@ -218,13 +218,13 @@ export default function MotionCards() {
                 {/* Floating labels — positioned freely over the cards area */}
                 <div ref={containerRef} className="motion-card__floating-labels">
                     <div className="motion-card__floating-label motion-card__floating-label--pink">
-                        <p className="motion-card__floating-text">girls just wanna have fun!</p>
+                        <p className="motion-card__floating-text">learn, build & grow!</p>
                     </div>
                     <div className="motion-card__floating-label motion-card__floating-label--orange">
-                        <p className="motion-card__floating-text">mainstream is not a dirty word</p>
+                        <p className="motion-card__floating-text">hackathons & workshops</p>
                     </div>
                     <div className="motion-card__floating-label motion-card__floating-label--red">
-                        <p className="motion-card__floating-text">arrogance = old fashioned</p>
+                        <p className="motion-card__floating-text">campus ambassadors</p>
                     </div>
                 </div>
             </div>
@@ -232,10 +232,10 @@ export default function MotionCards() {
             {/* ─── Part 3: Bottom Paragraph Text ─── */}
             <div className="motion-card__footer-text">
                 <p className="motion-card__description">
-                    To reach the new generation you need to know where
-                    they are. We are a true 360° agency, working the
-                    whole spectrum from TikTok content to TVC and from influencer
-                    collabs to out of home spectaculars.
+                    To build the future of tech, we connect and empower student
+                    leaders across Pakistan. LoopLab organizes hands-on workshops,
+                    campus meetups, and major tech events like LoopVerse and
+                    LoopLearn hackathons.
                 </p>
             </div>
         </section>

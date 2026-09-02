@@ -1,9 +1,14 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCursorState, resetCursor } from '@/features/effects-and-cursor/cursorSlice';
 import { gsap } from 'gsap';
 
 export default function CursorBubble() {
+    const dispatch = useDispatch();
+    const { cursorText } = useSelector((state) => state.cursor);
+
     useEffect(() => {
         const cursorBubble = document.querySelector('.cursor-bubble');
         if (!cursorBubble) return;
@@ -25,13 +30,14 @@ export default function CursorBubble() {
 
             if (found && !isHoveringClickable) {
                 isHoveringClickable = true;
-                if (found.matches('.logo-looplab')) cursorBubble.textContent = 'to home';
-                else if (found.matches('.nav-work-btn')) cursorBubble.textContent = 'click';
-                else cursorBubble.textContent = 'click';
+                const text = found.matches('.logo-looplab') ? 'to home' : 'click';
+                dispatch(setCursorState({ text, isHovered: true }));
+                cursorBubble.textContent = text;
                 gsap.killTweensOf(cursorBubble, 'opacity,scale,rotation');
                 gsap.to(cursorBubble, { opacity: 1, scale: 1, rotation: 0, duration: 1.7, delay: 0.1, ease: 'elastic.out(1, 0.4)' });
             } else if (!found && isHoveringClickable) {
                 isHoveringClickable = false;
+                dispatch(resetCursor());
                 gsap.killTweensOf(cursorBubble, 'opacity,scale,rotation');
                 gsap.to(cursorBubble, { opacity: 1, scale: 0, rotation: -30, duration: 0.3, ease: 'sine.inOut' });
             }
@@ -40,6 +46,7 @@ export default function CursorBubble() {
         const onMouseLeave = () => {
             if (isHoveringClickable) {
                 isHoveringClickable = false;
+                dispatch(resetCursor());
                 gsap.killTweensOf(cursorBubble, 'opacity,scale,rotation');
                 gsap.to(cursorBubble, { opacity: 1, scale: 0, rotation: -30, duration: 0.3, ease: 'sine.inOut' });
             }
@@ -54,7 +61,7 @@ export default function CursorBubble() {
             document.removeEventListener('mouseover', onMouseOver);
             document.removeEventListener('mouseleave', onMouseLeave);
         };
-    }, []);
+    }, [dispatch]);
 
-    return <div className="cursor-bubble">click</div>;
+    return <div className="cursor-bubble">{cursorText || 'click'}</div>;
 }

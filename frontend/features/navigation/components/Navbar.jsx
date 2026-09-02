@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setMenuOpen, setIsScrolled } from '@/features/navigation/uiSlice';
 import { gsap } from 'gsap';
 import { WIGGLE_CONFIG } from '@/lib/data';
 import { Infinity } from 'lucide-react';
@@ -39,6 +41,8 @@ const socialItems = [
 ];
 
 export default function Navbar() {
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const navbar = document.querySelector('.navbar');
         const contentSection = document.querySelector('.content-section');
@@ -372,6 +376,8 @@ export default function Navbar() {
                         colors={['#f0befa', '#f5693c', '#9E00FE']}
                         accentColor="#9E00FE"
                         isFixed={true}
+                        onMenuOpen={() => dispatch(setMenuOpen(true))}
+                        onMenuClose={() => dispatch(setMenuOpen(false))}
                     />
                 </div>
             </nav>

@@ -1,18 +1,17 @@
 'use client';
 
-import SvgSymbols from '@/components/SvgSymbols';
-import Navbar from '@/components/Navbar';
-import VimeoHero from '@/components/VimeoHero';
-import ServiceCards from '@/components/ServiceCards';
-import MotionCards from '@/components/MotionCards';
-import Showreel from '@/components/Showreel';
-import DoubleMarquee from '@/components/DoubleMarquee';
-import Footer from '@/components/Footer';
-import TransitionScribble from '@/components/TransitionScribble';
-import CursorBubble from '@/components/CursorBubble';
-import SmoothScroll from '@/components/SmoothScroll';
-
-import HorizontalWords from '@/components/HorizontalWords';
+import SvgSymbols from '@/components/ui/SvgSymbols';
+import Navbar from '@/features/navigation/components/Navbar';
+import VimeoHero from '@/features/hero/components/VimeoHero';
+import ServiceCards from '@/features/service-cards/components/ServiceCards';
+import MotionCards from '@/features/motion-cards/components/MotionCards';
+import Showreel from '@/features/showreel/components/Showreel';
+import DoubleMarquee from '@/features/marquee/components/DoubleMarquee';
+import Footer from '@/features/footer/components/Footer';
+import TransitionScribble from '@/features/effects-and-cursor/components/TransitionScribble';
+import CursorBubble from '@/features/effects-and-cursor/components/CursorBubble';
+import SmoothScroll from '@/features/effects-and-cursor/components/SmoothScroll';
+import HorizontalWords from '@/features/horizontal-words/components/HorizontalWords';
 
 export default function Home() {
     return (

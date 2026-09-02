@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* ─────────────────────────────────────────────────────────────────────────────
    globals.css — Entry point. Imports all partial stylesheets.
    Edit individual files in app/styles/ for section-specific changes.
@@ -17,6 +19,8 @@
 /* Service cards, stickers                  */
 @import './styles/marquee.css';
 /* Double marquee section + animations      */
+@import './styles/horizontal-words.css';
+/* Pinned horizontal scrolling section      */
 @import './styles/footer.css';
 /* Footer layout, credits, stickers         */
 @import './styles/vimeo-hero.css';

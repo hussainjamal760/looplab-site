@@ -15,6 +15,7 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────────────────────── */
 :root {
+    --font-pacifico: var(--font-pacifico, 'Pacifico', cursive);
     --color-green: #29725f;
     --color-lightblue: #EAD2FF;
     --color-darkblue: #9E00FE;

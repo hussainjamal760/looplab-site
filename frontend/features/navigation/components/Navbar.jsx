@@ -28,10 +28,10 @@ function initWiggle(element, intensity) {
 
 const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-    { label: 'About', ariaLabel: 'Learn about us', link: '#motion-card-section' },
-    { label: 'Events', ariaLabel: 'View our events', link: '#showreel-section' },
-    { label: 'Ambassadors', ariaLabel: 'Join the ambassador program', link: '#cards-wrapper' },
-    { label: 'Contact', ariaLabel: 'Get in touch', link: '#footer-socials' }
+    { label: 'About', ariaLabel: 'Learn about us', link: '/#motion-card-section' },
+    { label: 'Events', ariaLabel: 'View our events', link: '/#showreel-section' },
+    { label: 'Ambassadors', ariaLabel: 'Join the ambassador program', link: '/#cards-wrapper' },
+    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
 ];
 
 const socialItems = [
@@ -48,14 +48,33 @@ export default function Navbar() {
         const contentSection = document.querySelector('.content-section');
         const footerEl = document.querySelector('.main-footer');
 
-        // ② Start white (on-dark) — video is dark background
-        if (navbar) { navbar.classList.add('on-dark'); navbar.classList.remove('on-light'); }
+        // Initial default depending on page section presence
+        if (navbar) {
+            if (contentSection) {
+                navbar.classList.add('on-dark'); navbar.classList.remove('on-light');
+            } else {
+                navbar.classList.add('on-light'); navbar.classList.remove('on-dark');
+            }
+        }
 
         const updateNavbarColor = () => {
-            if (!navbar || !contentSection || !footerEl) return;
+            if (!navbar) return;
             const scrollPos = window.scrollY + navbar.offsetHeight / 2;
-            const contentTop = contentSection.getBoundingClientRect().top + window.scrollY;
 
+            if (footerEl) {
+                const footerTop = footerEl.getBoundingClientRect().top + window.scrollY;
+                if (scrollPos >= footerTop) {
+                    navbar.classList.add('on-dark'); navbar.classList.remove('on-light');
+                    return;
+                }
+            }
+
+            if (!contentSection) {
+                navbar.classList.add('on-light'); navbar.classList.remove('on-dark');
+                return;
+            }
+
+            const contentTop = contentSection.getBoundingClientRect().top + window.scrollY;
             const showreelSection = document.querySelector('#showreel-section');
             const showreelTop = showreelSection ? showreelSection.getBoundingClientRect().top + window.scrollY : Infinity;
 
@@ -64,11 +83,8 @@ export default function Navbar() {
 
             const doubleMarquee = document.querySelector('.Double-marquee');
             const doubleMarqueeTop = doubleMarquee ? doubleMarquee.getBoundingClientRect().top + window.scrollY : Infinity;
-            const footerTop = footerEl.getBoundingClientRect().top + window.scrollY;
 
-            if (scrollPos >= footerTop) {
-                navbar.classList.add('on-dark'); navbar.classList.remove('on-light');
-            } else if (scrollPos >= doubleMarqueeTop) {
+            if (scrollPos >= doubleMarqueeTop) {
                 navbar.classList.add('on-light'); navbar.classList.remove('on-dark');
             } else if (scrollPos >= serviceCardsTop) {
                 navbar.classList.add('on-light'); navbar.classList.remove('on-dark');
@@ -358,10 +374,10 @@ export default function Navbar() {
                     </div>
                 </div>
                 <div className="nav-center" style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer" }}>
-                    <div className="logo-looplab" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'inherit' }}>
+                    <a href="/" className="logo-looplab" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'inherit', textDecoration: 'none' }}>
                         <Infinity size={24} strokeWidth={2.5} style={{ transform: 'translateY(1px)' }} />
-                        <span style={{ fontFamily: "'Pacifico', cursive", fontSize: '28px', lineHeight: 1 }}>LOOPLAB</span>
-                    </div>
+                        <span style={{ fontFamily: "var(--font-pacifico, 'Pacifico', cursive)", fontSize: '28px', lineHeight: 1 }}>LOOPLAB</span>
+                    </a>
                 </div>
                 <div className="nav-right" style={{ width: '120px', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                     <StaggeredMenu

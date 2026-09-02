@@ -202,7 +202,7 @@ export default function Footer() {
             <div className="footer-bottom">
                 <div className="footer-big-text">
                     <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 1368 304" className="footer-logo__svg">
-                        <text x="50%" y="220" textAnchor="middle" fontFamily="'Pacifico', cursive" fontSize="230" fill="currentColor">LOOPLAB</text>
+                        <text x="50%" y="220" textAnchor="middle" fontFamily="var(--font-pacifico, 'Pacifico', cursive)" fontSize="230" fill="currentColor">LOOPLAB</text>
                     </svg>
                 </div>
 

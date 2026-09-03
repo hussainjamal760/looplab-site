@@ -1,0 +1,190 @@
+@baseUrl = http://localhost:5000/api/v1
+
+
+
+# @name HealthCheck
+GET {{baseUrl}}/health
+
+
+### ===================================================================
+### 2. AUTHENTICATION & ADMIN MANAGEMENT
+### ===================================================================
+
+# @name AdminLogin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@looplab.site",
+  "password": "nabsite!@"
+}
+
+###
+
+# @name GetAdminProfile
+GET {{baseUrl}}/auth/me
+
+###
+
+# @name CreateSecondAdmin
+POST {{baseUrl}}/auth/create-admin
+Content-Type: application/json
+
+{
+  "name": "Co-Admin",
+  "email": "coadmin@looplab.site",
+  "password": "CoAdminPassword123!",
+  "role": "admin"
+}
+
+###
+
+# @name AdminLogout
+POST {{baseUrl}}/auth/logout
+
+
+### ===================================================================
+### 3. EVENTS MANAGEMENT (ADMIN & PUBLIC)
+### ===================================================================
+
+# @name AdminCreateEvent
+POST {{baseUrl}}/admin/events
+Content-Type: application/json
+
+{
+  "title": "LoopVerse 3.0 Hackathon",
+  "slug": "loopverse-3",
+  "description": "The flagship 36-hour hackathon organized by LoopLab.",
+  "category": "Hackathon",
+  "baseFee": 1500,
+  "isActive": true,
+  "formFields": [
+    {
+      "fieldId": "fullName",
+      "label": "Full Name",
+      "fieldType": "text",
+      "isRequired": true,
+      "placeholder": "Enter your full name",
+      "order": 1
+    },
+    {
+      "fieldId": "email",
+      "label": "Email Address",
+      "fieldType": "email",
+      "isRequired": true,
+      "placeholder": "you@example.com",
+      "order": 2
+    },
+    {
+      "fieldId": "trackSelect",
+      "label": "Select Track",
+      "fieldType": "dropdown",
+      "options": ["AI & ML", "Web3", "Open Innovation"],
+      "isRequired": true,
+      "order": 3
+    }
+  ]
+}
+
+###
+
+# @name AdminGetAllEvents
+GET {{baseUrl}}/admin/events
+
+###
+
+# @name AdminToggleBanner
+# Note: Replace EVENT_ID with real MongoDB _id
+PATCH {{baseUrl}}/admin/events/EVENT_ID/banner
+Content-Type: application/json
+
+{
+  "isLiveBanner": true
+}
+
+###
+
+# @name PublicGetActiveEvent
+GET {{baseUrl}}/events/active
+
+###
+
+# @name PublicGetEventBySlug
+GET {{baseUrl}}/events/loopverse-3
+
+
+### ===================================================================
+### 4. PROMO CODES (ADMIN & PUBLIC)
+### ===================================================================
+
+# @name AdminCreateGlobalPromo
+POST {{baseUrl}}/admin/promo-codes
+Content-Type: application/json
+
+{
+  "code": "LOOP2026",
+  "partnerName": "Campus Ambassador Squad",
+  "partnerType": "ambassador",
+  "discountPercent": 15,
+  "isActive": true
+}
+
+###
+
+# @name AdminGetAllPromoCodes
+GET {{baseUrl}}/admin/promo-codes
+
+###
+
+# @name PublicValidatePromo
+# Note: Replace EVENT_ID with real MongoDB _id
+POST {{baseUrl}}/promo/validate
+Content-Type: application/json
+
+{
+  "code": "LOOP2026",
+  "eventId": "6a991460bdf42b1ed464fda9"
+}
+
+
+### ===================================================================
+### 5. REGISTRATIONS & VERIFICATION
+### ===================================================================
+
+# @name PublicSubmitRegistration
+# Note: Replace EVENT_ID with real MongoDB _id
+POST {{baseUrl}}/registrations
+Content-Type: application/json
+
+{
+  "eventId": "6a991460bdf42b1ed464fda9",
+  "participantData": {
+    "fullName": "Nabeel ",
+    "email": "nabeel@example.com",
+    "trackSelect": "AI & ML"
+  },
+  "appliedPromoCode": "LOOP2026",
+  "paymentScreenshotUrl": "https://res.cloudinary.com/demo/image/upload/sample.jpg"
+}
+
+###
+
+# @name AdminGetMetrics
+GET {{baseUrl}}/admin/registrations/metrics
+
+###
+
+# @name AdminGetAllRegistrations
+GET {{baseUrl}}/admin/registrations?status=pending&page=1&limit=10
+
+###
+
+# @name AdminVerifyRegistration
+# Note: Replace REGISTRATION_ID with real MongoDB _id
+PATCH {{baseUrl}}/admin/registrations/6a9915c1bdf42b1ed464fdab/status
+Content-Type: application/json
+
+{
+  "status": "verified",
+  "remarks": "Payment confirmed via Easypaisa transfer"
+}

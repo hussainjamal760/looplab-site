@@ -3,17 +3,22 @@ import { ApiError } from '../utils/ApiError.js';
 import { env } from '../config/env.js';
 
 export const errorHandler = (
-  err: any,
+  err: unknown,
   _req: Request,
   res: Response,
   _next: NextFunction
 ): void => {
-  let error = err;
+  let error: ApiError;
 
-  if (!(error instanceof ApiError)) {
-    const statusCode = error.statusCode || error.status || 500;
-    const message = error.message || 'Internal Server Error';
-    error = new ApiError(statusCode, message, [], err.stack);
+  if (err instanceof ApiError) {
+    error = err;
+  } else if (err instanceof Error) {
+    const statusCode = (err as NodeJS.ErrnoException & { statusCode?: number; status?: number }).statusCode
+      ?? (err as NodeJS.ErrnoException & { status?: number }).status
+      ?? 500;
+    error = new ApiError(statusCode, err.message, [], err.stack ?? '');
+  } else {
+    error = new ApiError(500, 'Internal Server Error');
   }
 
   const response = {
@@ -26,3 +31,4 @@ export const errorHandler = (
 
   res.status(error.statusCode).json(response);
 };
+

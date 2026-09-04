@@ -9,13 +9,16 @@ import Footer from "@/features/footer/components/Footer";
 import SmoothScroll from "@/features/effects-and-cursor/components/SmoothScroll";
 import CursorBubble from "@/features/effects-and-cursor/components/CursorBubble";
 import TransitionScribble from "@/features/effects-and-cursor/components/TransitionScribble";
+import HorizontalWords from "@/features/horizontal-words/components/HorizontalWords";
+import ExecutiveTeamCard from "@/features/service-cards/components/ExecutiveTeamCard";
+import PerspectiveCarousel from "@/features/service-cards/components/PerspectiveCarousel";
 
 import {
     executiveTeam,
     coreTeam,
     registrationTeam,
     creativeTeam,
-} from "@/lib/teamData";
+} from "@/features/service-cards/components/teamData";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -186,29 +189,12 @@ export default function TeamPage() {
                     HERO
                 ================================= */}
 
-                <section className="team-hero">
-
-                    <div className="team-hero-small">
-                        LOOPLAB COMMUNITY
-                    </div>
-
-                    <h1>
-                        THE PEOPLE
-                        <br />
-                        <span>BEHIND THE LOOP</span>
-                    </h1>
-
-                    <p>
-                        Meet the people building,
-                        creating and shaping
-                        the LoopLab community.
-                    </p>
-
-                    <div className="team-scroll-indicator">
-                        SCROLL TO MEET THEM ↓
-                    </div>
-
-                </section>
+                <HorizontalWords
+                    text="Meet the people behind the loop"
+                    topSubtitle="MEET THE PEOPLE BEHIND LOOPLAB"
+                    bottomText="The people working together to build, organize and grow the LoopLab community."
+                    highlightWord="loop"
+                />
 
 
                 {/* =================================
@@ -232,21 +218,7 @@ export default function TeamPage() {
                     </div>
 
 
-                    <div className="executive-list">
-
-                        {executiveTeam.map(
-                            (member, index) => (
-
-                                <ExecutiveCard
-                                    key={member.id}
-                                    member={member}
-                                    index={index}
-                                />
-
-                            )
-                        )}
-
-                    </div>
+                    <PerspectiveCarousel items={executiveTeam} slideWidth={360} rotationStep={28} />
 
                 </section>
 

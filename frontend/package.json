@@ -11,6 +11,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.12.0",
     "@tailwindcss/postcss": "^4.3.3",
+    "clsx": "^2.1.1",
+    "framer-motion": "^13.2.0",
     "gsap": "^3.12.5",
     "lenis": "^1.1.14",
     "lucide-react": "^1.37.0",
@@ -19,6 +21,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.3.0",
+    "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.3"
   }
 }

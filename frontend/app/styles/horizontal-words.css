@@ -116,3 +116,26 @@
     z-index: 2;
     white-space: nowrap;
 }
+
+.horizontal-words__top-subtitle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -10.5em);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--color-darkblue);
+    z-index: 25;
+    white-space: nowrap;
+}
+
+.horizontal-words__h2 .letter.letter-highlight {
+    font-family: var(--font-pacifico, 'Pacifico', cursive);
+    color: var(--color-darkblue);
+    font-weight: 400;
+    font-style: normal;
+    text-transform: lowercase;
+}

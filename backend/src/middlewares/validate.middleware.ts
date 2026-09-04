@@ -15,10 +15,22 @@ export const validate = (schemas: RequestValidationSchemas) => {
         req.body = await schemas.body.parseAsync(req.body);
       }
       if (schemas.query) {
-        req.query = (await schemas.query.parseAsync(req.query)) as any;
+        const parsedQuery = await schemas.query.parseAsync(req.query);
+        Object.defineProperty(req, 'query', {
+          value: parsedQuery,
+          writable: true,
+          configurable: true,
+          enumerable: true,
+        });
       }
       if (schemas.params) {
-        req.params = (await schemas.params.parseAsync(req.params)) as any;
+        const parsedParams = await schemas.params.parseAsync(req.params);
+        Object.defineProperty(req, 'params', {
+          value: parsedParams,
+          writable: true,
+          configurable: true,
+          enumerable: true,
+        });
       }
       next();
     } catch (error) {
@@ -34,3 +46,4 @@ export const validate = (schemas: RequestValidationSchemas) => {
     }
   };
 };
+

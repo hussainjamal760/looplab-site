@@ -29,12 +29,17 @@ function initWiggle(element, intensity) {
 const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
     { label: 'About', ariaLabel: 'Learn about us', link: '/#motion-card-section' },
+<<<<<<< HEAD
     { label: 'Events', ariaLabel: 'View our events', link: '/#showreel-section' },
       {
     label: "Ambassadors",
     ariaLabel: "Join the ambassador program",
     link: "/#ambassador",
   },
+=======
+    { label: 'Events', ariaLabel: 'View our events', link: '/events' },
+    { label: 'Ambassadors', ariaLabel: 'Join the ambassador program', link: '/#cards-wrapper' },
+>>>>>>> 3c755fed2d3fd4a8de9791944dc691eb7978139b
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
 ];
 

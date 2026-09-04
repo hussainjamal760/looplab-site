@@ -1,12 +1,17 @@
+export interface ApiErrorDetail {
+  field?: string;
+  message: string;
+}
+
 export class ApiError extends Error {
   public statusCode: number;
-  public errors: any[];
+  public errors: ApiErrorDetail[];
   public success: boolean;
 
   constructor(
     statusCode: number,
     message: string = 'Something went wrong',
-    errors: any[] = [],
+    errors: ApiErrorDetail[] = [],
     stack: string = ''
   ) {
     super(message);
@@ -22,3 +27,4 @@ export class ApiError extends Error {
     }
   }
 }
+

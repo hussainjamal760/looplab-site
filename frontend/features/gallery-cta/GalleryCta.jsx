@@ -42,7 +42,7 @@ export function GalleryCta() {
     "Looplab is Pakistan's premier student tech community — where ambitious developers, designers, and innovators connect to turn bold ideas into real-world software and shape the future of technology together.";
 
   return (
-    <section ref={sectionRef} className="light community-motivation center" id="community-motivation">
+    <section ref={sectionRef} className="light community-motivation center" id="gallery-cta">
       {/* Background Blobs */}
       <svg
         className="blob-decor"

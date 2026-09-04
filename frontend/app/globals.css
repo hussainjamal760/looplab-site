@@ -31,3 +31,7 @@
 /* Contact page hero, channels, and form styles */
 @import './styles/responsive.css';
 /* All media queries (tablet + mobile)      */
+@import './styles/events.css';
+/* Neo-brutalist events & gallery styles     */
+@import './styles/loopverse.css';
+/* Loopverse 3.0 page styles                  */

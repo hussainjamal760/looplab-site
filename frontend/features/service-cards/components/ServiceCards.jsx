@@ -1,188 +1,530 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { CARDS_DATA } from '@/lib/data';
+import { useRef, useState } from "react";
+import { gsap } from "gsap";
 
-export default function ServiceCards() {
-    useEffect(() => {
-        gsap.registerPlugin(ScrollTrigger);
+import {
+  executiveTeam,
+  coreTeam,
+  registrationTeam,
+  creativeTeam,
+} from "@/features/service-cards/components/teamData";
 
-        // Animate underline SVG paths on scroll (from HeroSection)
-        gsap.to('.title-underline-svg path', {
-            strokeDashoffset: 0,
-            duration: 1.2,
-            ease: 'power3.out',
-            stagger: 0.3,
-            scrollTrigger: {
-                trigger: '.service-cards-wrapper',
-                start: 'top 70%',
-                toggleActions: 'play none none reverse'
-            }
-        });
+import "@/app/styles/team.css";
 
-        initCardAnimations();
-    }, []);
 
-    return (
-        <>
-            {/* ─── "Call us if you need:" Heading ─── */}
-            <div className="title-container">
-                <h2 className="main-title">join us if you <span className="italic-text">want to:</span></h2>
-                <svg xmlns="http://www.w3.org/2000/svg" width="160" viewBox="0 0 159 17" fill="none" className="title-underline-svg">
-                    <path d="M1 12.1515C53.0771 5.7187 105.529 2.30552 158 1.93652" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                    <path d="M30.2672 15.9461C64.1899 12.8158 98.2663 11.3583 132.33 11.5735" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-                </svg>
-            </div>
+// =====================================================
+// EXECUTIVE CARD
+// =====================================================
 
-            {/* ─── Service Cards ─── */}
-            <div className="cards-wrapper" id="cards-wrapper">
-                {CARDS_DATA.map((card) => (
-                    <div key={card.color} className={`card card-${card.color}`}>
-                        <div className={`card-sticker sticker-${card.sticker}`}>
-                            <img
-                                src={`/assets/Card-Sticker SVG/sticker-${card.sticker}.svg`}
-                                alt=""
-                                width="100%"
-                                loading="lazy"
-                                aria-hidden="true"
-                            />
-                        </div>
-                        <h3 className="card-title">{card.title}</h3>
-                        <svg width="100%" height="10" className="card-divider-svg" aria-hidden="true">
-                            <use href="#card-divider" />
-                        </svg>
-                        <ul className="card-list">
-                            {card.services.map((service) => (
-                                <li key={service}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="16" className="services-card__bullet-svg" aria-hidden="true">
-                                        <use href="#bullet-icon" />
-                                    </svg>
-                                    {service}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                ))}
-            </div>
-        </>
-    );
+function ExecutiveCard({ member, index }) {
+  return (
+    <article className="executive-card">
+
+      {/* Top row */}
+
+      <div className="executive-card-top">
+
+        <span className="executive-number">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+
+        <span className="executive-level">
+          {member.level}
+        </span>
+
+      </div>
+
+
+      {/* Avatar */}
+
+      <div className="executive-avatar">
+        <img
+          src={member.image}
+          alt={`${member.name} avatar`}
+        />
+      </div>
+
+
+      {/* Member information */}
+
+      <div className="executive-card-content">
+
+        <p className="executive-role">
+          {member.role}
+        </p>
+
+        <h4>
+          {member.name}
+        </h4>
+
+      </div>
+
+    </article>
+  );
 }
 
-function initCardAnimations() {
-    const cards = gsap.utils.toArray('.card');
-    if (!cards.length) return;
 
-    const originalData = [
-        { rotation: 4 },
-        { rotation: -5 },
-        { rotation: 5 },
-        { rotation: -8 },
-        { rotation: 5 }
-    ];
+// =====================================================
+// SWIPE CARD
+// =====================================================
 
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    let leaveTimeout = null;
+function MemberSwipeCard({
+  title,
+  members,
+  theme,
+}) {
 
-    if (!isMobile) {
-        cards.forEach((card, index) => {
-            card.addEventListener('mouseenter', () => {
-                if (leaveTimeout) { clearTimeout(leaveTimeout); leaveTimeout = null; }
-                const hoverGap = 120;
-                const clusterGap = 150;
-                const cardWidth = 320;
-                const hoveredLeft = cards[index].offsetLeft;
-                const leftCards = [];
-                const rightCards = [];
+  const [activeIndex, setActiveIndex] = useState(0);
 
-                cards.forEach((otherCard, otherIndex) => {
-                    if (otherIndex < index) leftCards.push({ card: otherCard, index: otherIndex });
-                    else if (otherIndex > index) rightCards.push({ card: otherCard, index: otherIndex });
-                });
+  const cardRef = useRef(null);
 
-                const currentTop = cards[index].offsetTop;
-                const targetCommonTop = 50;
-                const moveY = targetCommonTop - currentTop;
+  const animatingRef = useRef(false);
 
-                gsap.to(cards[index], { x: 0, y: moveY, rotation: 0, scale: 1.08, duration: 0.9, ease: 'elastic.out(1, 0.5)', overwrite: true });
 
-                if (rightCards.length) {
-                    const clusterStart = hoveredLeft + cardWidth + hoverGap;
-                    rightCards.forEach((item, i) => {
-                        const targetAbsLeft = clusterStart + (i * clusterGap);
-                        const targetX = Math.max(targetAbsLeft - item.card.offsetLeft, 10);
-                        const angleRad = originalData[item.index].rotation * (Math.PI / 180);
-                        const targetY = targetX * Math.tan(angleRad);
-                        gsap.to(item.card, { x: targetX, y: targetY, rotation: originalData[item.index].rotation, scale: 1, duration: 1.0, ease: 'elastic.out(1, 0.5)', overwrite: true });
-                    });
-                }
+  const member = members[activeIndex];
 
-                if (leftCards.length) {
-                    leftCards.reverse();
-                    const clusterStart = hoveredLeft - hoverGap - cardWidth;
-                    leftCards.forEach((item, i) => {
-                        const targetAbsLeft = clusterStart - (i * clusterGap);
-                        const targetX = Math.min(targetAbsLeft - item.card.offsetLeft, -10);
-                        const angleRad = originalData[item.index].rotation * (Math.PI / 180);
-                        const targetY = targetX * Math.tan(angleRad);
-                        gsap.to(item.card, { x: targetX, y: targetY, rotation: originalData[item.index].rotation, scale: 1, duration: 1.0, ease: 'elastic.out(1, 0.5)', overwrite: true });
-                    });
-                }
-            });
 
-            card.addEventListener('mouseleave', () => {
-                leaveTimeout = setTimeout(() => {
-                    cards.forEach((c, i) => {
-                        gsap.to(c, { x: 0, y: 0, scale: 1, rotation: originalData[i].rotation, duration: 1.0, ease: 'elastic.out(1, 0.5)', overwrite: true, zIndex: i + 1 });
-                    });
-                }, 80);
-            });
-        });
-    } else {
-        // ─── Mobile: Stacked card scroll reveal ───
-        const cardsWrapper = document.querySelector('.cards-wrapper');
-        const scrollPerCard = window.innerHeight * 0.8;
-        const navH = 60;
-        const mobileRotations = [-6, 4, -8, 5, -3];
+  // ---------------------------------------------------
+  // CHANGE MEMBER
+  // ---------------------------------------------------
 
-        cards.forEach((card, i) => {
-            gsap.set(card, {
-                position: 'absolute', left: '50%', top: '0', xPercent: -50,
-                y: i === 0 ? 0 : window.innerHeight * 1.1,
-                rotation: mobileRotations[i % mobileRotations.length],
-                zIndex: i + 1,
-                transformOrigin: 'center center'
-            });
-        });
+  function changeMember(direction) {
 
-        const wrapperH = window.innerHeight * 0.7 + scrollPerCard * (cards.length - 1);
-        gsap.set(cardsWrapper, { height: wrapperH });
-
-        ScrollTrigger.create({
-            trigger: cardsWrapper,
-            start: `top ${navH}px`,
-            end: `+=${scrollPerCard * (cards.length - 1)}`,
-            pin: true,
-            pinSpacing: true,
-            id: 'mobile-cards-pin'
-        });
-
-        cards.forEach((card, i) => {
-            if (i === 0) return;
-            gsap.fromTo(card,
-                { y: window.innerHeight * 1.1 },
-                {
-                    y: 0,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: cardsWrapper,
-                        start: `top+=${(i - 1) * scrollPerCard} ${navH}px`,
-                        end: `top+=${i * scrollPerCard} ${navH}px`,
-                        scrub: 0.4
-                    }
-                }
-            );
-        });
+    if (
+      animatingRef.current ||
+      !cardRef.current ||
+      members.length === 0
+    ) {
+      return;
     }
+
+
+    animatingRef.current = true;
+
+
+    const nextIndex =
+      direction === "next"
+        ? (activeIndex + 1) % members.length
+        : (activeIndex - 1 + members.length) %
+          members.length;
+
+
+    const exitX =
+      direction === "next"
+        ? -220
+        : 220;
+
+
+    const enterX =
+      direction === "next"
+        ? 220
+        : -220;
+
+
+    // Exit animation
+
+    gsap.to(cardRef.current, {
+
+      x: exitX,
+
+      rotation:
+        direction === "next"
+          ? -5
+          : 5,
+
+      opacity: 0,
+
+      scale: 0.96,
+
+      duration: 0.28,
+
+      ease: "power2.in",
+
+      onComplete: () => {
+
+        // Change member
+
+        setActiveIndex(nextIndex);
+
+
+        // Enter animation
+
+        gsap.fromTo(
+
+          cardRef.current,
+
+          {
+            x: enterX,
+
+            rotation:
+              direction === "next"
+                ? 5
+                : -5,
+
+            opacity: 0,
+
+            scale: 0.96,
+          },
+
+          {
+            x: 0,
+
+            rotation: 0,
+
+            opacity: 1,
+
+            scale: 1,
+
+            duration: 0.45,
+
+            ease: "back.out(1.3)",
+
+            onComplete: () => {
+
+              animatingRef.current = false;
+
+            },
+          }
+        );
+      },
+    });
+  }
+
+
+  // ---------------------------------------------------
+  // CARD
+  // ---------------------------------------------------
+
+  return (
+    <section
+      className={`member-section ${theme}`}
+    >
+
+      {/* Section heading */}
+
+      <div className="member-section-heading">
+
+        <div>
+
+          <p className="section-eyebrow">
+            Team members
+          </p>
+
+          <h3>
+            {title}
+          </h3>
+
+        </div>
+
+
+        <span className="member-counter">
+
+          {String(activeIndex + 1).padStart(
+            2,
+            "0"
+          )}
+
+          {" / "}
+
+          {String(members.length).padStart(
+            2,
+            "0"
+          )}
+
+        </span>
+
+      </div>
+
+
+      {/* Member card */}
+
+      <div className="member-card-wrapper">
+
+        <article
+          ref={cardRef}
+          className="member-card"
+
+          onClick={() =>
+            changeMember("next")
+          }
+
+          onKeyDown={(event) => {
+
+            if (
+              event.key === "Enter" ||
+              event.key === " "
+            ) {
+
+              event.preventDefault();
+
+              changeMember("next");
+
+            }
+
+          }}
+
+          role="button"
+          tabIndex={0}
+        >
+
+          {/* Header */}
+
+          <div className="member-card-header">
+
+            <span className="member-card-index">
+
+              {String(activeIndex + 1).padStart(
+                2,
+                "0"
+              )}
+
+            </span>
+
+
+            <span className="member-card-hint">
+              Click for next →
+            </span>
+
+          </div>
+
+
+          {/* Content */}
+
+          <div className="member-card-content">
+
+            {/* Avatar */}
+
+            <div className="member-avatar">
+
+              <img
+                src={member.image}
+                alt={`${member.name} avatar`}
+              />
+
+            </div>
+
+
+            {/* Role */}
+
+            <p className="member-card-role">
+              {member.role}
+            </p>
+
+
+            {/* Name */}
+
+            <h4>
+              {member.name}
+            </h4>
+
+
+            {/* Level */}
+
+            <span className="member-card-level">
+              {member.level}
+            </span>
+
+          </div>
+
+
+          {/* Footer */}
+
+          <div className="member-card-footer">
+
+            <span>
+              LoopLab Community
+            </span>
+
+            <span>
+              {title}
+            </span>
+
+          </div>
+
+        </article>
+
+      </div>
+
+
+      {/* Controls */}
+
+      <div className="member-controls">
+
+        <button
+          type="button"
+          className="member-arrow"
+
+          onClick={() =>
+            changeMember("previous")
+          }
+
+          aria-label="Previous member"
+        >
+          ←
+        </button>
+
+
+        <span>
+          Swipe or tap to explore
+        </span>
+
+
+        <button
+          type="button"
+          className="member-arrow"
+
+          onClick={() =>
+            changeMember("next")
+          }
+
+          aria-label="Next member"
+        >
+          →
+        </button>
+
+      </div>
+
+    </section>
+  );
+}
+
+
+// =====================================================
+// MAIN TEAM SECTION
+// =====================================================
+
+export default function ServiceCards() {
+
+  return (
+
+    <section
+  className="team-section"
+  id="ambassador"
+>
+
+
+      {/* =================================================
+          INTRO
+      ================================================= */}
+
+      <div className="team-intro">
+
+        <p className="section-eyebrow">
+          Meet the people behind LoopLab
+        </p>
+
+
+        <h2>
+
+          Meet the people
+          <br />
+
+          behind the{" "}
+
+          <span>
+            loop
+          </span>
+
+        </h2>
+
+
+        <p>
+
+          The people working together to
+          build, organize and grow the
+          LoopLab community.
+
+        </p>
+
+      </div>
+
+
+      {/* =================================================
+          EXECUTIVE TEAM
+      ================================================= */}
+
+      <section className="executive-team">
+
+
+        <div className="team-section-heading">
+
+          <div>
+
+            <p className="section-eyebrow">
+              01 / Leadership
+            </p>
+
+            <h3>
+              Executive Team
+            </h3>
+
+          </div>
+
+
+          <span>
+            Our core leadership
+          </span>
+
+        </div>
+
+
+        {/* Executive cards */}
+
+        <div className="executive-grid">
+
+          {executiveTeam.map(
+            (member, index) => (
+
+              <ExecutiveCard
+                key={`${member.name}-${index}`}
+                member={member}
+                index={index}
+              />
+
+            )
+          )}
+
+        </div>
+
+      </section>
+
+
+      {/* =================================================
+          OTHER TEAMS
+      ================================================= */}
+
+      <div className="member-groups">
+
+
+        {/* Core Team */}
+
+        <MemberSwipeCard
+          title="Core Team"
+          members={coreTeam}
+          theme="theme-purple"
+        />
+
+
+        {/* Registration Team */}
+
+        <MemberSwipeCard
+          title="Registration Team"
+          members={registrationTeam}
+          theme="theme-orange"
+        />
+
+
+        {/* Creative Team */}
+
+        <MemberSwipeCard
+          title="Marketing, Events, Graphics & Social Media"
+          members={creativeTeam}
+          theme="theme-green"
+        />
+
+      </div>
+
+    </section>
+  );
 }

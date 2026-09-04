@@ -30,7 +30,11 @@ const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
     { label: 'About', ariaLabel: 'Learn about us', link: '/#motion-card-section' },
     { label: 'Events', ariaLabel: 'View our events', link: '/#showreel-section' },
-    { label: 'Ambassadors', ariaLabel: 'Join the ambassador program', link: '/#cards-wrapper' },
+      {
+    label: "Ambassadors",
+    ariaLabel: "Join the ambassador program",
+    link: "/#ambassador",
+  },
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
 ];
 

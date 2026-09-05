@@ -63,7 +63,7 @@ export function Cube({ faces, title = "3D BLOCK" }) {
 
   return (
     <div
-      className="cube-stage-3d"
+      className="cube-stage-3d cube-stage-3d--large"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}

@@ -12,6 +12,7 @@ export default function MotionCards() {
     const containerRef = useRef(null);
 
     useEffect(() => {
+        const cleanups = [];
         const ctx = gsap.context(() => {
             // Inertia on cards
             const cards = document.querySelectorAll(".motion-card__card");
@@ -52,6 +53,11 @@ export default function MotionCards() {
                 card.addEventListener("mousemove", onMove);
                 card.addEventListener("mouseenter", onEnter);
                 card.addEventListener("mouseleave", onLeave);
+                cleanups.push(() => {
+                    card.removeEventListener("mousemove", onMove);
+                    card.removeEventListener("mouseenter", onEnter);
+                    card.removeEventListener("mouseleave", onLeave);
+                });
             });
 
             // Inertia on floating labels
@@ -93,6 +99,11 @@ export default function MotionCards() {
                 label.addEventListener("mousemove", onMove);
                 label.addEventListener("mouseenter", onEnter);
                 label.addEventListener("mouseleave", onLeave);
+                cleanups.push(() => {
+                    label.removeEventListener("mousemove", onMove);
+                    label.removeEventListener("mouseenter", onEnter);
+                    label.removeEventListener("mouseleave", onLeave);
+                });
             });
 
             // Entry Animations: Sticker Pop & Underline Draw
@@ -118,7 +129,10 @@ export default function MotionCards() {
             }
         }, sectionRef);
 
-        return () => ctx.revert();
+        return () => {
+            cleanups.forEach((cleanup) => cleanup());
+            ctx.revert();
+        };
     }, []);
 
     return (

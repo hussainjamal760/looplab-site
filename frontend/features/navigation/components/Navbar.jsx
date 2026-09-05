@@ -45,7 +45,12 @@ const menuItems = [
   {
     label: "Teams",
     ariaLabel: "Meet the LoopLab team",
-    link: "/#team",
+        link: "/teams",
+    },
+    {
+        label: "Ambassadors",
+        ariaLabel: "Join the ambassador program",
+        link: "/#ambassador",
   },
   {
     label: "Contact",

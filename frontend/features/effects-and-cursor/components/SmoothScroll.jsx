@@ -16,8 +16,11 @@ export default function SmoothScroll() {
             touchMultiplier: 1.5,
         });
 
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        const handleLenisScroll = () => ScrollTrigger.update();
+        const handleTick = (time) => { lenis.raf(time * 1000); };
+
+        lenis.on('scroll', handleLenisScroll);
+        gsap.ticker.add(handleTick);
         gsap.ticker.lagSmoothing(0);
 
         // Dynamic Tab Title Change
@@ -31,6 +34,8 @@ export default function SmoothScroll() {
         window.__lenis = lenis;
 
         return () => {
+            gsap.ticker.remove(handleTick);
+            lenis.off('scroll', handleLenisScroll);
             lenis.destroy();
             document.removeEventListener('visibilitychange', handleVisibility);
             delete window.__lenis;

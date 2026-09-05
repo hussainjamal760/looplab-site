@@ -3,7 +3,7 @@
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background-color: var(--color-black-deep);
+    background-color: var(--bg-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,7 +11,151 @@
 }
 
 .showreel__content {
+    position: relative;
     text-align: center;
+    width: min(1180px, 100%);
+    z-index: 2;
+}
+
+.showreel__drift-wall-wrap {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    height: 100%;
+    opacity: 0.72;
+    pointer-events: none;
+}
+
+.drift-wall {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    perspective: var(--dw-perspective, 1200px);
+    perspective-origin: 50% 50%;
+    -webkit-mask-image: radial-gradient(ellipse 78% 82% at 50% 46%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 78% 82% at 50% 46%, #000 40%, transparent 100%);
+}
+
+.drift-wall__plane {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+    will-change: transform;
+}
+
+.drift-wall__col {
+    position: relative;
+    width: calc(var(--dw-tile-w) + var(--dw-gap));
+    transform-style: preserve-3d;
+}
+
+.drift-wall__track {
+    display: flex;
+    flex-direction: column;
+    transform-style: preserve-3d;
+}
+
+.drift-wall__tile {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: calc(var(--dw-tile-h) + var(--dw-gap));
+    flex: 0 0 auto;
+    outline: none;
+    transform-style: preserve-3d;
+    pointer-events: auto;
+}
+
+.drift-wall__inner {
+    position: absolute;
+    inset: calc(var(--dw-gap) / 2);
+    display: block;
+    overflow: hidden;
+    border-radius: var(--dw-radius);
+    background: #0b0b12;
+    opacity: var(--dw-dim);
+    transform: translateZ(0);
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.42s ease, box-shadow 0.42s ease;
+}
+
+.drift-wall__tile img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.92);
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.drift-wall__overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--dw-overlay);
+    opacity: 0.42;
+    pointer-events: none;
+}
+
+.drift-wall__tile.is-active .drift-wall__inner,
+.drift-wall__tile:focus-visible .drift-wall__inner {
+    opacity: 1;
+    transform: translateZ(var(--dw-lift));
+    box-shadow: 0 24px 60px -18px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255,255,255,0.85);
+}
+
+.drift-wall__tile.is-active .drift-wall__overlay,
+.drift-wall__tile:focus-visible .drift-wall__overlay {
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .drift-wall__plane { transform: translate(-50%, -50%); }
+}
+
+.showreel__title-row {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem 2rem;
+    width: 100%;
+    z-index: 50;
+    overflow: visible;
+}
+
+.showreel__title-row .loopverse-calendar {
+    width: 172px;
+    height: 150px;
+    perspective: 900px;
+    transform: translateX(24px) rotate(-7deg) rotateY(-8deg);
+    z-index: 60;
+    isolation: isolate;
+}
+
+.showreel__title-row .loopverse-calendar.is-zoomed {
+    transform: translateX(24px) rotate(-7deg) rotateY(-8deg) scale(1.32);
+}
+
+.showreel__title-row .loopverse-calendar__body {
+    padding-top: 26px;
+    transform: translateZ(8px);
+    transform-style: preserve-3d;
+}
+
+.showreel__title-row .loopverse-calendar__body::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 7px -9px -9px 7px;
+    border-radius: inherit;
+    background: #6500b8;
+    border: 3px solid #111;
+    transform: translateZ(-8px);
 }
 
 .showreel__title {
@@ -19,15 +163,184 @@
     font-size: 5rem;
     font-weight: 900;
     letter-spacing: -3px;
-    color: var(--color-white);
-    margin-bottom: 1rem;
+    color: var(--color-black);
+    margin-bottom: 0;
+    transition: color 380ms ease;
+}
+
+.showreel__title-row .particle-text-wrapper {
+    width: min(100%, 700px);
+    margin: 0;
+    filter: none;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.showreel__title-row .particle-text-wrapper--glow {
+    filter: drop-shadow(0 0 18px rgba(139, 92, 246, 0.38));
 }
 
 .showreel__subtitle {
     font-family: 'DM Sans', sans-serif;
     font-size: 1.2rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--color-dark);
     letter-spacing: 2px;
     text-transform: uppercase;
+    margin-top: 1rem;
+}
+
+.showreel__events-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    padding: 0.85rem 1.5rem;
+    border: 2px solid var(--color-darkblue);
+    border-radius: 999px;
+    color: var(--color-white);
+    background: var(--color-darkblue);
+    font-family: 'Epilogue', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-decoration: none;
+    cursor: url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer;
+    transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.showreel__events-link:hover {
+    background: #7d00ca;
+    border-color: #7d00ca;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 rgba(17, 17, 17, 0.18);
+}
+
+.showreel__events-link:focus-visible {
+    outline: 3px solid var(--color-lightgreen);
+    outline-offset: 4px;
+}
+
+.showreel__doodles {
+    position: absolute;
+    inset: -48px -64px -28px -48px;
+    pointer-events: none;
+}
+
+.showreel__doodle {
+    position: absolute;
+    width: 52px;
+    height: auto;
+    opacity: 0;
+    transform: scale(0.2) rotate(-12deg);
+}
+
+.showreel__doodles.is-visible .showreel__doodle {
+    animation: showreel-doodle-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.showreel__doodle--star {
+    top: -8px;
+    left: 8%;
+    width: 44px;
+    animation-delay: 0s;
+}
+
+.showreel__doodle--smiley {
+    top: -18px;
+    right: 22%;
+    width: 48px;
+    animation-delay: 0.12s;
+}
+
+.showreel__doodle--heart {
+    bottom: -6px;
+    left: 18%;
+    width: 42px;
+    animation-delay: 0.24s;
+}
+
+.showreel__doodle--boom {
+    top: 12%;
+    right: -18px;
+    width: 56px;
+    animation-delay: 0.36s;
+}
+
+.showreel__doodle--camera {
+    bottom: 4%;
+    right: 28%;
+    width: 46px;
+    animation-delay: 0.48s;
+}
+
+.showreel__doodles.is-visible .showreel__doodle--star { animation-delay: 0s; }
+.showreel__doodles.is-visible .showreel__doodle--smiley { animation-delay: 0.12s; }
+.showreel__doodles.is-visible .showreel__doodle--heart { animation-delay: 0.24s; }
+.showreel__doodles.is-visible .showreel__doodle--boom { animation-delay: 0.36s; }
+.showreel__doodles.is-visible .showreel__doodle--camera { animation-delay: 0.48s; }
+
+@keyframes showreel-doodle-pop {
+    from {
+        opacity: 0;
+        transform: scale(0.2) rotate(-18deg) translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(var(--doodle-rot, -8deg)) translateY(0);
+    }
+}
+
+.showreel__doodle--star { --doodle-rot: -12deg; }
+.showreel__doodle--smiley { --doodle-rot: 10deg; }
+.showreel__doodle--heart { --doodle-rot: -6deg; }
+.showreel__doodle--boom { --doodle-rot: 14deg; }
+.showreel__doodle--camera { --doodle-rot: -16deg; }
+
+@media (prefers-reduced-motion: reduce) {
+    .showreel__title {
+        transition: none;
+    }
+
+    .showreel__doodles.is-visible .showreel__doodle {
+        animation: none;
+        opacity: 1;
+        transform: scale(1) rotate(var(--doodle-rot, 0deg));
+    }
+
+    .showreel__events-link,
+    .showreel__events-link:hover {
+        transition: none;
+        transform: none;
+    }
+
+}
+
+@media (max-width: 700px) {
+    .showreel__title-row {
+        gap: 1rem;
+    }
+
+    .showreel__title-row .showreel__title {
+        font-size: 3rem;
+    }
+
+    .showreel__title-row .loopverse-calendar {
+        width: 136px;
+        height: 120px;
+        transform: translateX(12px) rotate(-7deg) rotateY(-8deg);
+    }
+
+    .showreel__title-row .loopverse-calendar.is-zoomed {
+        transform: translateX(12px) rotate(-7deg) rotateY(-8deg) scale(1.32);
+    }
+
+    .showreel__doodles {
+        inset: -36px -28px -16px -20px;
+    }
+
+    .showreel__doodle {
+        width: 36px;
+    }
 }

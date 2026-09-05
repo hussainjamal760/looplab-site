@@ -2,7 +2,26 @@
 
 import { useEffect, useRef } from "react";
 
-export function ParticleText({ text = "UPCOMING EVENTS" }) {
+export function ParticleText({
+  text = "UPCOMING EVENTS",
+  particleSize = 2.2,
+  density = 4,
+  color = "#f8fafc",
+  highlightColor = "#8b5cf6",
+  scatter = 190,
+  gatherDuration = 1600,
+  stagger = 420,
+  pointerRepel = 42,
+  repelRadius = 120,
+  idleDrift = 0.8,
+  trigger = "mount",
+  fontSize = "clamp(3.5rem, 13vw, 9rem)",
+  fontWeight = 800,
+  fontFamily = "inherit",
+  glow = true,
+  textStroke = true,
+  strokeWidth = 3,
+}) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -13,7 +32,7 @@ export function ParticleText({ text = "UPCOMING EVENTS" }) {
 
     let animationFrameId;
     let particles = [];
-    const mouse = { x: -9999, y: -9999, radius: 85 };
+    const mouse = { x: -9999, y: -9999, radius: repelRadius };
 
     const handleMouseMove = (e) => {
       const rect = canvas.getBoundingClientRect();
@@ -31,7 +50,7 @@ export function ParticleText({ text = "UPCOMING EVENTS" }) {
 
     const init = () => {
       const width = (canvas.width = Math.min(window.innerWidth * 0.9, 1100));
-      const height = (canvas.height = 140);
+      const height = (canvas.height = 170);
 
       // Offscreen canvas for sampling text pixel coordinates
       const offscreen = document.createElement("canvas");
@@ -40,19 +59,29 @@ export function ParticleText({ text = "UPCOMING EVENTS" }) {
       const offCtx = offscreen.getContext("2d");
       if (!offCtx) return;
 
-      const fontSize = Math.min(width / 9, 88);
-      offCtx.font = `900 ${fontSize}px 'Archivo Black', sans-serif`;
+      const resolvedFamily = fontFamily === "inherit" ? "Epilogue, sans-serif" : fontFamily;
+      let resolvedFontSize = Math.min(width / 9, 110);
+      offCtx.font = `${fontWeight} ${resolvedFontSize}px ${resolvedFamily}`;
+      const measuredWidth = offCtx.measureText(text).width;
+      resolvedFontSize *= Math.min(1, (width - 24) / measuredWidth);
+      offCtx.font = `${fontWeight} ${resolvedFontSize}px ${resolvedFamily}`;
       offCtx.textAlign = "center";
       offCtx.textBaseline = "middle";
-      offCtx.fillStyle = "#ffffff";
-      offCtx.fillText(text, width / 2, height / 2);
+      if (textStroke) {
+        offCtx.strokeStyle = color;
+        offCtx.lineWidth = strokeWidth;
+        offCtx.lineJoin = "round";
+        offCtx.strokeText(text, width / 2, height / 2);
+      } else {
+        offCtx.fillStyle = color;
+        offCtx.fillText(text, width / 2, height / 2);
+      }
 
       const imgData = offCtx.getImageData(0, 0, width, height);
       particles = [];
 
-      const step = 4; // Gap between sampled particle pixels
-      // Light and Dark purple palette with crisp white highlights
-      const colors = ["#c9a6ff", "#8e1fef", "#b48cff", "#6f1ab6", "#d4b3ff", "#ffffff"];
+      const step = Math.max(2, density);
+      const colors = [color, color, highlightColor];
 
       for (let y = 0; y < height; y += step) {
         for (let x = 0; x < width; x += step) {
@@ -62,15 +91,15 @@ export function ParticleText({ text = "UPCOMING EVENTS" }) {
           if (alpha > 128) {
             const color = colors[Math.floor(Math.random() * colors.length)];
             particles.push({
-              x: x + (Math.random() - 0.5) * 4,
-              y: y + (Math.random() - 0.5) * 4,
+              x: x + (Math.random() - 0.5) * scatter / 12,
+              y: y + (Math.random() - 0.5) * scatter / 24,
               originX: x,
               originY: y,
               color: color,
-              size: Math.random() * 2.2 + 1.2,
+              size: Math.random() * 0.8 + particleSize,
               vx: 0,
               vy: 0,
-              ease: 0.08 + Math.random() * 0.04,
+              ease: 1000 / Math.max(800, gatherDuration) + Math.random() * 0.03,
               friction: 0.88,
             });
           }
@@ -78,7 +107,8 @@ export function ParticleText({ text = "UPCOMING EVENTS" }) {
       }
     };
 
-    init();
+    const initialDelay = trigger === "mount" ? 0 : stagger;
+    const initTimer = window.setTimeout(init, initialDelay);
 
     const handleResize = () => {
       init();
@@ -100,8 +130,8 @@ export function ParticleText({ text = "UPCOMING EVENTS" }) {
         if (distance < mouse.radius) {
           const force = (mouse.radius - distance) / mouse.radius;
           const angle = Math.atan2(dy, dx);
-          p.vx -= Math.cos(angle) * force * 4.5;
-          p.vy -= Math.sin(angle) * force * 4.5;
+          p.vx -= Math.cos(angle) * force * pointerRepel / 10;
+          p.vy -= Math.sin(angle) * force * pointerRepel / 10;
         }
 
         // Return to origin spring physics
@@ -111,7 +141,7 @@ export function ParticleText({ text = "UPCOMING EVENTS" }) {
         p.vx *= p.friction;
         p.vy *= p.friction;
 
-        p.x += p.vx;
+        p.x += p.vx + (Math.sin(i + performance.now() / 1000) * idleDrift) / 20;
         p.y += p.vy;
 
         // Render particle
@@ -130,13 +160,16 @@ export function ParticleText({ text = "UPCOMING EVENTS" }) {
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
       window.removeEventListener("resize", handleResize);
+      window.clearTimeout(initTimer);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [text]);
+  }, [color, density, fontFamily, fontWeight, gatherDuration, highlightColor, idleDrift, particleSize, pointerRepel, repelRadius, scatter, stagger, strokeWidth, text, textStroke, trigger]);
 
   return (
-    <div className="particle-text-wrapper">
+    <div className={`particle-text-wrapper${glow ? " particle-text-wrapper--glow" : ""}`} style={{ fontSize }}>
       <canvas ref={canvasRef} className="particle-text-canvas" />
     </div>
   );
 }
+
+export default ParticleText;

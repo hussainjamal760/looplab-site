@@ -2,80 +2,98 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { Sparkles } from "./Sparkles";
+import { WIGGLE_CONFIG } from "@/lib/data";
 import { PolaroidCard } from "./PolaroidCard";
 import { HERO_POLAROIDS } from "./data";
-import { ParticleText } from "./ParticleText";
-import { MagneticButton } from "@/features/shared/MagneticButton";
+import { HeroDecorations } from "./HeroDecorations";
+
+function initWiggle(element, intensity = 3) {
+  if (!element) return () => {};
+  gsap.set(element, { transformOrigin: "center center" });
+  const onEnter = () => gsap.to(element, {
+    rotation: intensity,
+    duration: 0.16,
+    repeat: -1,
+    yoyo: true,
+    ease: "steps(1)",
+  });
+  const onLeave = () => gsap.to(element, { rotation: 0, duration: 0.3, ease: "power2.out" });
+  element.addEventListener("mouseenter", onEnter);
+  element.addEventListener("mouseleave", onLeave);
+  return () => {
+    element.removeEventListener("mouseenter", onEnter);
+    element.removeEventListener("mouseleave", onLeave);
+  };
+}
 
 export function Hero() {
   const rowRef = useRef(null);
+  const badgeRef = useRef(null);
+  const contentRef = useRef(null);
 
   useEffect(() => {
-    const row = rowRef.current;
-    if (!row) return;
-    const cards = gsap.utils.toArray(row.querySelectorAll(".polaroid"));
-    const finalRotations = cards.map((c) => parseFloat(c.dataset.rot || "0"));
+    return initWiggle(badgeRef.current, WIGGLE_CONFIG.logoLooplab || 3);
+  }, []);
 
-    gsap.set(cards, { y: -700, opacity: 0, rotate: 0 });
-    const tween = gsap.to(cards, {
+  useEffect(() => {
+    const cards = gsap.utils.toArray(rowRef.current?.querySelectorAll(".polaroid"));
+    if (!cards.length || !contentRef.current) return undefined;
+
+    const timeline = gsap.timeline();
+    timeline.set(cards, { y: -700, opacity: 0, rotate: 0 });
+    timeline.set(contentRef.current, { y: -38, opacity: 0 });
+    timeline.to(cards, {
       y: 0,
       opacity: 1,
-      rotate: (i) => finalRotations[i],
+      rotate: (index) => HERO_POLAROIDS[index].rot,
       duration: 1.1,
       ease: "bounce.out",
       stagger: 0.12,
-      delay: 0.3,
     });
+    timeline.to(contentRef.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      ease: "power3.out",
+    }, "-=0.25");
 
-    return () => {
-      tween.kill();
-    };
+    return () => timeline.kill();
   }, []);
 
   return (
-    <section className="hero">
+    <section className="hero events-contact-hero">
       <div className="grid-floor" />
-      <Sparkles />
-
-      <div className="headline-wrap">
+      <HeroDecorations />
+      <div className="events-contact-hero__inner">
         <div className="cards-row" id="cardsRow" ref={rowRef}>
-          {HERO_POLAROIDS.map((p) => (
-            <PolaroidCard key={p.title} {...p} />
+          {HERO_POLAROIDS.map((card) => (
+            <PolaroidCard key={card.title} {...card} />
           ))}
         </div>
 
-        {/* Interactive React Bits Particle Text Headline with Infinity Sticker */}
-        <div className="upcoming-events-title-wrap">
-          <ParticleText text="UPCOMING EVENTS" />
-          <span className="infinity-sticker-ic" title="Looplab Infinity">
-            ∞
-          </span>
-        </div>
-      </div>
-
-      <div className="hero-sub">
-        <div className="lv">loopverse 3.0</div>
-        <div className="reg shiny-text">REGISTRATIONS OPEN</div>
-
-        {/* Live Running Headline Banner */}
-        <div className="live-headline-banner">
-          <span className="live-badge">
-            <span className="live-dot" /> LIVE NOW
-          </span>
-          <div className="live-ticker-wrap">
-            <div className="live-ticker-track">
-              <span>⚡ CURRENTLY LIVE — REGISTRATIONS OPEN NOW!</span>
-              <span>✦ BUILT BY STUDENTS FOR BUILDERS</span>
-              <span>⚡ CURRENTLY LIVE — REGISTRATIONS OPEN NOW!</span>
-              <span>✦ BUILT BY STUDENTS FOR BUILDERS</span>
-            </div>
+        <div ref={contentRef} className="events-contact-hero__content">
+          <div
+            ref={badgeRef}
+            className="contact-badge events-hero-badge"
+            style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer" }}
+          >
+            <span className="contact-badge__dot" />
+            <span>+ LOOPVERSE 3.0 REGISTRATIONS OPEN</span>
           </div>
-        </div>
 
-        <MagneticButton as="a" href="#gallery-cta" className="portal-btn">
-          PORTAL ✦
-        </MagneticButton>
+          <div className="contact-hero__title-wrap">
+            <h1 className="contact-hero__title events-contact-hero__title">
+              LOOPVERSE <span className="contact-hero__title-accent">3.0</span>
+            </h1>
+          </div>
+
+          <p className="contact-hero__desc events-contact-hero__desc">
+            Pakistan&apos;s largest campus tech gathering is live. Join 1,500+ builders
+            from 20+ universities for keynote talks, build tracks, and a community
+            built by students for builders.
+          </p>
+
+        </div>
       </div>
     </section>
   );

@@ -16,6 +16,8 @@ export default function TransitionScribble() {
             'var(--color-green)', 'var(--color-lightblue)', 'var(--color-darkblue)',
             'var(--color-lightgreen)', 'var(--color-orange)', 'var(--color-maroon)', 'var(--color-pink)'
         ];
+        let activeTimeline = null;
+        let injectedLogo = null;
 
         const runScribbleAnimation = (e) => {
             if (e) e.preventDefault();
@@ -47,6 +49,7 @@ export default function TransitionScribble() {
                 transitionLogo.appendChild(svgClone);
                 document.body.appendChild(transitionLogo);
             }
+            injectedLogo = transitionLogo;
 
             transitionLogo.style.color = logoColor;
 
@@ -65,6 +68,7 @@ export default function TransitionScribble() {
                     gsap.set(transitionLogo, { opacity: 0 });
                 }
             });
+            activeTimeline = drawTl;
 
             drawTl.to(transitionScribblePath, { strokeDashoffset: 0, duration: durIn, ease: 'power1.inOut' }, 0);
             drawTl.to(transitionScribblePath, { strokeWidth: config.strokeWidthMax, duration: durIn, ease: 'power2.inOut' }, 0);
@@ -103,6 +107,9 @@ export default function TransitionScribble() {
         return () => {
             logoLooplabClickable.removeEventListener('click', runScribbleAnimation);
             clearTimeout(timer);
+            activeTimeline?.kill();
+            if (injectedLogo?.isConnected) injectedLogo.remove();
+            document.body.classList.remove('is-transitioning');
         };
     }, []);
 

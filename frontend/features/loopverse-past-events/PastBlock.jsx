@@ -23,26 +23,29 @@ export function PastBlock({ event, index = 0 }) {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Animate section underline SVG paths on scroll
-    const paths = document.querySelectorAll(`.event-underline-${index} path`);
-    if (paths.length) {
-      paths.forEach((p) => {
-        const len = p.getTotalLength ? p.getTotalLength() : 200;
-        gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+    const context = gsap.context(() => {
+      const paths = gsap.utils.toArray(`.event-underline-${index} path`);
+      paths.forEach((path) => {
+        const length = path.getTotalLength ? path.getTotalLength() : 200;
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
       });
 
-      gsap.to(paths, {
-        strokeDashoffset: 0,
-        duration: 1.1,
-        ease: "power3.out",
-        stagger: 0.25,
-        scrollTrigger: {
-          trigger: `.past-block-${index}`,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      });
-    }
+      if (paths.length) {
+        gsap.to(paths, {
+          strokeDashoffset: 0,
+          duration: 1.1,
+          ease: "power3.out",
+          stagger: 0.25,
+          scrollTrigger: {
+            trigger: `.past-block-${index}`,
+            start: "top 75%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
+    });
+
+    return () => context.revert();
   }, [index]);
 
   const handleRegisterClick = () => {

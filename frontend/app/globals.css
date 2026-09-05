@@ -11,6 +11,7 @@
 /* Navbar, logos, header hero               */
 @import './styles/hero.css';
 /* Content section title + underline SVG    */
+@import "./styles/team.css";
 @import './styles/motion-cards.css';
 /* MotionCard section (heading + cards + text)  */
 @import './styles/showreel.css';
@@ -31,3 +32,9 @@
 /* Contact page hero, channels, and form styles */
 @import './styles/responsive.css';
 /* All media queries (tablet + mobile)      */
+@import './styles/events.css';
+/* Neo-brutalist events & gallery styles     */
+@import './styles/loopverse.css';
+/* Loopverse 3.0 page styles                  */
+@import './styles/admin-auth.css';
+/* Secret Admin Portal styles                 */

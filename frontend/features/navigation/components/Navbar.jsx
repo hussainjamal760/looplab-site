@@ -29,7 +29,7 @@ function initWiggle(element, intensity) {
 const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
     { label: 'About', ariaLabel: 'Learn about us', link: '/#motion-card-section' },
-    { label: 'Events', ariaLabel: 'View our events', link: '/#showreel-section' },
+    { label: 'Events', ariaLabel: 'View our events', link: '/events' },
     { label: 'Ambassadors', ariaLabel: 'Join the ambassador program', link: '/#cards-wrapper' },
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
 ];

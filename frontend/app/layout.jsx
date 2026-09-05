@@ -1,4 +1,5 @@
 import StoreProvider from '@/store/StoreProvider';
+import { SmoothScrollProvider } from '@/lib/SmoothScrollProvider';
 import './globals.css';
 
 export const metadata = {
@@ -19,7 +20,9 @@ export default function RootLayout({ children }) {
             </head>
             <body>
                 <StoreProvider>
-                    {children}
+                    <SmoothScrollProvider>
+                        {children}
+                    </SmoothScrollProvider>
                 </StoreProvider>
             </body>
         </html>

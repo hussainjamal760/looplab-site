@@ -234,8 +234,8 @@
   }
   .loopverse-calendar__range ellipse {
     fill: none;
-    stroke: var(--color-darkblue);
-    stroke-width: 3.5;
+    stroke: #E8492E;
+    stroke-width: 4.5;
     stroke-linecap: round;
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
@@ -243,7 +243,7 @@
     transform: rotate(-8deg);
   }
   .loopverse-calendar.is-zoomed .loopverse-calendar__range ellipse {
-    animation: loopverse-range-draw 0.7s ease-out 0.12s forwards;
+    animation: loopverse-range-draw 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s forwards;
   }
   @keyframes loopverse-page-flip {
     0%, 12% { transform: rotateX(0deg) translateZ(2px); opacity: 1; }
@@ -271,6 +271,47 @@
   .events-contact-hero__desc {
     margin-bottom: 0;
   }
+  .events-hero-actions {
+    margin-top: 26px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
+  .events-hero-view-details-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 28px;
+    background-color: var(--color-darkblue, #9E00FE);
+    color: #ffffff !important;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    border: 2.5px solid #1a1a1a;
+    border-radius: 999px;
+    box-shadow: 4px 4px 0 #1a1a1a;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+  .events-hero-view-details-btn:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0 #1a1a1a;
+    background-color: #8700dc;
+    color: #ffffff !important;
+  }
+  .events-hero-view-details-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 #1a1a1a;
+  }
+  .events-hero-view-details-btn .btn-arrow-icon {
+    transition: transform 0.2s ease;
+  }
+  .events-hero-view-details-btn:hover .btn-arrow-icon {
+    transform: translate(3px, -3px);
+  }
   @media (max-width: 700px) {
     .loopverse-infinity-doodle {
       top: 56%;
@@ -282,6 +323,7 @@
   }
   .grid-floor{
     position:absolute; left:0; right:0; bottom:0; height:55%;
+    pointer-events: none;
     background-image:
       linear-gradient(rgba(17,17,17,0.06) 1px, transparent 1px),
       linear-gradient(90deg, rgba(17,17,17,0.06) 1px, transparent 1px);

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { gsap } from "gsap";
 import { WIGGLE_CONFIG } from "@/lib/data";
 import { PolaroidCard } from "./PolaroidCard";
@@ -93,6 +95,12 @@ export function Hero() {
             built by students for builders.
           </p>
 
+          <div className="events-hero-actions">
+            <Link href="/loopverse" className="events-hero-view-details-btn">
+              <span>View Details</span>
+              <ArrowUpRight size={18} className="btn-arrow-icon" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

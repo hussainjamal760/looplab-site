@@ -1,85 +1,225 @@
-/* ─── Double Marquee Section ─────────────────────────────────────────────── */
+/* =====================================================
+   COMMUNITY PARTNERS MARQUEE
+   Pastel Glass + 3D + No Overlapping
+===================================================== */
+
+
+/* =====================================================
+   MAIN SECTION
+===================================================== */
+
 .Double-marquee {
-    background-color: var(--bg-color);
-    padding: 40px 60px;
-    display: flex;
-    justify-content: space-between;
+    position: relative;
+
+    display: grid;
+    grid-template-columns:
+        minmax(420px, 1fr)
+        minmax(560px, 650px);
+
     align-items: center;
-    gap: 60px;
+    gap: 24px;
+
+    width: 100%;
+    max-width: 100vw;
     min-height: 100vh;
+
+    padding:
+        55px
+        clamp(20px, 3vw, 55px);
+
+    overflow: hidden;
+    box-sizing: border-box;
+
+    background:
+        radial-gradient(
+            circle at 17% 50%,
+            rgba(158, 0, 254, 0.11),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 75% 35%,
+            rgba(230, 250, 185, 0.12),
+            transparent 30%
+        ),
+        var(--bg-color);
 }
 
-/* ─── Left Panel ─────────────────────────────────────────────────────────── */
+
+/* =====================================================
+   LEFT CONTENT
+===================================================== */
+
 .marquee-left {
-    flex: 1;
     position: relative;
+
     display: flex;
-    justify-content: center;
     align-items: center;
-    max-width: 600px;
+    justify-content: flex-start;
+
+    width: 100%;
+    max-width: 620px;
+    min-width: 0;
+    min-height: 720px;
+
+    padding-left: 18px;
+
+    box-sizing: border-box;
 }
 
 .marquee-text-container {
     position: relative;
     z-index: 5;
-    text-align: left;
+
+    width: 100%;
+    max-width: 580px;
 }
+
+
+/* Top label */
+
+.marquee-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 0 24px;
+    padding: 10px 19px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(183, 54, 255, 0.98),
+            rgba(126, 0, 196, 0.98)
+        );
+
+    border: 2px solid #0a0a0a;
+    border-radius: 999px;
+
+    box-shadow:
+        4px 4px 0 #0a0a0a,
+        0 12px 25px rgba(158, 0, 254, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+
+    transform: rotate(-2deg);
+}
+
+
+/* Main heading */
 
 .marquee-left h2 {
-    font-family: 'Epilogue', sans-serif;
-    font-size: 4rem;
-    font-weight: 1000;
-    line-height: 0.95;
-    letter-spacing: -2px;
+    width: 100%;
+    max-width: 580px;
+    margin: 0;
+
     color: var(--color-black);
-    margin-bottom: 120px;
-    margin-right: 50px;
-    cursor: url("/assets/Cursor SVG/cursor-text.svg") 12 12, auto;
+
+    font-family: "Epilogue", sans-serif;
+    font-size: clamp(3rem, 4.25vw, 4.9rem);
+    font-weight: 1000;
+    line-height: 0.9;
+    letter-spacing: -0.075em;
+
+    cursor:
+        url("/assets/Cursor SVG/cursor-text.svg") 12 12,
+        auto;
 }
 
+
+/* Italic highlighted heading line */
+
 .text-with {
-    font-family: 'Times New Roman', serif;
+    display: inline-block;
+
+    color: #ffffff;
+
+    font-family: "Times New Roman", serif;
+    font-size: 0.82em;
     font-style: italic;
     font-weight: 400;
-    position: relative;
+    line-height: 1;
+
+    text-shadow:
+        2px 2px 0 #3b2452,
+        0 0 18px rgba(158, 0, 254, 0.35);
 }
+
+
+/* Supporting text */
+
+.marquee-description {
+    max-width: 490px;
+    margin: 28px 0 105px;
+
+    color: #685375;
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.75;
+}
+
+
+/* Heading underline */
 
 .marquee-underline {
     position: absolute;
-    top: 7.5rem;
-    right: 7.8rem;
-    width: 100px;
-    height: auto;
-    color: var(--color-black);
+    top: 13.1rem;
+    right: 15px;
     z-index: 6;
-    transform: scaleX(0);
+
+    width: 135px;
+    height: auto;
+
+    color: #9e00fe;
+
     opacity: 0;
+    transform: scaleX(0);
     transform-origin: left;
 }
 
-/* ─── Blob + Decorative SVGs ─────────────────────────────────────────────── */
+
+/* =====================================================
+   LEFT BLOB AND DECORATION
+===================================================== */
+
 .marquee-blob-container {
     position: absolute;
-    top: 55%;
-    left: 30%;
-    transform: translate(-50%, -50%);
+    top: 62%;
+    left: 35%;
+    z-index: 1;
+
     width: 420px;
     height: 500px;
-    z-index: 1;
+
+    transform: translate(-50%, -50%);
+    pointer-events: none;
 }
 
 .marquee-blob {
     position: absolute;
+    inset: 0;
+    z-index: 1;
+
     width: 100%;
     height: 100%;
-    z-index: 1;
 }
 
 .marquee-svg-container {
     position: absolute;
+    inset: 0;
+    z-index: 2;
+
     width: 100%;
     height: 100%;
-    z-index: 2;
 }
 
 .marquee-svg-item {
@@ -89,21 +229,35 @@
 .marquee-svg-item:nth-child(1) {
     bottom: 18%;
     left: 68%;
-    width: 90px;
-    height: auto;
-    transform: translateX(-50%) scale(0) rotate(-20deg);
-    opacity: 0;
     z-index: 2;
+
+    width: 90px;
+
+    opacity: 0;
+
+    transform:
+        translateX(-50%)
+        scale(0)
+        rotate(-20deg);
+}
+
+.marquee-svg-item:nth-child(1) img {
+    display: block;
+    width: 100%;
 }
 
 .marquee-svg-item:nth-child(2) {
     bottom: 3%;
     left: 70%;
-    width: 350px;
-    height: auto;
-    color: var(--color-dark);
-    transform: rotate(190deg) scaleX(-1);
     z-index: 1;
+
+    width: 350px;
+
+    color: var(--color-dark);
+
+    transform:
+        rotate(190deg)
+        scaleX(-1);
 }
 
 .marquee-svg-item:nth-child(2) path {
@@ -111,128 +265,1572 @@
     stroke-dashoffset: 1000;
 }
 
-/* ─── Right Panel — Scrolling Columns ────────────────────────────────────── */
+
+/* =====================================================
+   TWO REELS CONTAINER
+===================================================== */
+
 .marquee-right {
-    flex: 0 0 auto;
-    display: flex;
-    gap: 5px;
-    height: 850px;
     position: relative;
+
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    /*
+       Small visible gap between both reels
+    */
+    gap: 12px;
+
+    width: 650px;
+    max-width: 100%;
+    height: 820px;
+
+    padding: 12px 3px 20px;
+    margin: 0;
+
     overflow: hidden;
-    width: 500px;
-    margin-right: 80px;
+    box-sizing: border-box;
+
+    background: transparent;
+
+    justify-self: end;
 }
 
+
+/* =====================================================
+   INDIVIDUAL REEL COLUMNS
+===================================================== */
+
 .marquee-column {
-    flex: 1;
     position: relative;
+
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+
+    padding: 12px 8px 28px;
+
     overflow: hidden;
+    box-sizing: border-box;
+
+    background: transparent;
+    border: none;
+    border-radius: 20px;
 }
+
+
+/* Top and bottom fade */
 
 .marquee-column::before,
 .marquee-column::after {
-    content: '';
     position: absolute;
-    left: 0;
     right: 0;
-    height: 100px;
-    z-index: 2;
+    left: 0;
+    z-index: 30;
+
+    height: 55px;
+
+    content: "";
+
     pointer-events: none;
 }
 
 .marquee-column::before {
     top: 0;
-    background: linear-gradient(to bottom, var(--bg-color) 0%, transparent 100%);
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--bg-color) 0%,
+            transparent 100%
+        );
 }
 
 .marquee-column::after {
     bottom: 0;
-    background: linear-gradient(to top, var(--bg-color) 0%, transparent 100%);
+
+    background:
+        linear-gradient(
+            to top,
+            var(--bg-color) 0%,
+            transparent 100%
+        );
 }
+
+
+/* =====================================================
+   MOVING TRACKS
+===================================================== */
 
 .marquee-track {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
-.marquee-column:nth-child(1) .marquee-track {
-    animation: marqueeUp 22s linear infinite;
-}
-
-.marquee-column:nth-child(2) .marquee-track {
-    animation: marqueeDown 22s linear infinite;
-}
-
-@keyframes marqueeUp {
-    0% {
-        transform: translateY(0);
-    }
-
-    100% {
-        transform: translateY(-50%);
-    }
-}
-
-@keyframes marqueeDown {
-    0% {
-        transform: translateY(-50%);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-
-/* ─── Marquee Items ──────────────────────────────────────────────────────── */
-.marquee-item {
-    width: 90%;
-    height: 240px;
-    border-radius: 10px;
-    display: flex;
     align-items: center;
-    justify-content: center;
-}
+    flex-shrink: 0;
 
-/* Legacy theme attributes (kept for compatibility) */
-.marquee-item[data-logo-theme="a"] {
-    background-color: #a52a5f;
-}
-
-.marquee-item[data-logo-theme="b"] {
-    background-color: var(--color-darkblue);
-}
-
-.marquee-item[data-logo-theme="c"] {
-    background-color: #ff6b4a;
-}
-
-.marquee-item[data-logo-theme="d"] {
-    background-color: var(--color-green);
-}
-
-.marquee-logo {
-    position: relative;
     width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+    /*
+       Enough vertical gap to prevent overlap
+    */
+    gap: 27px;
+
+    padding: 10px 0 35px;
+
+    box-sizing: border-box;
+    will-change: transform;
 }
 
-.marquee-logo__before {
+.marquee-column:first-child .marquee-track {
+    animation:
+        partnerReelUp
+        36s
+        linear
+        infinite;
+}
+
+.marquee-column:last-child .marquee-track {
+    animation:
+        partnerReelDown
+        36s
+        linear
+        infinite;
+}
+
+.marquee-column:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+@keyframes partnerReelUp {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-50%);
+    }
+}
+
+@keyframes partnerReelDown {
+    from {
+        transform: translateY(-50%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+
+/* =====================================================
+   PASTEL 3D GLASS CARDS
+===================================================== */
+
+.partner-card {
+    --accent: 138, 91, 180;
+    --outline: #694083;
+    --pastel-start: #f4e9fc;
+    --pastel-end: #d9bde9;
+
+    position: relative;
+    isolation: isolate;
+
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 9px;
+
+    /*
+       Smaller than column to keep complete borders
+       and 3D shadows visible
+    */
+    width: calc(100% - 18px);
+    max-width: calc(100% - 18px);
+    height: 225px;
+
+    margin: 0 auto;
+    padding: 10px;
+
+    overflow: hidden;
+    box-sizing: border-box;
+
+    background:
+        linear-gradient(
+            118deg,
+            rgba(255, 255, 255, 0.82) 0%,
+            rgba(255, 255, 255, 0.2) 34%,
+            transparent 54%
+        ),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(var(--accent), 0.2),
+            transparent 36%
+        ),
+        linear-gradient(
+            145deg,
+            var(--pastel-start),
+            var(--pastel-end)
+        );
+
+    border: 2px solid var(--outline);
+    border-radius: 17px;
+
+    /*
+       3D depth created using shadows.
+       No permanent scale, so cards do not overlap.
+    */
+    box-shadow:
+        0 3px 0 rgba(255, 255, 255, 0.75),
+        0 9px 0 rgba(var(--accent), 0.52),
+        0 17px 25px rgba(57, 35, 68, 0.15),
+        inset 2px 2px 7px rgba(255, 255, 255, 0.88),
+        inset -4px -5px 9px rgba(var(--accent), 0.12);
+
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+
+    transform: translateZ(0);
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+
+/* Glass highlight */
+
+.partner-card::before {
+    position: absolute;
+    top: 5px;
+    left: 10%;
+    z-index: 3;
+
+    width: 80%;
+    height: 34%;
+
+    content: "";
+
+    opacity: 0.48;
+
+    border-radius: 14px 14px 50% 50%;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.68),
+            rgba(255, 255, 255, 0.1),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+
+/* Soft colored glow */
+
+.partner-card::after {
+    position: absolute;
+    top: -32px;
+    right: -28px;
+    z-index: 0;
+
+    width: 100px;
+    height: 100px;
+
+    content: "";
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(var(--accent), 0.34),
+            rgba(var(--accent), 0.07) 56%,
+            transparent 73%
+        );
+
+    filter: blur(10px);
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   LEFT REEL COLORS
+===================================================== */
+
+/* Lavender */
+
+.marquee-column:first-child
+.partner-card:nth-child(4n + 1) {
+    --accent: 141, 88, 181;
+    --outline: #71428c;
+    --pastel-start: #f5eaff;
+    --pastel-end: #dab8ed;
+}
+
+
+/* Mint */
+
+.marquee-column:first-child
+.partner-card:nth-child(4n + 2) {
+    --accent: 55, 133, 106;
+    --outline: #377b67;
+    --pastel-start: #e9f8f1;
+    --pastel-end: #bde2d0;
+}
+
+
+/* Dusty pink */
+
+.marquee-column:first-child
+.partner-card:nth-child(4n + 3) {
+    --accent: 167, 83, 122;
+    --outline: #98506f;
+    --pastel-start: #fbeaf1;
+    --pastel-end: #e9bfd0;
+}
+
+
+/* Peach */
+
+.marquee-column:first-child
+.partner-card:nth-child(4n + 4) {
+    --accent: 178, 102, 70;
+    --outline: #9e5c42;
+    --pastel-start: #fff0e8;
+    --pastel-end: #f1c4ac;
+}
+
+
+/* =====================================================
+   RIGHT REEL COLORS
+===================================================== */
+
+/* Powder blue */
+
+.marquee-column:last-child
+.partner-card:nth-child(4n + 1) {
+    --accent: 64, 119, 165;
+    --outline: #3f7099;
+    --pastel-start: #eaf5ff;
+    --pastel-end: #bddbf1;
+}
+
+
+/* Soft yellow */
+
+.marquee-column:last-child
+.partner-card:nth-child(4n + 2) {
+    --accent: 158, 120, 38;
+    --outline: #917127;
+    --pastel-start: #fff8df;
+    --pastel-end: #ebd894;
+}
+
+
+/* Lilac */
+
+.marquee-column:last-child
+.partner-card:nth-child(4n + 3) {
+    --accent: 113, 84, 158;
+    --outline: #684b94;
+    --pastel-start: #f1ecfc;
+    --pastel-end: #d2c2e9;
+}
+
+
+/* Aqua */
+
+.marquee-column:last-child
+.partner-card:nth-child(4n + 4) {
+    --accent: 42, 122, 126;
+    --outline: #2e7779;
+    --pastel-start: #e7f8f7;
+    --pastel-end: #b7ddda;
+}
+
+
+/* =====================================================
+   GLASS LOGO SCREEN
+===================================================== */
+
+.partner-logo-box {
+    position: relative;
+    z-index: 4;
+
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 13px;
+
+    overflow: hidden;
+    box-sizing: border-box;
+
+    background:
+        radial-gradient(
+            circle at 35% 20%,
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 0.91) 46%,
+            rgba(248, 244, 250, 0.85)
+        );
+
+    border: 1.5px solid rgba(255, 255, 255, 0.95);
+    border-radius: 11px;
+
+    box-shadow:
+        0 4px 0 rgba(var(--accent), 0.26),
+        0 8px 13px rgba(45, 29, 53, 0.1),
+        inset 2px 2px 5px rgba(255, 255, 255, 1),
+        inset -3px -4px 8px rgba(var(--accent), 0.08);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+
+/* Fine glass texture */
+
+.partner-logo-box::before {
+    position: absolute;
+    inset: 0;
+
+    content: "";
+
+    background-image:
+        linear-gradient(
+            rgba(var(--accent), 0.022) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(var(--accent), 0.022) 1px,
+            transparent 1px
+        );
+
+    background-size: 17px 17px;
+
+    pointer-events: none;
+}
+
+
+/* Glass reflection */
+
+.partner-logo-box::after {
+    position: absolute;
+    top: 9px;
+    left: 12px;
+
+    width: 42%;
+    height: 14%;
+
+    content: "";
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.84);
+    filter: blur(7px);
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   PARTNER LOGO
+===================================================== */
+
+.partner-logo {
+    position: relative;
+    z-index: 5;
+
+    display: block;
+
+    width: 88%;
+    max-width: 225px;
+    height: 112px;
+    max-height: 112px;
+
+    object-fit: contain;
+    object-position: center;
+
+    filter:
+        drop-shadow(0 6px 7px rgba(32, 20, 39, 0.13));
+
+    transition:
+        transform 0.35s ease,
+        filter 0.35s ease;
+}
+
+
+/* =====================================================
+   DARK PARTNER NAME LABEL
+===================================================== */
+
+.partner-name-box {
+    position: relative;
+    z-index: 5;
+
+    display: flex;
+    flex: 0 0 39px;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 39px;
+
+    overflow: hidden;
+    box-sizing: border-box;
+
+    background:
+        radial-gradient(
+            circle at 18% 0%,
+            rgba(var(--accent), 0.42),
+            transparent 48%
+        ),
+        linear-gradient(
+            135deg,
+            #493052,
+            #211628
+        );
+
+    border: 1.5px solid #17101c;
+    border-radius: 9px;
+
+    box-shadow:
+        0 4px 0 rgba(20, 13, 24, 0.88),
+        0 7px 11px rgba(39, 24, 46, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.17);
+}
+
+
+/* Name-label shine */
+
+.partner-name-box::before {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: -100%;
+
+    width: 55%;
     height: 100%;
-    z-index: -1;
+
+    content: "";
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.17),
+            transparent
+        );
+
+    transform: skewX(-22deg);
+
+    transition: left 0.65s ease;
 }
 
-.cover-image {
+.partner-name-box h3 {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     width: 100%;
-    height: auto;
-    object-fit: contain;
+    min-height: 37px;
+    margin: 0;
+    padding: 7px 8px;
+
+    overflow: hidden;
+
+    color: #ffffff;
+    background: transparent;
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 8px;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: 0.055em;
+
+    text-align: center;
+    text-transform: uppercase;
+}
+
+
+/* =====================================================
+   SAFE HOVER EFFECT
+   Small movement prevents overlapping
+===================================================== */
+
+.partner-card:hover {
+    z-index: 10;
+
+    border-color: var(--outline);
+
+    transform:
+        translateY(-3px)
+        scale(1.006);
+
+    box-shadow:
+        0 3px 0 rgba(255, 255, 255, 0.88),
+        0 10px 0 rgba(var(--accent), 0.48),
+        0 20px 28px rgba(54, 34, 66, 0.19),
+        0 0 17px rgba(var(--accent), 0.14),
+        inset 2px 2px 7px rgba(255, 255, 255, 0.95),
+        inset -4px -5px 9px rgba(var(--accent), 0.14);
+}
+
+.partner-card:hover .partner-logo {
+    filter:
+        drop-shadow(0 8px 9px rgba(32, 20, 39, 0.17))
+        saturate(1.06);
+
+    transform: scale(1.04);
+}
+
+.partner-card:hover .partner-name-box::before {
+    left: 145%;
+}
+
+
+/* =====================================================
+   MEDIUM LAPTOP
+===================================================== */
+
+@media (max-width: 1250px) {
+    .Double-marquee {
+        grid-template-columns:
+            minmax(365px, 1fr)
+            minmax(500px, 560px);
+
+        gap: 16px;
+        padding-inline: 20px;
+    }
+
+    .marquee-left {
+        padding-left: 10px;
+    }
+
+    .marquee-left h2 {
+        font-size: clamp(2.8rem, 4vw, 3.8rem);
+    }
+
+    .marquee-right {
+        width: 560px;
+        gap: 9px;
+    }
+
+    .marquee-column {
+        padding-inline: 6px;
+    }
+
+    .partner-card {
+        width: calc(100% - 12px);
+        max-width: calc(100% - 12px);
+        height: 210px;
+    }
+
+    .partner-logo {
+        height: 105px;
+        max-height: 105px;
+    }
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 950px) {
+    .Double-marquee {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        padding: 70px 18px 85px;
+    }
+
+    .marquee-left {
+        width: 100%;
+        max-width: 700px;
+        min-height: 480px;
+
+        margin: 0 auto;
+        padding: 0 12px;
+    }
+
+    .marquee-text-container {
+        max-width: 650px;
+        margin: 0 auto;
+
+        text-align: center;
+    }
+
+    .marquee-left h2 {
+        max-width: 650px;
+    }
+
+    .marquee-description {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .marquee-blob-container {
+        left: 50%;
+    }
+
+    .marquee-right {
+        width: min(100%, 650px);
+        height: 720px;
+
+        margin: 0 auto;
+        justify-self: center;
+    }
+
+    .partner-card {
+        height: 210px;
+    }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+    .Double-marquee {
+        gap: 20px;
+
+        padding:
+            65px
+            7px
+            80px;
+    }
+
+    .marquee-left {
+        min-height: 440px;
+        padding: 0 15px;
+    }
+
+    .marquee-left h2 {
+        font-size: clamp(2.2rem, 10vw, 3.2rem);
+    }
+
+    .marquee-description {
+        margin-bottom: 75px;
+
+        font-size: 12px;
+    }
+
+    .marquee-underline {
+        top: 10.8rem;
+        right: 16%;
+
+        width: 95px;
+    }
+
+    .marquee-blob-container {
+        width: 305px;
+        height: 360px;
+    }
+
+    .marquee-right {
+        width: 100%;
+        height: 620px;
+
+        gap: 6px;
+        padding: 6px 0 14px;
+    }
+
+    .marquee-column {
+        padding: 7px 3px 20px;
+    }
+
+    .marquee-track {
+        gap: 18px;
+        padding: 7px 0 24px;
+    }
+
+    .partner-card {
+        width: calc(100% - 6px);
+        max-width: calc(100% - 6px);
+        height: 178px;
+
+        padding: 7px;
+        gap: 7px;
+
+        border-width: 1.5px;
+        border-radius: 12px;
+
+        box-shadow:
+            0 2px 0 rgba(255, 255, 255, 0.8),
+            0 6px 0 rgba(var(--accent), 0.4),
+            0 12px 18px rgba(54, 34, 66, 0.13),
+            inset 2px 2px 5px rgba(255, 255, 255, 0.88);
+    }
+
+    .partner-logo-box {
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    .partner-logo {
+        width: 92%;
+        height: 90px;
+        max-height: 90px;
+    }
+
+    .partner-name-box {
+        flex-basis: 33px;
+        min-height: 33px;
+
+        border-radius: 7px;
+    }
+
+    .partner-name-box h3 {
+        min-height: 31px;
+        padding: 5px 3px;
+
+        font-size: 6px;
+        letter-spacing: 0.02em;
+    }
+
+    .partner-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .partner-card:hover .partner-logo {
+        transform: scale(1.025);
+    }
+}
+
+
+/* =====================================================
+   ACCESSIBILITY
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+        animation-play-state: paused;
+    }
+
+    .partner-card,
+    .partner-logo,
+    .partner-name-box::before {
+        transition: none;
+    }
+}
+/* Move both partner reels slightly towards right */
+
+.marquee-right {
+    transform: translateX(28px);
+}
+
+/* Keep layout safe on smaller screens */
+
+@media (max-width: 1250px) {
+    .marquee-right {
+        transform: translateX(12px);
+    }
+}
+
+@media (max-width: 950px) {
+    .marquee-right {
+        transform: none;
+    }
+}
+/* =====================================================
+   MOVE BOTH REELS RIGHT — PREVENT TEXT OVERLAP
+===================================================== */
+
+@media (min-width: 1251px) {
+    .Double-marquee {
+        grid-template-columns:
+            minmax(560px, 1fr)
+            650px !important;
+
+        gap: 35px !important;
+
+        padding-left: 55px !important;
+        padding-right: 10px !important;
+    }
+
+    .marquee-left {
+        width: 100% !important;
+        max-width: 620px !important;
+        padding-left: 15px !important;
+    }
+
+    .marquee-right {
+        position: relative !important;
+
+        width: 650px !important;
+        max-width: 650px !important;
+
+        margin-left: auto !important;
+        margin-right: -5px !important;
+
+        justify-self: end !important;
+
+        transform: none !important;
+    }
+}
+
+
+/* Normal laptops */
+
+@media (min-width: 951px) and (max-width: 1250px) {
+    .Double-marquee {
+        grid-template-columns:
+            minmax(440px, 1fr)
+            550px !important;
+
+        gap: 25px !important;
+
+        padding-left: 30px !important;
+        padding-right: 5px !important;
+    }
+
+    .marquee-left {
+        max-width: 500px !important;
+        padding-left: 10px !important;
+    }
+
+    .marquee-left h2 {
+        font-size: clamp(2.8rem, 4vw, 4rem) !important;
+    }
+
+    .marquee-right {
+        width: 550px !important;
+        max-width: 550px !important;
+
+        margin-left: auto !important;
+        margin-right: -3px !important;
+
+        justify-self: end !important;
+
+        transform: none !important;
+    }
+}
+
+
+/* Tablet and mobile remain centred */
+
+@media (max-width: 950px) {
+    .Double-marquee {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .marquee-right {
+        margin-right: auto !important;
+        margin-left: auto !important;
+
+        transform: none !important;
+    }
+}
+/* =====================================================
+   KEEP BOTH REELS EXACTLY THE SAME SIZE
+===================================================== */
+
+.marquee-right {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+    align-items: stretch !important;
+    gap: 12px !important;
+}
+
+
+/* Both columns equal */
+
+.marquee-right > .marquee-column {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 12px 8px 28px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* Remove separate sizing from either reel */
+
+.marquee-column:first-child,
+.marquee-column:last-child {
+    flex: initial !important;
+    width: 100% !important;
+    max-width: none !important;
+
+    transform: none !important;
+}
+
+
+/* Equal tracks */
+
+.marquee-column:first-child .marquee-track,
+.marquee-column:last-child .marquee-track {
+    width: 100% !important;
+    max-width: none !important;
+
+    margin: 0 !important;
+}
+
+
+/* Equal cards in both reels */
+
+.marquee-column:first-child .partner-card,
+.marquee-column:last-child .partner-card {
+    width: calc(100% - 16px) !important;
+    max-width: calc(100% - 16px) !important;
+    height: 225px !important;
+
+    margin-right: auto !important;
+    margin-left: auto !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* Equal logo containers */
+
+.marquee-column:first-child .partner-logo-box,
+.marquee-column:last-child .partner-logo-box {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* Equal logo dimensions */
+
+.marquee-column:first-child .partner-logo,
+.marquee-column:last-child .partner-logo {
+    width: 88% !important;
+    max-width: 225px !important;
+    height: 112px !important;
+    max-height: 112px !important;
+
+    object-fit: contain !important;
+}
+
+
+/* Equal name labels */
+
+.marquee-column:first-child .partner-name-box,
+.marquee-column:last-child .partner-name-box {
+    width: 100% !important;
+    min-height: 39px !important;
+}
+
+
+/* Laptop */
+
+@media (max-width: 1250px) {
+    .marquee-column:first-child .partner-card,
+    .marquee-column:last-child .partner-card {
+        width: calc(100% - 12px) !important;
+        max-width: calc(100% - 12px) !important;
+        height: 210px !important;
+    }
+
+    .marquee-column:first-child .partner-logo,
+    .marquee-column:last-child .partner-logo {
+        height: 105px !important;
+        max-height: 105px !important;
+    }
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    .marquee-right {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+
+        gap: 6px !important;
+    }
+
+    .marquee-right > .marquee-column {
+        padding: 7px 3px 20px !important;
+    }
+
+    .marquee-column:first-child .partner-card,
+    .marquee-column:last-child .partner-card {
+        width: calc(100% - 6px) !important;
+        max-width: calc(100% - 6px) !important;
+        height: 178px !important;
+    }
+
+    .marquee-column:first-child .partner-logo,
+    .marquee-column:last-child .partner-logo {
+        width: 92% !important;
+        height: 90px !important;
+        max-height: 90px !important;
+    }
+}
+/* =====================================================
+   FIX RIGHT EDGES + DEEPER PASTEL COLOURS
+   Paste at the END of marquee.css
+===================================================== */
+
+/* Keep complete reel inside the screen */
+
+.marquee-right {
+    width: 650px !important;
+    max-width: calc(100vw - 20px) !important;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 10px !important;
+
+    padding:
+        12px
+        14px
+        22px
+        5px !important;
+
+    margin-right: 0 !important;
+
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+
+    transform: none !important;
+}
+
+
+/* Equal safe space around both reels */
+
+.marquee-right > .marquee-column {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+
+    padding:
+        13px
+        14px
+        30px !important;
+
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+
+    transform: none !important;
+}
+
+
+/* Extra protection for right reel edge */
+
+.marquee-right > .marquee-column:last-child {
+    padding-right: 18px !important;
+}
+
+
+/* Equal card dimensions */
+
+.marquee-column:first-child .partner-card,
+.marquee-column:last-child .partner-card {
+    width: calc(100% - 18px) !important;
+    max-width: calc(100% - 18px) !important;
+    height: 225px !important;
+
+    margin-right: auto !important;
+    margin-left: auto !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* Slightly smaller safe 3D shadow */
+
+.marquee-column .partner-card {
+    box-shadow:
+        0 3px 0 rgba(255, 255, 255, 0.7),
+        0 8px 0 rgba(var(--accent), 0.58),
+        0 14px 20px rgba(50, 30, 60, 0.17),
+        inset 2px 2px 7px rgba(255, 255, 255, 0.78),
+        inset -4px -5px 9px rgba(var(--accent), 0.2) !important;
+}
+
+
+/* =====================================================
+   DEEP LAVENDER
+===================================================== */
+
+.marquee-column:first-child
+.partner-card:nth-child(4n + 1) {
+    --accent: 121, 68, 162;
+    --outline: #61337d;
+    --pastel-start: #e6ccf4;
+    --pastel-end: #bf8cda;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.65),
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(var(--accent), 0.28),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            var(--pastel-start),
+            var(--pastel-end)
+        ) !important;
+}
+
+
+/* =====================================================
+   DEEP PASTEL MINT
+===================================================== */
+
+.marquee-column:first-child
+.partner-card:nth-child(4n + 2) {
+    --accent: 40, 111, 87;
+    --outline: #286c57;
+    --pastel-start: #ccebdd;
+    --pastel-end: #85c4a7;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.65),
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(var(--accent), 0.25),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            var(--pastel-start),
+            var(--pastel-end)
+        ) !important;
+}
+
+
+/* =====================================================
+   DEEP DUSTY PINK
+===================================================== */
+
+.marquee-column:first-child
+.partner-card:nth-child(4n + 3) {
+    --accent: 143, 61, 99;
+    --outline: #853759;
+    --pastel-start: #f1cada;
+    --pastel-end: #d58baa;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.65),
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(var(--accent), 0.25),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            var(--pastel-start),
+            var(--pastel-end)
+        ) !important;
+}
+
+
+/* =====================================================
+   DEEP PASTEL PEACH
+===================================================== */
+
+.marquee-column:first-child
+.partner-card:nth-child(4n + 4) {
+    --accent: 153, 77, 48;
+    --outline: #8d472f;
+    --pastel-start: #f5d2c1;
+    --pastel-end: #dc9272;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.65),
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(var(--accent), 0.25),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            var(--pastel-start),
+            var(--pastel-end)
+        ) !important;
+}
+
+
+/* =====================================================
+   DEEP POWDER BLUE
+===================================================== */
+
+.marquee-column:last-child
+.partner-card:nth-child(4n + 1) {
+    --accent: 48, 96, 140;
+    --outline: #315f89;
+    --pastel-start: #cce5f6;
+    --pastel-end: #83b6dc;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.65),
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(var(--accent), 0.25),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            var(--pastel-start),
+            var(--pastel-end)
+        ) !important;
+}
+
+
+/* =====================================================
+   DEEP PASTEL GOLD
+===================================================== */
+
+.marquee-column:last-child
+.partner-card:nth-child(4n + 2) {
+    --accent: 133, 97, 23;
+    --outline: #795917;
+    --pastel-start: #f4e6b6;
+    --pastel-end: #d6b858;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.65),
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(var(--accent), 0.25),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            var(--pastel-start),
+            var(--pastel-end)
+        ) !important;
+}
+
+
+/* =====================================================
+   DEEP PASTEL LILAC
+===================================================== */
+
+.marquee-column:last-child
+.partner-card:nth-child(4n + 3) {
+    --accent: 92, 65, 136;
+    --outline: #563c7f;
+    --pastel-start: #ddd1f1;
+    --pastel-end: #aa8bd2;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.65),
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(var(--accent), 0.25),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            var(--pastel-start),
+            var(--pastel-end)
+        ) !important;
+}
+
+
+/* =====================================================
+   DEEP PASTEL AQUA
+===================================================== */
+
+.marquee-column:last-child
+.partner-card:nth-child(4n + 4) {
+    --accent: 31, 101, 104;
+    --outline: #246164;
+    --pastel-start: #c9e9e6;
+    --pastel-end: #78beba;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255, 255, 255, 0.65),
+            transparent 52%
+        ),
+        radial-gradient(
+            circle at 88% 10%,
+            rgba(var(--accent), 0.25),
+            transparent 38%
+        ),
+        linear-gradient(
+            145deg,
+            var(--pastel-start),
+            var(--pastel-end)
+        ) !important;
+}
+
+
+/* =====================================================
+   PREMIUM GLASS LOGO PANEL
+===================================================== */
+
+.partner-logo-box {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.94),
+            rgba(245, 239, 248, 0.82)
+        ) !important;
+
+    border:
+        1.5px solid rgba(255, 255, 255, 0.9) !important;
+
+    box-shadow:
+        0 4px 0 rgba(var(--accent), 0.28),
+        0 7px 12px rgba(43, 26, 52, 0.11),
+        inset 2px 2px 5px rgba(255, 255, 255, 1),
+        inset -3px -4px 8px rgba(var(--accent), 0.12) !important;
+
+    backdrop-filter:
+        blur(16px)
+        saturate(1.12) !important;
+
+    -webkit-backdrop-filter:
+        blur(16px)
+        saturate(1.12) !important;
+}
+
+
+/* Darker premium name label */
+
+.partner-name-box {
+    background:
+        radial-gradient(
+            circle at 20% 0%,
+            rgba(var(--accent), 0.5),
+            transparent 48%
+        ),
+        linear-gradient(
+            135deg,
+            #3e2947,
+            #1b111f
+        ) !important;
+
+    box-shadow:
+        0 4px 0 #120b16,
+        0 7px 11px rgba(31, 18, 37, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+}
+
+
+/* Safe hover: edges will not be cut */
+
+.marquee-column .partner-card:hover {
+    transform:
+        translateY(-3px)
+        scale(1.004) !important;
+
+    box-shadow:
+        0 3px 0 rgba(255, 255, 255, 0.8),
+        0 9px 0 rgba(var(--accent), 0.62),
+        0 16px 22px rgba(49, 29, 59, 0.2),
+        inset 2px 2px 7px rgba(255, 255, 255, 0.84),
+        inset -4px -5px 9px rgba(var(--accent), 0.23) !important;
+}
+
+
+/* =====================================================
+   RESPONSIVE SAFETY
+===================================================== */
+
+@media (max-width: 1250px) {
+    .marquee-right {
+        width: 550px !important;
+
+        padding-right: 10px !important;
+        gap: 8px !important;
+    }
+
+    .marquee-right > .marquee-column {
+        padding-right: 10px !important;
+        padding-left: 8px !important;
+    }
+
+    .marquee-column:first-child .partner-card,
+    .marquee-column:last-child .partner-card {
+        width: calc(100% - 14px) !important;
+        max-width: calc(100% - 14px) !important;
+        height: 210px !important;
+    }
+}
+
+@media (max-width: 950px) {
+    .marquee-right {
+        width: min(100%, 650px) !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .marquee-right {
+        width: 100% !important;
+
+        padding-right: 5px !important;
+        padding-left: 2px !important;
+
+        gap: 5px !important;
+    }
+
+    .marquee-right > .marquee-column {
+        padding-right: 5px !important;
+        padding-left: 3px !important;
+    }
+
+    .marquee-column:first-child .partner-card,
+    .marquee-column:last-child .partner-card {
+        width: calc(100% - 7px) !important;
+        max-width: calc(100% - 7px) !important;
+        height: 178px !important;
+    }
 }

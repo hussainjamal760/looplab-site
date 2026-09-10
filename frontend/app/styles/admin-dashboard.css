@@ -1,0 +1,653 @@
+/* ─── Looplab Admin Dashboard: Donezo Modern Purple Design System ─────────── */
+
+:root {
+  --dz-bg: var(--bg-color, #f0ebe6);
+  --dz-card-bg: #ffffff;
+  --dz-border: #e6ded6;
+  --dz-border-subtle: #eee7df;
+  --dz-text-primary: #111827;
+  --dz-text-secondary: #4b5563;
+  --dz-text-muted: #9ca3af;
+  --dz-purple-primary: #6d28d9;
+  --dz-purple-light: #7c3aed;
+  --dz-purple-soft: #f5f3ff;
+  --dz-purple-badge: #ede9fe;
+  --dz-purple-dark: #1e1136;
+  --dz-purple-deep: #2e1065;
+  --dz-radius-card: 20px;
+  --dz-radius-pill: 9999px;
+  --dz-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --dz-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.db-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--dz-bg);
+  color: var(--dz-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'Plus Jakarta Sans', 'Inter', 'Epilogue', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── Sidebar (Donezo Minimal Clean White) ── */
+.db-sidebar {
+  width: 250px;
+  background: var(--dz-card-bg);
+  border-right: 1px solid var(--dz-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 30;
+  padding: 1.5rem 1rem 1rem 1rem;
+}
+
+.db-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0 0.5rem 1.5rem 0.5rem;
+  text-decoration: none;
+}
+
+.db-sidebar__brand-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--dz-purple-primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.db-sidebar__brand-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--dz-text-primary);
+  letter-spacing: -0.5px;
+}
+
+.db-sidebar__menu-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--dz-text-muted);
+  letter-spacing: 0.8px;
+  padding: 0.75rem 0.6rem 0.35rem 0.6rem;
+}
+
+.db-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.db-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--dz-text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.db-nav-item:hover {
+  background: #f8fafc;
+  color: var(--dz-text-primary);
+}
+
+.db-nav-item.active {
+  background: var(--dz-purple-soft);
+  color: var(--dz-purple-primary);
+  font-weight: 800;
+}
+
+.db-nav-item__left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.db-nav-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--dz-radius-pill);
+  background: var(--dz-purple-badge);
+  color: var(--dz-purple-primary);
+}
+
+/* Sidebar App Download Card */
+.db-sidebar-app-card {
+  border-radius: 16px;
+  background: radial-gradient(circle at 100% 0%, #4c1d95 0%, #1e1136 100%);
+  padding: 1.15rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.db-sidebar-app-card__btn {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--dz-radius-pill);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  width: fit-content;
+  margin-top: 0.25rem;
+  transition: background 0.15s ease;
+}
+
+.db-sidebar-app-card__btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* ── Content Area ── */
+.db-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 1.25rem 2rem 3rem 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* ── Top Bar (Donezo Pill Search + Profile) ── */
+.db-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.db-topbar__search {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #ffffff;
+  border: 1px solid var(--dz-border);
+  border-radius: var(--dz-radius-pill);
+  padding: 0.5rem 1.15rem;
+  width: 320px;
+  box-shadow: var(--dz-shadow-sm);
+}
+
+.db-topbar__search input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  width: 100%;
+  color: var(--dz-text-primary);
+}
+
+.db-topbar__shortcut {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--dz-text-muted);
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.db-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.db-icon-circle-btn {
+  background: #ffffff;
+  border: 1px solid var(--dz-border);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--dz-shadow-sm);
+  color: var(--dz-text-secondary);
+  transition: all 0.15s ease;
+}
+
+.db-icon-circle-btn:hover {
+  background: #f9fafb;
+  color: var(--dz-text-primary);
+}
+
+.db-profile-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #ffffff;
+  border: 1px solid var(--dz-border);
+  border-radius: var(--dz-radius-pill);
+  padding: 0.25rem 0.85rem 0.25rem 0.35rem;
+  box-shadow: var(--dz-shadow-sm);
+}
+
+/* ── Dashboard Page Title & Header Actions ── */
+.db-header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.db-header-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--dz-text-primary);
+  letter-spacing: -0.75px;
+  margin: 0;
+}
+
+.db-header-subtitle {
+  font-size: 0.85rem;
+  color: var(--dz-text-muted);
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.db-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.db-btn-purple-pill {
+  background: var(--dz-purple-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--dz-radius-pill);
+  padding: 0.6rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: background 0.15s ease;
+}
+
+.db-btn-purple-pill:hover {
+  background: var(--dz-purple-light);
+}
+
+.db-btn-white-pill {
+  background: #ffffff;
+  color: var(--dz-text-primary);
+  border: 1px solid var(--dz-border);
+  border-radius: var(--dz-radius-pill);
+  padding: 0.6rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: var(--dz-shadow-sm);
+  transition: background 0.15s ease;
+}
+
+.db-btn-white-pill:hover {
+  background: #f9fafb;
+}
+
+/* ── Top 4 KPI Cards Grid ── */
+.db-kpis-4grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.15rem;
+  margin-bottom: 1.35rem;
+}
+
+.db-kpi-card {
+  background: #ffffff;
+  border: 1px solid var(--dz-border);
+  border-radius: var(--dz-radius-card);
+  padding: 1.15rem 1.25rem;
+  box-shadow: var(--dz-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 128px;
+}
+
+/* Featured Solid Purple Card */
+.db-kpi-card--featured {
+  background: linear-gradient(135deg, #6d28d9 0%, #5b21b6 100%);
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(109, 40, 217, 0.25);
+}
+
+.db-kpi-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.db-kpi-card__title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--dz-text-secondary);
+}
+
+.db-kpi-card--featured .db-kpi-card__title {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.db-kpi-card__arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--dz-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dz-text-secondary);
+}
+
+.db-kpi-card--featured .db-kpi-card__arrow {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.db-kpi-card__val {
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin: 0.4rem 0 0.3rem 0;
+  color: var(--dz-text-primary);
+}
+
+.db-kpi-card--featured .db-kpi-card__val {
+  color: #ffffff;
+}
+
+.db-kpi-card__footer {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--dz-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.db-kpi-card--featured .db-kpi-card__footer {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ── Modern Card Containers ── */
+.db-card {
+  background: var(--dz-card-bg);
+  border: 1px solid var(--dz-border);
+  border-radius: var(--dz-radius-card);
+  box-shadow: var(--dz-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.db-card__header {
+  padding: 1.15rem 1.25rem 0.5rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.db-card__title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--dz-text-primary);
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.db-card__subtitle {
+  font-size: 0.75rem;
+  color: var(--dz-text-muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.db-card__body {
+  padding: 0.75rem 1.25rem 1.25rem 1.25rem;
+  flex: 1;
+}
+
+/* ── Middle 3-Column Grid ── */
+.db-middle-3grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.85fr 0.95fr;
+  gap: 1.15rem;
+  margin-bottom: 1.35rem;
+}
+
+/* ── Bottom 3-Column Grid ── */
+.db-bottom-3grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 0.9fr;
+  gap: 1.15rem;
+}
+
+/* ── Table Toolbar & Clean Table Styling ── */
+.db-table-toolbar {
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.db-table-search-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f9fafb;
+  border: 1px solid var(--dz-border);
+  border-radius: var(--dz-radius-pill);
+  padding: 0.45rem 1rem;
+  font-size: 0.8rem;
+  width: 280px;
+}
+
+.db-table-search-pill input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.db-table-clean {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.825rem;
+  text-align: left;
+}
+
+.db-table-clean th {
+  background: #f9fafb;
+  padding: 0.75rem 1.15rem;
+  font-size: 0.725rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--dz-text-muted);
+  border-bottom: 1px solid var(--dz-border);
+  letter-spacing: 0.5px;
+}
+
+.db-table-clean td {
+  padding: 0.85rem 1.15rem;
+  border-bottom: 1px solid var(--dz-border-subtle);
+  color: var(--dz-text-primary);
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+/* Status Badges */
+.db-badge-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: var(--dz-radius-pill);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.db-badge-status--green {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.db-badge-status--orange {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.db-badge-status--purple {
+  background: var(--dz-purple-badge);
+  color: var(--dz-purple-primary);
+}
+
+.db-badge-status--red {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Action Buttons */
+.db-pill-action-btn {
+  border-radius: var(--dz-radius-pill);
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--dz-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.15s ease;
+}
+
+.db-pill-action-btn--approve {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #15803d;
+}
+
+.db-pill-action-btn--approve:hover {
+  background: #dcfce7;
+}
+
+.db-pill-action-btn--decline {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.db-pill-action-btn--decline:hover {
+  background: #fee2e2;
+}
+
+.db-pill-action-btn--primary {
+  background: var(--dz-purple-primary);
+  border-color: var(--dz-purple-primary);
+  color: #ffffff;
+}
+
+.db-pill-action-btn--primary:hover {
+  background: var(--dz-purple-light);
+}
+
+/* Modal Overlay */
+.db-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+}
+
+.db-modal-box {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid var(--dz-border);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+}
+
+@media (max-width: 1200px) {
+  .db-kpis-4grid { grid-template-columns: repeat(2, 1fr); }
+  .db-middle-3grid { grid-template-columns: 1fr; }
+  .db-bottom-3grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .db-layout { flex-direction: column; }
+  .db-sidebar { width: 100%; height: auto; position: relative; }
+  .db-kpis-4grid { grid-template-columns: 1fr; }
+  .db-main-content { padding: 1rem; }
+}
+
+/* ─── Looplab Stickers & Texture Additions ──────────────────────────────────── */
+.db-sticker-wrap {
+  will-change: transform;
+}
+
+.admin-badge-sticker {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 0.35rem 0.85rem;
+  border-radius: 8px;
+  background: var(--color-pink);
+  color: var(--color-black-deep);
+  border: 1.5px solid var(--color-black);
+  transform: rotate(-2deg);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.75);
+  user-select: none;
+}
+

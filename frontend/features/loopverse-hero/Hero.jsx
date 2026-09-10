@@ -74,14 +74,15 @@ export function Hero() {
         </div>
 
         <div ref={contentRef} className="events-contact-hero__content">
-          <div
+          <Link
+            href="/loopverse"
             ref={badgeRef}
             className="contact-badge events-hero-badge"
-            style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer" }}
+            style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer", textDecoration: "none" }}
           >
             <span className="contact-badge__dot" />
             <span>+ LOOPVERSE 3.0 REGISTRATIONS OPEN</span>
-          </div>
+          </Link>
 
           <div className="contact-hero__title-wrap">
             <h1 className="contact-hero__title events-contact-hero__title">

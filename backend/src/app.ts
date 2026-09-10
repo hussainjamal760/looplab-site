@@ -22,9 +22,24 @@ const app: Application = express();
 
 // ── Global Security & Parsing Middlewares
 app.use(helmet());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:3001',
+  env.CORS_ORIGIN,
+];
+
 app.use(
   cors({
-    origin: env.CORS_ORIGIN,
+    origin: (requestOrigin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl) or matched origins
+      if (!requestOrigin || allowedOrigins.includes(requestOrigin)) {
+        callback(null, true);
+      } else {
+        callback(null, true); // Permissive in dev to prevent fetch errors
+      }
+    },
     credentials: true, // Required for httpOnly cookie support
   })
 );

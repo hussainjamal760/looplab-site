@@ -8,6 +8,7 @@ import AdminBadgeHeader from '@/features/admin-auth/components/AdminBadgeHeader'
 import AdminLoginForm from '@/features/admin-auth/components/AdminLoginForm';
 import AdminDashboardView from '@/features/admin-auth/components/AdminDashboardView';
 import { fetchCurrentAdmin } from '@/features/admin-auth/services/adminAuthService';
+import '@/app/styles/admin-auth.css';
 
 export default function LoopAdminPage() {
   const [admin, setAdmin] = useState(null);
@@ -30,6 +31,25 @@ export default function LoopAdminPage() {
     checkExistingSession();
   }, []);
 
+  if (checkingAuth) {
+    return (
+      <div className="admin-page-container" style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ fontWeight: 800, color: '#6b7280' }}>Verifying security gateway...</div>
+      </div>
+    );
+  }
+
+  if (admin) {
+    return (
+      <>
+        <SmoothScroll />
+        <CursorBubble />
+        <AdminDashboardView admin={admin} onLogout={() => setAdmin(null)} />
+        <TransitionScribble />
+      </>
+    );
+  }
+
   return (
     <div className="admin-page-container">
       <SmoothScroll />
@@ -42,13 +62,7 @@ export default function LoopAdminPage() {
       <AdminBadgeHeader />
 
       <main className="admin-main">
-        {!checkingAuth && (
-          admin ? (
-            <AdminDashboardView admin={admin} onLogout={() => setAdmin(null)} />
-          ) : (
-            <AdminLoginForm onSuccess={(loggedInAdmin) => setAdmin(loggedInAdmin)} />
-          )
-        )}
+        <AdminLoginForm onSuccess={(loggedInAdmin) => setAdmin(loggedInAdmin)} />
       </main>
 
       <TransitionScribble />

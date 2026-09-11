@@ -1,173 +1,714 @@
 'use client';
 
-import { useState } from 'react';
-import { Search, SlidersHorizontal, FileText, Eye } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import {
+  Search,
+  Eye,
+  RefreshCw,
+  Loader2,
+} from 'lucide-react';
+
 import ProofReceiptModal from '../components/ProofReceiptModal';
 
-const INITIAL_PENDING = [
-  { _id: 'p-1', name: 'Daniyal Arqam Talha', email: 'f2023332028@umt.edu.pk', university: 'UMT', event: 'LoopLearn Hackathon', date: '2026-09-06', amount: 750, discount: '50% OFF (DANIYAL-50)', proofUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&auto=format&fit=crop&q=80', status: 'Pending Review' },
-  { _id: 'p-2', name: 'Azeem Sarwar', email: 'azeemsarwar45.pk@gmail.com', university: 'Team Member', event: 'LoopLearn Hackathon', date: '2026-09-06', amount: 1050, discount: '30% OFF (AZEEM-30)', proofUrl: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=600&auto=format&fit=crop&q=80', status: 'Pending Review' },
-  { _id: 'p-3', name: 'Yar Muhammad Awaim', email: 'yarmuhammadawaim@gmail.com', university: 'Team Member', event: 'LoopLearn Hackathon', date: '2026-09-06', amount: 1050, discount: '30% OFF (YAR-30)', proofUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&auto=format&fit=crop&q=80', status: 'Pending Review' },
-  { _id: 'p-4', name: 'Umer Mujahid', email: 'umermujahid4738@gmail.com', university: 'FAST NUCES', event: 'LoopLearn Hackathon', date: '2026-09-06', amount: 1200, discount: '20% OFF (LL-REF-034)', proofUrl: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=600&auto=format&fit=crop&q=80', status: 'Pending Review' },
-  { _id: 'p-5', name: 'M. Basim Irfan', email: 'mbasimirfan65@gmail.com', university: 'COMSATS', event: 'LoopLearn Hackathon', date: '2026-09-06', amount: 1200, discount: '20% OFF (LL-REF-034)', proofUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&auto=format&fit=crop&q=80', status: 'Pending Review' },
-  { _id: 'p-6', name: 'Ammar Ahmad', email: 'a25ammar127@gmail.com', university: 'NUST', event: 'LoopLearn Hackathon', date: '2026-09-06', amount: 1200, discount: '20% OFF (LL-REF-017)', proofUrl: 'https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=600&auto=format&fit=crop&q=80', status: 'Pending Review' },
-  { _id: 'p-7', name: 'Shehzadi Kainat', email: 'ramzankynat@gmail.com', university: 'IBA', event: 'LoopLearn Hackathon', date: '2026-09-06', amount: 1350, discount: '10% OFF (LL-REF-001)', proofUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=600&auto=format&fit=crop&q=80', status: 'Pending Review' },
-];
+import {
+  useGetAdminRegistrationsQuery,
+  useUpdateRegistrationStatusMutation,
+} from '@/store/api/adminApi';
+
+function getParticipant(registration) {
+  return registration?.participantData || {};
+}
+
+function getRegistrations(data) {
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  if (Array.isArray(data?.registrations)) {
+    return data.registrations;
+  }
+
+  if (Array.isArray(data?.data)) {
+    return data.data;
+  }
+
+  if (Array.isArray(data?.data?.data)) {
+    return data.data.data;
+  }
+
+  if (Array.isArray(data?.data?.registrations)) {
+    return data.data.registrations;
+  }
+
+  return [];
+}
+
+function getEventTitle(registration) {
+  if (
+    registration?.eventId &&
+    typeof registration.eventId === 'object'
+  ) {
+    return registration.eventId.title || 'Loopverse 3.0';
+  }
+
+  return 'Loopverse 3.0';
+}
+
+function formatDate(value) {
+  if (!value) return '—';
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return '—';
+  }
+
+  return new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+}
 
 export default function RegistrationsPageView() {
   const [query, setQuery] = useState('');
-  const [rows, setRows] = useState(INITIAL_PENDING);
   const [selectedProof, setSelectedProof] = useState(null);
+  const [processingId, setProcessingId] = useState(null);
+  const [removedIds, setRemovedIds] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const filtered = rows.filter(
-    (r) =>
-      r.name.toLowerCase().includes(query.toLowerCase()) ||
-      r.email.toLowerCase().includes(query.toLowerCase()) ||
-      r.date.includes(query)
-  );
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+    refetch,
+  } = useGetAdminRegistrationsQuery({
+    status: 'pending',
+    page: 1,
+    limit: 100,
+  });
 
-  const handleStatusChange = (id, newStatus) => {
-    setRows((prev) => prev.map((r) => (r._id === id ? { ...r, status: newStatus } : r)));
-    setSelectedProof(null);
-  };
+  const [
+    updateRegistrationStatus,
+    { isLoading: isUpdating },
+  ] = useUpdateRegistrationStatusMutation();
+
+  const rows = useMemo(() => {
+    const registrations = getRegistrations(data);
+
+    return registrations.filter((registration) => {
+      const isPending =
+        registration.paymentStatus === 'pending' ||
+        registration.status === 'pending' ||
+        registration.status === 'Pending' ||
+        !registration.paymentStatus;
+
+      const isRemoved = removedIds.includes(registration._id);
+
+      return isPending && !isRemoved;
+    });
+  }, [data, removedIds]);
+
+  const filteredRows = useMemo(() => {
+    const searchText = query.trim().toLowerCase();
+
+    if (!searchText) return rows;
+
+    return rows.filter((registration) => {
+      const participant = getParticipant(registration);
+
+      const searchableText = [
+        participant.fullName,
+        participant.email,
+        participant.phone,
+        participant.university,
+        participant.department,
+        participant.trackSelect,
+        participant.attendanceMode,
+        getEventTitle(registration),
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+
+      return searchableText.includes(searchText);
+    });
+  }, [query, rows]);
+
+  function removeRow(id) {
+    setRemovedIds((previousIds) => {
+      if (previousIds.includes(id)) {
+        return previousIds;
+      }
+
+      return [...previousIds, id];
+    });
+  }
+
+  async function changeStatus({
+    id,
+    status,
+    remarks,
+  }) {
+    if (!id || isUpdating) return;
+
+    setProcessingId(id);
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    try {
+      await updateRegistrationStatus({
+        id,
+        status,
+        adminRemarks: remarks,
+      }).unwrap();
+
+      removeRow(id);
+      setSelectedProof(null);
+
+      setSuccessMessage(
+        status === 'verified'
+          ? 'Registration approved successfully.'
+          : 'Registration declined successfully.'
+      );
+
+      await refetch();
+    } catch (requestError) {
+      const message =
+        requestError?.data?.message ||
+        requestError?.error ||
+        'Registration status update failed.';
+
+      const lowercaseMessage = message.toLowerCase();
+
+      /*
+       * If backend says it is already verified/rejected,
+       * it should not remain in Pending Registrations.
+       */
+      if (
+        lowercaseMessage.includes('already been verified') ||
+        lowercaseMessage.includes('already verified') ||
+        lowercaseMessage.includes('already been rejected') ||
+        lowercaseMessage.includes('already rejected') ||
+        lowercaseMessage.includes('already approved')
+      ) {
+        removeRow(id);
+        setSelectedProof(null);
+
+        setSuccessMessage(
+          'This registration was already reviewed. Pending list has been updated.'
+        );
+
+        await refetch();
+        return;
+      }
+
+      setErrorMessage(message);
+    } finally {
+      setProcessingId(null);
+    }
+  }
+
+  async function handleApprove(id) {
+    const confirmed = window.confirm(
+      'Are you sure you want to approve this registration?'
+    );
+
+    if (!confirmed) return;
+
+    await changeStatus({
+      id,
+      status: 'verified',
+      remarks: 'Registration approved by admin.',
+    });
+  }
+
+  async function handleDecline(id) {
+    const reason = window.prompt(
+      'Please write the reason for declining this registration:'
+    );
+
+    if (reason === null) return;
+
+    const cleanReason = reason.trim();
+
+    if (!cleanReason) {
+      setSuccessMessage('');
+      setErrorMessage('Decline reason is required.');
+      return;
+    }
+
+    await changeStatus({
+      id,
+      status: 'rejected',
+      remarks: cleanReason,
+    });
+  }
+
+  function openReceipt(registration) {
+    const participant = getParticipant(registration);
+
+    setSelectedProof({
+      ...registration,
+
+      fullName:
+        participant.fullName || 'Unknown Applicant',
+
+      name:
+        participant.fullName || 'Unknown Applicant',
+
+      email: participant.email || '—',
+      phone: participant.phone || '—',
+
+      university:
+        participant.university || '—',
+
+      department:
+        participant.department || '—',
+
+      event: getEventTitle(registration),
+
+      amount: Number(registration.finalAmount || 0),
+
+      proofUrl:
+        registration.paymentScreenshotUrl || '',
+
+      paymentScreenshotUrl:
+        registration.paymentScreenshotUrl || '',
+
+      transactionId:
+        registration.transactionId ||
+        `REG-${String(registration._id || '')
+          .slice(-6)
+          .toUpperCase()}`,
+
+      status: registration.paymentStatus,
+
+      submittedAt:
+        registration.submittedAt ||
+        registration.createdAt,
+    });
+  }
+
+  async function handleRefresh() {
+    setErrorMessage('');
+    setSuccessMessage('');
+    setRemovedIds([]);
+    await refetch();
+  }
 
   return (
     <div style={{ position: 'relative' }}>
-      <div style={{ marginBottom: '1.25rem', position: 'relative' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-          <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--dz-text-primary)' }}>
+      <div style={{ marginBottom: '1.3rem' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '0.7rem',
+          }}
+        >
+          <h1
+            style={{
+              margin: 0,
+              fontSize: '1.8rem',
+              fontWeight: 900,
+              color: 'var(--dz-text-primary)',
+            }}
+          >
             Pending Registrations
           </h1>
+
           <span
             className="admin-badge-sticker"
             style={{
+              margin: 0,
+              padding: '3px 10px',
+              fontSize: '0.62rem',
               background: 'var(--color-pink)',
               color: '#000',
-              fontSize: '0.62rem',
-              padding: '2px 8px',
               transform: 'rotate(-3deg)',
-              margin: 0,
             }}
           >
             action required
           </span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', marginTop: '0.35rem' }}>
-          <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--dz-purple-primary)' }}>{rows.length}</span>
-          <span style={{ fontSize: '0.8rem', color: 'var(--dz-text-muted)', fontWeight: 600 }}>Awaiting Admin Review</span>
+
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'baseline',
+            gap: '0.5rem',
+            marginTop: '0.65rem',
+          }}
+        >
+          <strong
+            style={{
+              fontSize: '1.8rem',
+              color: 'var(--dz-purple-primary)',
+            }}
+          >
+            {rows.length}
+          </strong>
+
+          <span
+            style={{
+              color: 'var(--dz-text-muted)',
+              fontWeight: 700,
+            }}
+          >
+            Awaiting Admin Review
+          </span>
         </div>
       </div>
 
+      {successMessage && (
+        <div className="admin-message admin-message--success">
+          {successMessage}
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="admin-message admin-message--error">
+          {errorMessage}
+        </div>
+      )}
+
       <div className="db-card">
-        {/* Search & Filter */}
         <div className="db-table-toolbar">
           <div className="db-table-search-pill">
-            <Search size={14} color="#9ca3af" />
+            <Search size={15} color="#9ca3af" />
+
             <input
-              type="text"
-              placeholder="Filter by name, email, or date (YYYY-MM-DD)..."
+              type="search"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search name, email, university or event..."
+              onChange={(event) =>
+                setQuery(event.target.value)
+              }
             />
           </div>
-          <button type="button" className="db-btn-white-pill" style={{ padding: '0.4rem 0.85rem', fontSize: '0.75rem' }}>
-            <SlidersHorizontal size={13} />
-            <span>Filter</span>
+
+          <button
+            type="button"
+            className="db-btn-white-pill"
+            disabled={isFetching}
+            onClick={handleRefresh}
+          >
+            {isFetching ? (
+              <Loader2 size={14} className="admin-spin" />
+            ) : (
+              <RefreshCw size={14} />
+            )}
+
+            {isFetching ? 'Refreshing' : 'Refresh'}
           </button>
         </div>
 
-        {/* Pending Table */}
-        <div style={{ overflowX: 'auto' }}>
-          <table className="db-table-clean">
-            <thead>
-              <tr>
-                <th>Applicant</th>
-                <th>University</th>
-                <th>Event</th>
-                <th>Applied Date</th>
-                <th>Receipt</th>
-                <th>Status</th>
-                <th style={{ textAlign: 'center' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((r) => (
-                <tr key={r._id}>
-                  <td>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <span style={{ fontWeight: 700 }}>{r.name}</span>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--dz-text-muted)' }}>{r.email}</span>
-                    </div>
-                  </td>
-                  <td>{r.university}</td>
-                  <td>{r.event}</td>
-                  <td style={{ color: 'var(--dz-text-muted)' }}>{r.date}</td>
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedProof({ ...r, fullName: r.name, transactionId: `TXN-${r._id}981` })}
-                      style={{
-                        border: '1px solid var(--dz-border)',
-                        background: '#ffffff',
-                        borderRadius: 6,
-                        padding: '3px 7px',
-                        cursor: 'pointer',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.72rem',
-                        fontWeight: 700,
-                        color: 'var(--dz-purple-primary)',
-                      }}
-                    >
-                      <Eye size={13} />
-                      <span>View</span>
-                    </button>
-                  </td>
-                  <td>
-                    <span
-                      className={`db-badge-status ${
-                        r.status === 'Approved'
-                          ? 'db-badge-status--green'
-                          : r.status === 'Declined'
-                          ? 'db-badge-status--red'
-                          : 'db-badge-status--orange'
-                      }`}
-                    >
-                      {r.status}
-                    </span>
-                  </td>
-                  <td style={{ textAlign: 'center' }}>
-                    <div style={{ display: 'inline-flex', gap: '4px' }}>
-                      <button
-                        type="button"
-                        className="db-pill-action-btn db-pill-action-btn--approve"
-                        onClick={() => handleStatusChange(r._id, 'Approved')}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        type="button"
-                        className="db-pill-action-btn db-pill-action-btn--decline"
-                        onClick={() => handleStatusChange(r._id, 'Declined')}
-                      >
-                        Decline
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {isLoading && (
+          <div className="admin-table-state">
+            <Loader2 size={32} className="admin-spin" />
+            Loading registrations...
+          </div>
+        )}
+
+        {!isLoading && isError && (
+          <div className="admin-table-state">
+            <strong style={{ color: '#b91c1c' }}>
+              Registrations could not be loaded.
+            </strong>
+
+            <span>
+              {error?.data?.message ||
+                'Check backend and admin login session.'}
+            </span>
+
+            <button
+              type="button"
+              className="db-btn-purple-pill"
+              onClick={handleRefresh}
+            >
+              Try Again
+            </button>
+          </div>
+        )}
+
+        {!isLoading &&
+          !isError &&
+          filteredRows.length === 0 && (
+            <div className="admin-table-state">
+              <strong>
+                {query
+                  ? 'No matching registration found.'
+                  : 'No pending registrations.'}
+              </strong>
+
+              <span>
+                {query
+                  ? 'Try another search.'
+                  : 'All registrations have been reviewed.'}
+              </span>
+            </div>
+          )}
+
+        {!isLoading &&
+          !isError &&
+          filteredRows.length > 0 && (
+            <div style={{ overflowX: 'auto' }}>
+              <table className="db-table-clean">
+                <thead>
+                  <tr>
+                    <th>Applicant</th>
+                    <th>University</th>
+                    <th>Details</th>
+                    <th>Event</th>
+                    <th>Submitted</th>
+                    <th>Receipt</th>
+                    <th>Status</th>
+                    <th style={{ textAlign: 'center' }}>
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {filteredRows.map((registration) => {
+                    const participant =
+                      getParticipant(registration);
+
+                    const working =
+                      processingId === registration._id;
+
+                    const needsParking =
+                      participant.needsParking === true ||
+                      participant.needsParking === 'true';
+
+                    return (
+                      <tr key={registration._id}>
+                        <td>
+                          <div className="admin-person-cell">
+                            <strong>
+                              {participant.fullName ||
+                                'Unknown Applicant'}
+                            </strong>
+
+                            <small>
+                              {participant.email || '—'}
+                            </small>
+
+                            <small>
+                              {participant.phone || '—'}
+                            </small>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div className="admin-person-cell">
+                            <strong>
+                              {participant.university || '—'}
+                            </strong>
+
+                            <small>
+                              {participant.department || '—'}
+                            </small>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div className="admin-person-cell">
+                            <span>
+                              {participant.trackSelect || '—'}
+                            </span>
+
+                            <span>
+                              {participant.attendanceMode || '—'}
+                            </span>
+
+                            <strong
+                              style={{
+                                color: needsParking
+                                  ? '#047857'
+                                  : '#6b7280',
+                                fontSize: '0.75rem',
+                              }}
+                            >
+                              Parking:{' '}
+                              {needsParking
+                                ? 'Required'
+                                : 'Not required'}
+                            </strong>
+                          </div>
+                        </td>
+
+                        <td>{getEventTitle(registration)}</td>
+
+                        <td>
+                          {formatDate(
+                            registration.submittedAt ||
+                              registration.createdAt
+                          )}
+                        </td>
+
+                        <td>
+                          {registration.paymentScreenshotUrl ? (
+                            <button
+                              type="button"
+                              className="admin-view-button"
+                              onClick={() =>
+                                openReceipt(registration)
+                              }
+                            >
+                              <Eye size={14} />
+                              View
+                            </button>
+                          ) : (
+                            <span style={{ color: '#9ca3af' }}>
+                              No receipt
+                            </span>
+                          )}
+                        </td>
+
+                        <td>
+                          <span className="db-badge-status db-badge-status--orange">
+                            Pending
+                          </span>
+                        </td>
+
+                        <td style={{ textAlign: 'center' }}>
+                          <div className="admin-action-buttons">
+                            <button
+                              type="button"
+                              className="db-pill-action-btn db-pill-action-btn--approve"
+                              disabled={isUpdating || working}
+                              onClick={() =>
+                                handleApprove(registration._id)
+                              }
+                            >
+                              {working ? (
+                                <Loader2
+                                  size={13}
+                                  className="admin-spin"
+                                />
+                              ) : (
+                                'Approve'
+                              )}
+                            </button>
+
+                            <button
+                              type="button"
+                              className="db-pill-action-btn db-pill-action-btn--decline"
+                              disabled={isUpdating || working}
+                              onClick={() =>
+                                handleDecline(registration._id)
+                              }
+                            >
+                              Decline
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
       </div>
 
-      <ProofReceiptModal
-        proof={selectedProof}
-        onClose={() => setSelectedProof(null)}
-        onApprove={(id) => handleStatusChange(selectedProof?._id, 'Approved')}
-        onDecline={(id) => handleStatusChange(selectedProof?._id, 'Declined')}
-      />
+      {selectedProof && (
+        <ProofReceiptModal
+          proof={selectedProof}
+          onClose={() => setSelectedProof(null)}
+          onApprove={() =>
+            handleApprove(selectedProof._id)
+          }
+          onDecline={() =>
+            handleDecline(selectedProof._id)
+          }
+        />
+      )}
+
+      <style jsx global>{`
+        .admin-spin {
+          animation: admin-spin-animation 0.8s linear infinite;
+        }
+
+        @keyframes admin-spin-animation {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .admin-message {
+          padding: 12px 16px;
+          margin-bottom: 14px;
+          border-radius: 12px;
+          font-weight: 800;
+        }
+
+        .admin-message--success {
+          background: #ecfdf5;
+          color: #166534;
+          border: 1px solid #86efac;
+        }
+
+        .admin-message--error {
+          background: #fef2f2;
+          color: #b91c1c;
+          border: 1px solid #fca5a5;
+        }
+
+        .admin-table-state {
+          min-height: 250px;
+          padding: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          text-align: center;
+          gap: 12px;
+          color: var(--dz-text-muted, #6b7280);
+        }
+
+        .admin-person-cell {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          min-width: 145px;
+        }
+
+        .admin-person-cell small {
+          color: var(--dz-text-muted, #9ca3af);
+          font-size: 0.72rem;
+        }
+
+        .admin-view-button {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 6px 10px;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          background: #fff;
+          color: #6d28d9;
+          cursor: pointer;
+          font-weight: 800;
+        }
+
+        .admin-action-buttons {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+        }
+
+        .db-pill-action-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      `}</style>
     </div>
   );
 }

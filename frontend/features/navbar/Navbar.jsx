@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
-import Navbar from "@/features/navigation/components/Navbar";
+import Navbar from '@/features/navigation/components/Navbar';
 
 export { Navbar };
+
 export default Navbar;

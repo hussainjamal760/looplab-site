@@ -45,12 +45,12 @@ const menuItems = [
   {
     label: "Teams",
     ariaLabel: "Meet the LoopLab team",
-        link: "/teams",
-    },
-    {
-        label: "Ambassadors",
-        ariaLabel: "Join the ambassador program",
-        link: "/#ambassador",
+    link: "/teams",
+  },
+  {
+    label: "Ambassadors",
+    ariaLabel: "Join the ambassador program",
+    link: "/#ambassador",
   },
   {
     label: "Contact",
@@ -146,7 +146,7 @@ export default function Navbar() {
             }
         };
 
-        // ─── Navbar Left (Work) Hover ───
+        // â”€â”€â”€ Navbar Left (Work) Hover â”€â”€â”€
         const navLeft = document.querySelector('.nav-left');
         const workBox = document.querySelector('.nav-work-box');
         const workBlob = document.querySelector('.nav-bar__work-blob-svg');
@@ -180,7 +180,7 @@ export default function Navbar() {
                 gsap.killTweensOf(workBlob);
                 showOverlay();
 
-                // Fast 360 blob spin — like it's spinning then releasing the box
+                // Fast 360 blob spin â€” like it's spinning then releasing the box
                 gsap.to(workBlob, { rotation: '+=360', duration: 0.7, ease: 'power3.inOut' });
 
                 gsap.set(workBox, { visibility: 'visible' });
@@ -222,7 +222,7 @@ export default function Navbar() {
             });
         }
 
-        // ─── Navbar Right (WhatsApp) Hover ───
+        // â”€â”€â”€ Navbar Right (WhatsApp) Hover â”€â”€â”€
         const navRight = document.querySelector('.nav-right');
         const waBox = document.querySelector('.nav-wa-box');
         const waSvgPath = document.querySelector('.nav-bar__whatsapp-svg path');
@@ -293,7 +293,7 @@ export default function Navbar() {
             });
         }
 
-        // ─── Work Item: badge wiggle + image tilt on hover ───
+        // â”€â”€â”€ Work Item: badge wiggle + image tilt on hover â”€â”€â”€
         const workItems = document.querySelectorAll('.nav-work-item');
         workItems.forEach(item => {
             const badge = item.querySelector('.nav-work-badge');
@@ -322,7 +322,7 @@ export default function Navbar() {
             });
         });
 
-        // ─── All Our Work btn: wiggle intensity 4 (bubble handled by CursorBubble) ───
+        // â”€â”€â”€ All Our Work btn: wiggle intensity 4 (bubble handled by CursorBubble) â”€â”€â”€
         const workBtn = document.querySelector('.nav-work-btn');
         if (workBtn) {
             let btnWiggle;

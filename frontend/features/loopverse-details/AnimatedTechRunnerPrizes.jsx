@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { RotateCcw, Sparkles, Trophy, Flag, ShieldCheck } from 'lucide-react';
+import { RotateCcw, Sparkles, Trophy, Flag, ShieldCheck, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import TechRunnerCharacter from './TechRunnerCharacter';
 
 export default function AnimatedTechRunnerPrizes() {
@@ -61,6 +62,15 @@ export default function AnimatedTechRunnerPrizes() {
             <span className="lv-speech-pill"><Trophy size={13} /> 7x Onsite Trophies</span>
             <span className="lv-speech-pill"><Flag size={13} /> 5x Virtual Awards</span>
             <span className="lv-speech-pill"><ShieldCheck size={13} /> Certificates &amp; Swag for All</span>
+          </div>
+          <div style={{ marginTop: '16px' }}>
+            <Link
+              href="/loopverse/register"
+              className="lv-action-button lv-action-button--primary"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', fontSize: '0.88rem' }}
+            >
+              Register to Compete <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
 

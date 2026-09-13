@@ -1,0 +1,443 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   loopverse-registration.css — Multi-Step Registration Page Styling
+───────────────────────────────────────────────────────────────────────────── */
+
+.lvr-page {
+  background-color: var(--bg-color, #f0ebe6);
+  color: var(--color-dark, #1a1a1a);
+  min-height: 100vh;
+  padding: 130px 0 100px;
+  position: relative;
+  overflow-x: hidden;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.lvr-container {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header & Title */
+.lvr-hero-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.lvr-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background-color: #EAD2FF;
+  border: 2px solid #1a1a1a;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  box-shadow: 3px 3px 0 #1a1a1a;
+}
+
+.lvr-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.1;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.lvr-title span {
+  color: #9E00FE;
+}
+
+.lvr-subtitle {
+  font-size: 1.05rem;
+  color: #555555;
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Card Wrapper */
+.lvr-card {
+  background: #ffffff;
+  border: 3px solid #1a1a1a;
+  border-radius: 24px;
+  box-shadow: 8px 8px 0 #1a1a1a;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Progress Step Header */
+.lvr-step-header {
+  margin-bottom: 36px;
+}
+
+.lvr-progress-bar-bg {
+  height: 8px;
+  background-color: #e5e5e5;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  border: 1.5px solid #1a1a1a;
+}
+
+.lvr-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #9E00FE 0%, #f5693c 100%);
+  border-radius: 999px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lvr-step-items {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.lvr-step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.lvr-step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #1a1a1a;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  transition: all 0.3s ease;
+}
+
+.lvr-step-item--active .lvr-step-circle {
+  background-color: #9E00FE;
+  color: #ffffff;
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+
+.lvr-step-item--completed .lvr-step-circle {
+  background-color: #10B981;
+  color: #ffffff;
+}
+
+.lvr-step-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #666;
+  letter-spacing: 0.02em;
+}
+
+.lvr-step-item--active .lvr-step-label {
+  color: #9E00FE;
+  font-weight: 800;
+}
+
+/* Step Form Body */
+.lvr-step-body {
+  min-height: 320px;
+}
+
+.lvr-step-title-wrap {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px dashed #e0e0e0;
+}
+
+.lvr-step-heading {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.lvr-step-desc {
+  font-size: 0.92rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Form Layout Grid */
+.lvr-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.lvr-grid--full {
+  grid-column: 1 / -1;
+}
+
+.lvr-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lvr-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lvr-req {
+  color: #EF4444;
+}
+
+.lvr-input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #FAFAFA;
+  border: 2px solid #1a1a1a;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.lvr-input:focus {
+  background-color: #ffffff;
+  border-color: #9E00FE;
+  box-shadow: 3px 3px 0 #1a1a1a;
+}
+
+.lvr-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Track Card Selection */
+.lvr-track-selector {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.lvr-track-card {
+  padding: 20px;
+  border: 2.5px solid #1a1a1a;
+  border-radius: 16px;
+  background: #FAFAFA;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.lvr-track-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+.lvr-track-card--selected {
+  background-color: #F3E8FF;
+  border-color: #9E00FE;
+  box-shadow: 4px 4px 0 #9E00FE;
+}
+
+.lvr-track-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #1a1a1a;
+  color: #ffffff;
+  align-self: flex-start;
+}
+
+.lvr-track-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+}
+
+.lvr-track-desc {
+  font-size: 0.84rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Payment & Receipt upload */
+.lvr-payment-box {
+  background: #F9FAFB;
+  border: 2px solid #1a1a1a;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.lvr-upload-dropzone {
+  border: 2px dashed #1a1a1a;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  background: #ffffff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+.lvr-upload-dropzone:hover {
+  background: #F3E8FF;
+}
+
+.lvr-upload-dropzone input {
+  display: none;
+}
+
+/* Navigation Buttons Footer */
+.lvr-step-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.lvr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border: 2px solid #1a1a1a;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lvr-btn--back {
+  background-color: #ffffff;
+  color: #1a1a1a;
+}
+
+.lvr-btn--back:hover:not(:disabled) {
+  background-color: #f5f5f5;
+  box-shadow: 3px 3px 0 #1a1a1a;
+}
+
+.lvr-btn--next {
+  background-color: #9E00FE;
+  color: #ffffff;
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+.lvr-btn--next:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #1a1a1a;
+}
+
+.lvr-btn--submit {
+  background-color: #10B981;
+  color: #ffffff;
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+.lvr-btn--submit:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #1a1a1a;
+}
+
+.lvr-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Error message banner */
+.lvr-error-alert {
+  padding: 14px 18px;
+  background-color: #FEF2F2;
+  border: 2px solid #EF4444;
+  border-radius: 12px;
+  color: #991B1B;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Success Card Pass */
+.lvr-success-card {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.lvr-success-icon {
+  width: 72px;
+  height: 72px;
+  background-color: #D1FAE5;
+  border: 3px solid #10B981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: #10B981;
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+.lvr-success-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.lvr-success-text {
+  font-size: 1rem;
+  color: #555;
+  max-width: 500px;
+  margin: 0 auto 24px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .lvr-card {
+    padding: 24px 16px;
+  }
+
+  .lvr-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lvr-track-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .lvr-step-label {
+    display: none;
+  }
+}

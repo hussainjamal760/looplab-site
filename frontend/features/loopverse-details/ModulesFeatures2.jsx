@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import { MODULES_DATA } from './modulesData';
 
 export default function ModulesFeatures2() {
@@ -127,6 +128,16 @@ export default function ModulesFeatures2() {
                     <div className="lv-f2-track-title">🌐 Virtual Track Brief</div>
                     <div className="lv-f2-track-desc">{activeModule.virtualBrief}</div>
                   </div>
+                </div>
+
+                <div style={{ marginTop: '20px' }}>
+                  <Link
+                    href="/loopverse/register"
+                    className="lv-action-button lv-action-button--primary"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', fontSize: '0.9rem' }}
+                  >
+                    Register for {activeModule.title} <ArrowRight size={16} />
+                  </Link>
                 </div>
               </motion.div>
             </AnimatePresence>

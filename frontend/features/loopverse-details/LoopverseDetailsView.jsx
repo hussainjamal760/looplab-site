@@ -2,14 +2,14 @@
 
 import {
   BadgeCheck,
-  ArrowDown,
+  ArrowRight,
 } from 'lucide-react';
 
 import HeroBanner from './HeroBanner';
 import ModulesFeatures2 from './ModulesFeatures2';
 import Features10CirclePhases from './Features10CirclePhases';
 import AnimatedTechRunnerPrizes from './AnimatedTechRunnerPrizes';
-import LoopverseRegistrationForm from './LoopverseRegistrationForm';
+import LoopverseCtaBanner from './LoopverseCtaBanner';
 
 import '@/app/styles/loopverse-details.css';
 
@@ -42,11 +42,11 @@ export default function LoopverseDetailsView() {
 
           <div className="lv-primary-actions__buttons">
             <a
-              href="#loopverse-registration"
+              href="/loopverse/register"
               className="lv-action-button lv-action-button--primary"
             >
               Register Now
-              <ArrowDown size={18} />
+              <ArrowRight size={18} />
             </a>
 
             <a
@@ -71,9 +71,9 @@ export default function LoopverseDetailsView() {
 
         <AnimatedTechRunnerPrizes />
 
-        {/* Registration form */}
+        {/* Registration CTA banner */}
 
-        <LoopverseRegistrationForm />
+        <LoopverseCtaBanner />
 
         {/* Closing philosophy */}
 

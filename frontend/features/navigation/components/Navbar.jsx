@@ -7,6 +7,7 @@ import { gsap } from 'gsap';
 import { WIGGLE_CONFIG } from '@/lib/data';
 import { Infinity } from 'lucide-react';
 import StaggeredMenu from './StaggeredMenu';
+import Link from 'next/link';
 
 function initWiggle(element, intensity) {
     const target = element.querySelector('[data-wiggle-target]') || element;
@@ -360,40 +361,40 @@ export default function Navbar() {
                     <div className="nav-hover-trigger">
                         <div className="logo-work-container">
                             <img src="/assets/Navbar SVG/nav-work-blob.svg" width="60" height="55" className="nav-bar__work-blob-svg" alt="" aria-hidden="true" />
-                            <span className="logo-work-text">work</span>
+                            <span className="logo-work-text">EVENTS</span>
                         </div>
 
                         {/* Pop-out Box for Left Side */}
                         <div className="nav-popout nav-work-box">
                             <div className="nav-popout-inner">
-                                <div className="nav-work-item">
+                                <Link href="/events" className="nav-work-item">
                                     <div className="nav-work-item__img-wrap">
-                                        <img src="https://cdn.prod.website-files.com/683863cbe1f5a81b667b9939/68a46f25779a71fac3a11903_SnapInsta.jpg" loading="eager" alt="Feestje bouwe? App Douwe" className="nav-work-item__img" />
+                                        <img src="/assets/filmstrip/loopverse-poster.jpg" loading="eager" alt="Loopverse 3.0" className="nav-work-item__img" />
                                     </div>
                                     <div className="nav-work-item__text">
-                                        <span className="nav-work-badge badge-maroon">douwe egberts</span>
-                                        <h4 className="nav-work-title">feestje bouwe? app douwe</h4>
+                                        <span className="nav-work-badge badge-maroon">Loopverse 3.0</span>
+                                        <h4 className="nav-work-title">Annual Tech Summit</h4>
                                     </div>
-                                </div>
-                                <div className="nav-work-item">
+                                </Link>
+                                <Link href="/events" className="nav-work-item">
                                     <div className="nav-work-item__img-wrap">
-                                        <img src="https://cdn.prod.website-files.com/683863cbe1f5a81b667b9939/6880a344675f3a6144ed04df_01_HEMA_Back2School.avif" loading="eager" alt="Skibidi school" sizes="100vw" srcSet="https://cdn.prod.website-files.com/683863cbe1f5a81b667b9939/6880a344675f3a6144ed04df_01_HEMA_Back2School-p-500.avif 500w, https://cdn.prod.website-files.com/683863cbe1f5a81b667b9939/6880a344675f3a6144ed04df_01_HEMA_Back2School.avif 1080w" className="nav-work-item__img" />
+                                        <img src="/assets/filmstrip/ai-ml.jpg" loading="eager" alt="Loopverse 2.0" className="nav-work-item__img" />
                                     </div>
                                     <div className="nav-work-item__text">
-                                        <span className="nav-work-badge badge-pink">hema</span>
-                                        <h4 className="nav-work-title">skibidi school</h4>
+                                        <span className="nav-work-badge badge-pink">Loopverse 2.0</span>
+                                        <h4 className="nav-work-title">AI & Web Hackathon</h4>
                                     </div>
-                                </div>
-                                <div className="nav-work-item">
+                                </Link>
+                                <Link href="/events" className="nav-work-item">
                                     <div className="nav-work-item__img-wrap">
-                                        <img src="https://cdn.prod.website-files.com/683863cbe1f5a81b667b9939/686b7e0ed3ab3045b28a2012_3.avif" loading="eager" alt="Hema socials" sizes="100vw" srcSet="https://cdn.prod.website-files.com/683863cbe1f5a81b667b9939/686b7e0ed3ab3045b28a2012_3-p-500.avif 500w, https://cdn.prod.website-files.com/683863cbe1f5a81b667b9939/686b7e0ed3ab3045b28a2012_3.avif 1080w" className="nav-work-item__img" />
+                                        <img src="/assets/filmstrip/web-development.jpg" loading="eager" alt="Loopverse 1.0" className="nav-work-item__img" />
                                     </div>
                                     <div className="nav-work-item__text">
-                                        <span className="nav-work-badge badge-pink">hema</span>
-                                        <h4 className="nav-work-title">hema socials</h4>
+                                        <span className="nav-work-badge badge-purple">Loopverse 1.0</span>
+                                        <h4 className="nav-work-title">Flagship Dev Gathering</h4>
                                     </div>
-                                </div>
-                                <a href="#" className="nav-work-btn"><span className="nav-work-btn__text">All our work</span></a>
+                                </Link>
+                                <Link href="/events" className="nav-work-btn"><span className="nav-work-btn__text">All our events</span></Link>
                             </div>
                         </div>
                     </div>

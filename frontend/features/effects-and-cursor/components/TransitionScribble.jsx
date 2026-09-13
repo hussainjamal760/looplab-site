@@ -43,10 +43,7 @@ export default function TransitionScribble() {
                 transitionLogo = document.createElement('div');
                 transitionLogo.className = 'transition-logo';
                 transitionLogo.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; pointer-events:none; opacity:0; display:flex; justify-content:center; align-items:center; transition: color 0.1s;';
-                const svgClone = document.querySelector('.logo-looplab').cloneNode(true);
-                svgClone.style.width = '150px';
-                svgClone.style.height = 'auto';
-                transitionLogo.appendChild(svgClone);
+                transitionLogo.innerHTML = `<div class="transition-logo-content" style="width:150px;display:flex;align-items:center;gap:8px;"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:translateY(1px);"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 1 0 0-8c-2 0-4 1.33-6 4Z"/></svg><span style="font-family:var(--font-pacifico, 'Pacifico', cursive);font-size:28px;line-height:1;">LOOPLAB</span></div>`;
                 document.body.appendChild(transitionLogo);
             }
             injectedLogo = transitionLogo;
@@ -86,15 +83,17 @@ export default function TransitionScribble() {
             drawTl.to(transitionLogo, {
                 autoAlpha: 1, duration: durIn * 0.5, ease: 'power2.out',
                 onStart: () => {
-                    gsap.to(transitionLogo.querySelector('.logo-looplab'), { rotation: 5, duration: 0.15, repeat: -1, yoyo: true, ease: 'steps(1)', overwrite: 'auto' });
+                    const logoTarget = transitionLogo.querySelector('.transition-logo-content') || transitionLogo;
+                    gsap.to(logoTarget, { rotation: 5, duration: 0.15, repeat: -1, yoyo: true, ease: 'steps(1)', overwrite: 'auto' });
                 }
             }, durIn * 0.5);
 
             drawTl.set(transitionLogo, {
                 autoAlpha: 0,
                 onComplete: () => {
-                    gsap.killTweensOf(transitionLogo.querySelector('.logo-looplab'));
-                    gsap.set(transitionLogo.querySelector('.logo-looplab'), { rotation: 0 });
+                    const logoTarget = transitionLogo.querySelector('.transition-logo-content') || transitionLogo;
+                    gsap.killTweensOf(logoTarget);
+                    gsap.set(logoTarget, { rotation: 0 });
                 }
             }, durIn + (durOut * 0.48));
         };

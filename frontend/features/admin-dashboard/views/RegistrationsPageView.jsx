@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 
 import ProofReceiptModal from '../components/ProofReceiptModal';
+import ActionConfirmModal from '../components/ActionConfirmModal';
 
 import {
   useGetAdminRegistrationsQuery,
@@ -77,6 +78,11 @@ export default function RegistrationsPageView() {
   const [removedIds, setRemovedIds] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [confirmModalState, setConfirmModalState] = useState({
+    isOpen: false,
+    type: 'approve',
+    registration: null,
+  });
 
   const {
     data,
@@ -212,40 +218,42 @@ export default function RegistrationsPageView() {
     }
   }
 
-  async function handleApprove(id) {
-    const confirmed = window.confirm(
-      'Are you sure you want to approve this registration?'
-    );
-
-    if (!confirmed) return;
-
-    await changeStatus({
-      id,
-      status: 'verified',
-      remarks: 'Registration approved by admin.',
+  function openApproveModal(registration) {
+    setConfirmModalState({
+      isOpen: true,
+      type: 'approve',
+      registration,
     });
   }
 
-  async function handleDecline(id) {
-    const reason = window.prompt(
-      'Please write the reason for declining this registration:'
-    );
-
-    if (reason === null) return;
-
-    const cleanReason = reason.trim();
-
-    if (!cleanReason) {
-      setSuccessMessage('');
-      setErrorMessage('Decline reason is required.');
-      return;
-    }
-
-    await changeStatus({
-      id,
-      status: 'rejected',
-      remarks: cleanReason,
+  function openDeclineModal(registration) {
+    setConfirmModalState({
+      isOpen: true,
+      type: 'decline',
+      registration,
     });
+  }
+
+  async function handleConfirmModalAction(remarks) {
+    const { type, registration } = confirmModalState;
+    if (!registration) return;
+
+    const id = registration._id || registration.id;
+    setConfirmModalState((prev) => ({ ...prev, isOpen: false }));
+
+    if (type === 'approve') {
+      await changeStatus({
+        id,
+        status: 'verified',
+        remarks: remarks || 'Registration approved by admin.',
+      });
+    } else {
+      await changeStatus({
+        id,
+        status: 'rejected',
+        remarks: remarks || 'Registration declined by admin.',
+      });
+    }
   }
 
   function openReceipt(registration) {
@@ -584,7 +592,7 @@ export default function RegistrationsPageView() {
                               className="db-pill-action-btn db-pill-action-btn--approve"
                               disabled={isUpdating || working}
                               onClick={() =>
-                                handleApprove(registration._id)
+                                openApproveModal(registration)
                               }
                             >
                               {working ? (
@@ -602,7 +610,7 @@ export default function RegistrationsPageView() {
                               className="db-pill-action-btn db-pill-action-btn--decline"
                               disabled={isUpdating || working}
                               onClick={() =>
-                                handleDecline(registration._id)
+                                openDeclineModal(registration)
                               }
                             >
                               Decline
@@ -623,13 +631,34 @@ export default function RegistrationsPageView() {
           proof={selectedProof}
           onClose={() => setSelectedProof(null)}
           onApprove={() =>
-            handleApprove(selectedProof._id)
+            openApproveModal(selectedProof)
           }
           onDecline={() =>
-            handleDecline(selectedProof._id)
+            openDeclineModal(selectedProof)
           }
         />
       )}
+
+      <ActionConfirmModal
+        isOpen={confirmModalState.isOpen}
+        type={confirmModalState.type}
+        applicantName={
+          getParticipant(confirmModalState.registration).fullName ||
+          confirmModalState.registration?.fullName ||
+          confirmModalState.registration?.name ||
+          ''
+        }
+        transactionId={confirmModalState.registration?.transactionId || ''}
+        onConfirm={handleConfirmModalAction}
+        onClose={() =>
+          setConfirmModalState({
+            isOpen: false,
+            type: 'approve',
+            registration: null,
+          })
+        }
+        isSubmitting={isUpdating}
+      />
 
       <style jsx global>{`
         .admin-spin {

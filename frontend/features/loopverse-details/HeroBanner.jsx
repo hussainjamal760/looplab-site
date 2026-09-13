@@ -199,7 +199,7 @@ export default function HeroBanner() {
               {/* Registration button */}
 
               <motion.a
-                href="#loopverse-registration"
+                href="/loopverse/register"
                 className="lv-register-cta"
                 initial={{
                   opacity: 0,

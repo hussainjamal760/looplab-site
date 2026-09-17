@@ -189,14 +189,14 @@ export default function StepPaymentReview({
         <div className="lvr-bank-info-row">
           <span>Mobile Account Number</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <strong style={{ fontSize: '1.05rem', color: '#1a1a1a', letterSpacing: '0.02em' }}>03334093999</strong>
+            <strong style={{ fontSize: '1.05rem', color: '#ffffff', letterSpacing: '0.02em' }}>03334093999</strong>
             <button
               type="button"
               onClick={() => copyToClipboard('03334093999', 'number')}
               style={{
                 background: copiedField === 'number' ? '#10B981' : '#F3E8FF',
                 color: copiedField === 'number' ? '#ffffff' : '#9E00FE',
-                border: '1.5px solid #1a1a1a',
+                border: 'none',
                 borderRadius: '8px',
                 padding: '4px 10px',
                 fontSize: '0.75rem',
@@ -217,14 +217,14 @@ export default function StepPaymentReview({
         <div className="lvr-bank-info-row">
           <span>IBAN</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <strong style={{ fontFamily: 'monospace', fontSize: '0.92rem', color: '#1a1a1a' }}>PK53JCMA0705923334093999</strong>
+            <strong style={{ fontFamily: 'monospace', fontSize: '0.92rem', color: '#ffffff' }}>PK53JCMA0705923334093999</strong>
             <button
               type="button"
               onClick={() => copyToClipboard('PK53JCMA0705923334093999', 'iban')}
               style={{
                 background: copiedField === 'iban' ? '#10B981' : '#F3E8FF',
                 color: copiedField === 'iban' ? '#ffffff' : '#9E00FE',
-                border: '1.5px solid #1a1a1a',
+                border: 'none',
                 borderRadius: '8px',
                 padding: '4px 10px',
                 fontSize: '0.75rem',
@@ -242,7 +242,7 @@ export default function StepPaymentReview({
           </div>
         </div>
 
-        <div className="lvr-bank-info-row" style={{ marginTop: '8px', paddingTop: '10px', borderTop: '1px dashed #cbd5e1' }}>
+        <div className="lvr-bank-info-row" style={{ marginTop: '8px', paddingTop: '10px', borderTop: '1px dashed rgba(255, 255, 255, 0.2)' }}>
           <span>Total Amount Payable</span>
           <strong className="lvr-bank-amount" style={{ fontSize: '1.25rem', color: '#10B981' }}>PKR {finalFee.toLocaleString()}</strong>
         </div>

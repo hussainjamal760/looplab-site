@@ -1,4 +1,4 @@
-﻿import { Router } from 'express';
+import { Router } from 'express';
 import { validate } from '../../middlewares/validate.middleware.js';
 import { authenticate } from '../../middlewares/auth.middleware.js';
 import {
@@ -11,6 +11,7 @@ import {
   getAllPromoCodes,
   createPromoCode,
   togglePromoActive,
+  deletePromoCode,
 } from './promo.controller.js';
 import { z } from 'zod';
 
@@ -30,6 +31,11 @@ adminRouter.patch(
   '/:id',
   validate({ params: promoIdParamSchema, body: toggleActiveSchema }),
   togglePromoActive
+);
+adminRouter.delete(
+  '/:id',
+  validate({ params: promoIdParamSchema }),
+  deletePromoCode
 );
 
 export { publicRouter as promoPublicRouter, adminRouter as promoAdminRouter };

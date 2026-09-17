@@ -149,6 +149,33 @@ export const promoAdminApi =
             },
           ],
         }),
+
+      // ======================================
+      // DELETE PROMO CODE
+      // ======================================
+
+      deleteAdminPromoCode:
+        builder.mutation({
+          query: (id) => ({
+            url: `/admin/promo-codes/${id}`,
+            method: 'DELETE',
+          }),
+
+          invalidatesTags: (
+            result,
+            error,
+            id
+          ) => [
+            {
+              type: 'PromoCodes',
+              id: 'LIST',
+            },
+            {
+              type: 'PromoCodes',
+              id,
+            },
+          ],
+        }),
     }),
   });
 
@@ -156,4 +183,5 @@ export const {
   useGetAdminPromoCodesQuery,
   useCreateAdminPromoCodeMutation,
   useToggleAdminPromoCodeMutation,
+  useDeleteAdminPromoCodeMutation,
 } = promoAdminApi;

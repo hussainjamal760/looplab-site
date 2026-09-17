@@ -13,12 +13,15 @@ import {
   Loader2,
   Users,
   TicketPercent,
+  Trash2,
+  AlertTriangle,
 } from 'lucide-react';
 
 import {
   useGetAdminPromoCodesQuery,
   useCreateAdminPromoCodeMutation,
   useToggleAdminPromoCodeMutation,
+  useDeleteAdminPromoCodeMutation,
 } from '@/store/api/promoAdminApi';
 
 import {
@@ -80,6 +83,12 @@ export default function PromoCodesPageView() {
   const [processingId, setProcessingId] =
     useState(null);
 
+  const [promoToDelete, setPromoToDelete] =
+    useState(null);
+
+  const [isDeleting, setIsDeleting] =
+    useState(false);
+
   // ========================================
   // API
   // ========================================
@@ -106,6 +115,10 @@ export default function PromoCodesPageView() {
     togglePromoCode,
     { isLoading: isToggling },
   ] = useToggleAdminPromoCodeMutation();
+
+  const [
+    deletePromoCode,
+  ] = useDeleteAdminPromoCodeMutation();
 
   const promos = useMemo(() => {
     return Array.isArray(promoData)
@@ -304,6 +317,40 @@ export default function PromoCodesPageView() {
       );
     } finally {
       setProcessingId(null);
+    }
+  }
+
+  // ========================================
+  // DELETE
+  // ========================================
+
+  async function handleDeleteConfirm() {
+    if (!promoToDelete?._id) return;
+
+    setIsDeleting(true);
+    setFormError('');
+    setSuccessMessage('');
+
+    try {
+      await deletePromoCode(
+        promoToDelete._id
+      ).unwrap();
+
+      setSuccessMessage(
+        `Promo code ${promoToDelete.code} has been permanently deleted.`
+      );
+
+      setPromoToDelete(null);
+      await refetch();
+    } catch (requestError) {
+      setFormError(
+        requestError?.data?.message ||
+          requestError?.error ||
+          'Promo code could not be deleted.'
+      );
+      setPromoToDelete(null);
+    } finally {
+      setIsDeleting(false);
     }
   }
 
@@ -625,36 +672,50 @@ export default function PromoCodesPageView() {
                               'center',
                           }}
                         >
-                          <button
-                            type="button"
-                            className={`promo-toggle-button ${
-                              promo.isActive
-                                ? 'promo-toggle-button--active'
-                                : ''
-                            }`}
-                            disabled={
-                              processingId ===
-                                promo._id ||
-                              limitReached
-                            }
-                            onClick={() =>
-                              handleToggle(
-                                promo
-                              )
-                            }
-                          >
-                            {processingId ===
-                            promo._id ? (
-                              <Loader2
-                                size={13}
-                                className="promo-spinner"
-                              />
-                            ) : promo.isActive ? (
-                              'Disable'
-                            ) : (
-                              'Activate'
-                            )}
-                          </button>
+                          <div className="promo-action-cell">
+                            <button
+                              type="button"
+                              className={`promo-toggle-button ${
+                                promo.isActive
+                                  ? 'promo-toggle-button--active'
+                                  : ''
+                              }`}
+                              disabled={
+                                processingId ===
+                                  promo._id ||
+                                limitReached
+                              }
+                              onClick={() =>
+                                handleToggle(
+                                  promo
+                                )
+                              }
+                            >
+                              {processingId ===
+                              promo._id ? (
+                                <Loader2
+                                  size={13}
+                                  className="promo-spinner"
+                                />
+                              ) : promo.isActive ? (
+                                'Disable'
+                              ) : (
+                                'Activate'
+                              )}
+                            </button>
+
+                            <button
+                              type="button"
+                              className="promo-delete-button"
+                              title={`Delete ${promo.code}`}
+                              disabled={processingId === promo._id}
+                              onClick={() =>
+                                setPromoToDelete(promo)
+                              }
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -664,6 +725,81 @@ export default function PromoCodesPageView() {
             </div>
           )}
       </div>
+
+      {/* Delete confirmation modal */}
+
+      {promoToDelete && (
+        <div
+          className="db-modal-overlay"
+          onClick={() => setPromoToDelete(null)}
+        >
+          <div
+            className="db-modal-box promo-confirm-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="promo-confirm-icon">
+              <AlertTriangle size={32} />
+            </div>
+
+            <h2 className="promo-confirm-title">
+              Delete Promo Code?
+            </h2>
+
+            <p className="promo-confirm-desc">
+              You are about to permanently delete{' '}
+              <strong>{promoToDelete.code}</strong>.
+              This action cannot be undone and will
+              immediately remove it from the system.
+            </p>
+
+            <div className="promo-confirm-meta">
+              <span>
+                Partner:{' '}
+                <strong>
+                  {promoToDelete.partnerName}
+                </strong>
+              </span>
+              <span>
+                Used:{' '}
+                <strong>
+                  {promoToDelete.usageCount ?? 0}
+                  {' times'}
+                </strong>
+              </span>
+            </div>
+
+            <div className="promo-modal-actions">
+              <button
+                type="button"
+                className="db-btn-white-pill"
+                disabled={isDeleting}
+                onClick={() => setPromoToDelete(null)}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="db-btn-danger-pill"
+                disabled={isDeleting}
+                onClick={handleDeleteConfirm}
+              >
+                {isDeleting ? (
+                  <Loader2
+                    size={14}
+                    className="promo-spinner"
+                  />
+                ) : (
+                  <Trash2 size={14} />
+                )}
+                {isDeleting
+                  ? 'Deleting...'
+                  : 'Delete Permanently'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Create modal */}
 
@@ -1057,6 +1193,109 @@ export default function PromoCodesPageView() {
 
         .promo-toggle-button:disabled {
           opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .promo-action-cell {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          justify-content: center;
+        }
+
+        .promo-delete-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          border: 1px solid #fca5a5;
+          border-radius: 8px;
+          background: #fef2f2;
+          color: #dc2626;
+          cursor: pointer;
+          transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.1s ease;
+        }
+
+        .promo-delete-button:hover {
+          background: #fee2e2;
+          border-color: #f87171;
+          transform: scale(1.08);
+        }
+
+        .promo-delete-button:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        .promo-confirm-modal {
+          width: min(480px, 94vw);
+          padding: 28px 28px 24px;
+          text-align: center;
+        }
+
+        .promo-confirm-icon {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 14px;
+          color: #dc2626;
+        }
+
+        .promo-confirm-title {
+          margin: 0 0 10px;
+          font-size: 1.2rem;
+          font-weight: 900;
+          color: #111827;
+        }
+
+        .promo-confirm-desc {
+          font-size: 0.83rem;
+          color: #4b5563;
+          line-height: 1.6;
+          margin: 0 0 14px;
+        }
+
+        .promo-confirm-meta {
+          display: flex;
+          justify-content: center;
+          gap: 24px;
+          padding: 10px 16px;
+          background: #f9fafb;
+          border: 1px solid #e5e7eb;
+          border-radius: 10px;
+          font-size: 0.77rem;
+          color: #6b7280;
+          margin-bottom: 20px;
+        }
+
+        .db-btn-danger-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 18px;
+          border: 1.5px solid #dc2626;
+          border-radius: 999px;
+          background: #dc2626;
+          color: #ffffff;
+          font-weight: 800;
+          font-size: 0.78rem;
+          cursor: pointer;
+          transition:
+            background 0.15s ease,
+            opacity 0.15s ease;
+        }
+
+        .db-btn-danger-pill:hover {
+          background: #b91c1c;
+          border-color: #b91c1c;
+        }
+
+        .db-btn-danger-pill:disabled {
+          opacity: 0.6;
           cursor: not-allowed;
         }
 

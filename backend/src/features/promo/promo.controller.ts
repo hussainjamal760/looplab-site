@@ -23,3 +23,9 @@ export const togglePromoActive = asyncHandler(async (req: Request, res: Response
   const promoCode = await PromoService.togglePromoActive(String(req.params['id']), isActive);
   res.status(200).json(new ApiResponse(200, { promoCode }, 'Promo code status updated'));
 });
+
+export const deletePromoCode = asyncHandler(async (req: Request, res: Response) => {
+  await PromoService.deletePromoCode(String(req.params['id']));
+  res.status(200).json(new ApiResponse(200, null, 'Promo code deleted successfully'));
+});
+

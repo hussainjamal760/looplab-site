@@ -1,4 +1,4 @@
-﻿import { PromoCode, IPromoCode } from './promo.model.js';
+import { PromoCode, IPromoCode } from './promo.model.js';
 import { ValidatePromoInput, CreatePromoInput } from './promo.validation.js';
 import { ApiError } from '../../utils/ApiError.js';
 
@@ -42,6 +42,12 @@ export class PromoService {
     ).lean();
     if (!promo) throw new ApiError(404, 'Promo code not found');
     return promo;
+  }
+
+  /** Permanently delete a promo code (admin) */
+  static async deletePromoCode(id: string): Promise<void> {
+    const promo = await PromoCode.findByIdAndDelete(id).lean();
+    if (!promo) throw new ApiError(404, 'Promo code not found');
   }
 
   /**

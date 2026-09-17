@@ -72,15 +72,6 @@ function normalizePromoCode(
   return normalized || null;
 }
 
-function escapeRegex(
-  value: string
-): string {
-  return value.replace(
-    /[.*+?^${}()|[\]\\]/g,
-    '\\$&'
-  );
-}
-
 // ==========================================
 // CHECKBOX HELPER
 // ==========================================
@@ -549,45 +540,6 @@ export class RegistrationService {
 
     participantData.email =
       normalizedEmail;
-
-    // --------------------------------------
-    // Duplicate registration protection
-    // --------------------------------------
-
-    const escapedEmail =
-      escapeRegex(
-        normalizedEmail
-      );
-
-    const duplicateRegistration =
-      await Registration.findOne({
-        eventId: event._id,
-
-        $or: [
-          {
-            normalizedEmail,
-          },
-          {
-            'participantData.email':
-              {
-                $regex:
-                  new RegExp(
-                    `^${escapedEmail}$`,
-                    'i'
-                  ),
-              },
-          },
-        ],
-      });
-
-    if (
-      duplicateRegistration
-    ) {
-      throw new ApiError(
-        409,
-        'You are already registered for this event'
-      );
-    }
 
     // --------------------------------------
     // Promo code

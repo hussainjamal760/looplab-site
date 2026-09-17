@@ -61,9 +61,8 @@ const menuItems = [
 ];
 
 const socialItems = [
-    { label: 'LinkedIn', link: 'https://linkedin.com/company/looplab' },
-    { label: 'Instagram', link: 'https://instagram.com/teamlooplab' },
-    { label: 'TikTok', link: 'https://tiktok.com/@teamlooplab' }
+    { label: 'LinkedIn', link: 'https://www.linkedin.com/company/looplab-com/' },
+    { label: 'Instagram', link: 'https://www.instagram.com/looplabofficial?stkn=bXhkcnBpcG05dzVi' }
 ];
 
 export default function Navbar() {

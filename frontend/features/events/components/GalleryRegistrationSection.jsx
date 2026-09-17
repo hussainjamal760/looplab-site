@@ -27,9 +27,9 @@ export default function GalleryRegistrationSection() {
           </div>
         </div>
 
-        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="next-link">
+        <a href="https://www.instagram.com/looplabofficial?stkn=bXhkcnBpcG05dzVi" target="_blank" rel="noopener noreferrer" className="next-link">
           <span>Next →</span>
-          <span>📘</span>
+          <span>📸</span>
         </a>
       </div>
     </section>

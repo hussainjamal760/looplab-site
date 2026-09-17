@@ -102,7 +102,7 @@ export function GalleryCta() {
         <div className="social-btn-row">
           <MagneticButton
             as="a"
-            href="https://instagram.com"
+            href="https://www.instagram.com/looplabofficial?stkn=bXhkcnBpcG05dzVi"
             target="_blank"
             rel="noopener noreferrer"
             className="social-link-btn btn-instagram"
@@ -117,7 +117,7 @@ export function GalleryCta() {
 
           <MagneticButton
             as="a"
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/company/looplab-com/"
             target="_blank"
             rel="noopener noreferrer"
             className="social-link-btn btn-linkedin"
@@ -126,19 +126,6 @@ export function GalleryCta() {
               <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V21h-4V9Z" />
             </svg>
             <span>LinkedIn</span>
-          </MagneticButton>
-
-          <MagneticButton
-            as="a"
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link-btn btn-facebook"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H7.5v-3H10V9.5C10 7.01 11.49 5.6 13.78 5.6c1.1 0 2.25.2 2.25.2v2.47h-1.27c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 3h-2.33v6.8c4.56-.93 8-4.96 8-9.8z" />
-            </svg>
-            <span>Facebook</span>
           </MagneticButton>
         </div>
       </div>

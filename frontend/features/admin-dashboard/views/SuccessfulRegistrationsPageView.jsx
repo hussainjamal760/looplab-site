@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 
 import ProofReceiptModal from '../components/ProofReceiptModal';
+import RegistrationFilterBar from '../components/RegistrationFilterBar';
+import { exportToExcel, exportToPDF } from '../utils/exportHelpers';
 
 import {
   useGetAdminRegistrationsQuery,
@@ -25,6 +27,8 @@ const EXISTING_REGISTRATIONS = [
       email: 'wasiq215005@gmail.com',
       university: 'Team Member',
       department: 'LoopLab Team',
+      module: 'General',
+      track: 'onsite',
     },
     transactionId: 'TXN-991204',
     finalAmount: 1200,
@@ -41,6 +45,8 @@ const EXISTING_REGISTRATIONS = [
       email: 'maryam.mubasharrana@gmail.com',
       university: 'FAST NUCES',
       department: 'Computer Science',
+      module: 'Web Development',
+      track: 'onsite',
     },
     transactionId: 'TXN-883190',
     finalAmount: 1350,
@@ -57,6 +63,8 @@ const EXISTING_REGISTRATIONS = [
       email: 'zainabbee147@gmail.com',
       university: 'PUCIT',
       department: 'Computer Science',
+      module: 'App Development',
+      track: 'onsite',
     },
     transactionId: 'TXN-773412',
     finalAmount: 1350,
@@ -73,6 +81,8 @@ const EXISTING_REGISTRATIONS = [
       email: 'jaweriatahir368@gmail.com',
       university: 'NUST',
       department: 'Software Engineering',
+      module: 'AI / ML',
+      track: 'virtual',
     },
     transactionId: 'TXN-552190',
     finalAmount: 1350,
@@ -89,6 +99,8 @@ const EXISTING_REGISTRATIONS = [
       email: 'sumiyaanjum1115@gmail.com',
       university: 'Team Member',
       department: 'LoopLab Team',
+      module: 'General',
+      track: 'onsite',
     },
     transactionId: 'TXN-441098',
     finalAmount: 1350,
@@ -101,12 +113,14 @@ const EXISTING_REGISTRATIONS = [
   {
     _id: 'existing-06',
     participantData: {
-      fullName: 'Syed Sheheryar',
-      email: 'sitsme797@gmail.com',
-      university: 'COMSATS',
-      department: 'Computer Science',
+      fullName: 'Noor Fatima',
+      email: 'noorfatima99@gmail.com',
+      university: 'LUMS',
+      department: 'Management Sciences',
+      module: 'Pitching Competition',
+      track: 'onsite',
     },
-    transactionId: 'TXN-332145',
+    transactionId: 'TXN-330912',
     finalAmount: 1350,
     verifiedAt: '2026-09-09T10:00:00.000Z',
     paymentStatus: 'verified',
@@ -120,26 +134,8 @@ function getParticipant(registration) {
   return registration?.participantData || {};
 }
 
-function getBackendRegistrations(data) {
-  if (Array.isArray(data)) return data;
-
-  if (Array.isArray(data?.registrations)) {
-    return data.registrations;
-  }
-
-  if (Array.isArray(data?.data)) {
-    return data.data;
-  }
-
-  if (Array.isArray(data?.data?.data)) {
-    return data.data.data;
-  }
-
-  return [];
-}
-
 function getEventName(registration) {
-  if (registration.eventName) {
+  if (registration?.eventName) {
     return registration.eventName;
   }
 
@@ -153,12 +149,20 @@ function getEventName(registration) {
   return 'Loopverse 3.0';
 }
 
+function formatAmount(value) {
+  const number = Number(value || 0);
+
+  return `PKR ${number.toLocaleString()}`;
+}
+
 function formatDate(value) {
   if (!value) return '—';
 
   const date = new Date(value);
 
-  if (Number.isNaN(date.getTime())) return '—';
+  if (Number.isNaN(date.getTime())) {
+    return '—';
+  }
 
   return new Intl.DateTimeFormat('en-GB', {
     day: '2-digit',
@@ -167,12 +171,13 @@ function formatDate(value) {
   }).format(date);
 }
 
-function formatAmount(value) {
-  return `PKR ${Number(value || 0).toLocaleString('en-PK')}`;
-}
-
 export default function SuccessfulRegistrationsPageView() {
   const [query, setQuery] = useState('');
+  const [moduleFilter, setModuleFilter] = useState('All Modules');
+  const [trackFilter, setTrackFilter] = useState('All Tracks');
+  const [parkingFilter, setParkingFilter] = useState('All Parking');
+  const [promoFilter, setPromoFilter] = useState('All Promo');
+
   const [selectedProof, setSelectedProof] = useState(null);
 
   const {
@@ -189,13 +194,23 @@ export default function SuccessfulRegistrationsPageView() {
   });
 
   const registrations = useMemo(() => {
-    const backendRegistrations =
-      getBackendRegistrations(data);
+    const apiRecords = Array.isArray(data?.registrations)
+      ? data.registrations
+      : Array.isArray(data?.data)
+      ? data.data
+      : Array.isArray(data)
+      ? data
+      : [];
 
-    const combined = [
-      ...EXISTING_REGISTRATIONS,
-      ...backendRegistrations,
-    ];
+    const verifiedFromApi = apiRecords.filter((item) => {
+      return (
+        item.paymentStatus === 'verified' ||
+        item.status === 'verified' ||
+        item.status === 'Verified'
+      );
+    });
+
+    const combined = [...verifiedFromApi, ...EXISTING_REGISTRATIONS];
 
     /*
      * Duplicate email records are displayed once.
@@ -229,42 +244,115 @@ export default function SuccessfulRegistrationsPageView() {
   const filteredRegistrations = useMemo(() => {
     const searchText = query.trim().toLowerCase();
 
-    if (!searchText) return registrations;
-
     return registrations.filter((registration) => {
-      const participant = getParticipant(registration);
+      const p = getParticipant(registration);
 
-      return [
-        participant.fullName,
-        participant.email,
-        participant.university,
-        participant.department,
-        registration.transactionId,
-        getEventName(registration),
-      ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase()
-        .includes(searchText);
+      // Search Query Filter
+      if (searchText) {
+        const searchableText = [
+          p.fullName,
+          p.email,
+          p.phone,
+          p.cnic,
+          p.university,
+          p.department,
+          p.module,
+          p.moduleName,
+          p.trackSelect,
+          registration.transactionId,
+          getEventName(registration),
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+
+        if (!searchableText.includes(searchText)) return false;
+      }
+
+      // Module Filter
+      if (moduleFilter !== 'All Modules') {
+        const modName = (p.module || p.moduleName || p.trackSelect || '').toLowerCase();
+        if (!modName.includes(moduleFilter.toLowerCase())) return false;
+      }
+
+      // Track Filter
+      if (trackFilter !== 'All Tracks') {
+        const trackVal = (p.track || p.attendanceMode || '').toLowerCase();
+        if (trackFilter === 'Onsite' && !trackVal.includes('onsite')) return false;
+        if (trackFilter === 'Virtual' && !trackVal.includes('virtual')) return false;
+      }
+
+      // Parking Filter
+      if (parkingFilter !== 'All Parking') {
+        const isParkingReq =
+          p.needsParking === 'Yes' ||
+          p.needsParking === true ||
+          p.needsParking === 'true' ||
+          String(p.needsParking).toLowerCase() === 'yes';
+
+        if (parkingFilter === 'Yes' && !isParkingReq) return false;
+        if (parkingFilter === 'No' && isParkingReq) return false;
+      }
+
+      // Promo Filter
+      if (promoFilter !== 'All Promo') {
+        const hasPromo = Boolean(registration.appliedPromoCode || p.appliedPromoCode);
+        if (promoFilter === 'With Promo' && !hasPromo) return false;
+        if (promoFilter === 'No Promo' && hasPromo) return false;
+      }
+
+      return true;
     });
-  }, [query, registrations]);
+  }, [query, moduleFilter, trackFilter, parkingFilter, promoFilter, registrations]);
+
+  function handleResetFilters() {
+    setQuery('');
+    setModuleFilter('All Modules');
+    setTrackFilter('All Tracks');
+    setParkingFilter('All Parking');
+    setPromoFilter('All Promo');
+  }
+
+  function handleExportExcel() {
+    exportToExcel(filteredRegistrations, 'Loopverse_Successful_Registrations');
+  }
+
+  function handleExportPDF() {
+    exportToPDF(filteredRegistrations, 'Successful Verified Registrations Report', 'Loopverse_Successful_Registrations');
+  }
 
   function openReceipt(registration) {
     const participant = getParticipant(registration);
+    const isParkingRequired =
+      participant.needsParking === 'Yes' ||
+      participant.needsParking === true ||
+      participant.needsParking === 'true' ||
+      String(participant.needsParking).toLowerCase() === 'yes';
 
     setSelectedProof({
       ...registration,
       fullName: participant.fullName || 'Unknown Applicant',
       name: participant.fullName || 'Unknown Applicant',
       email: participant.email || '—',
+      phone: participant.phone || '—',
+      cnic: participant.cnic || '—',
       university: participant.university || '—',
       department: participant.department || '—',
-      event: getEventName(registration),
+      module: participant.module || participant.moduleName || participant.trackSelect || 'General',
+      track: participant.track === 'onsite' ? '⚡ Onsite' : participant.track === 'virtual' ? '🌐 Virtual' : participant.attendanceMode || 'Onsite',
+      needsParking: isParkingRequired,
+      parkingText: isParkingRequired
+        ? `Yes (${participant.vehicleType || 'Vehicle'} - ${participant.vehicleNumber || 'N/A'})`
+        : 'Not required',
+      vehicleType: participant.vehicleType || 'N/A',
+      vehicleNumber: participant.vehicleNumber || 'N/A',
+      appliedPromoCode: registration.appliedPromoCode || participant.appliedPromoCode || null,
+      baseAmount: Number(registration.baseAmount || registration.finalAmount || 1000),
+      discountAmount: Number(registration.discountAmount || 0),
+      finalAmount: Number(registration.finalAmount || 0),
       amount: Number(registration.finalAmount || 0),
-
-      proofUrl:
-        registration.paymentScreenshotUrl || '',
-
+      event: getEventName(registration),
+      proofUrl: registration.paymentScreenshotUrl || '',
       transactionId:
         registration.transactionId ||
         `REG-${String(registration._id)
@@ -315,21 +403,26 @@ export default function SuccessfulRegistrationsPageView() {
         </div>
       </div>
 
+      {/* Multi-Field Filter Bar & Export Actions */}
+      <RegistrationFilterBar
+        query={query}
+        setQuery={setQuery}
+        moduleFilter={moduleFilter}
+        setModuleFilter={setModuleFilter}
+        trackFilter={trackFilter}
+        setTrackFilter={setTrackFilter}
+        parkingFilter={parkingFilter}
+        setParkingFilter={setParkingFilter}
+        promoFilter={promoFilter}
+        setPromoFilter={setPromoFilter}
+        onReset={handleResetFilters}
+        onExportExcel={handleExportExcel}
+        onExportPDF={handleExportPDF}
+        totalResultsCount={filteredRegistrations.length}
+      />
+
       <div className="db-card">
-        <div className="db-table-toolbar">
-          <div className="db-table-search-pill">
-            <Search size={15} color="#9ca3af" />
-
-            <input
-              type="search"
-              value={query}
-              placeholder="Search verified member, email or transaction..."
-              onChange={(event) =>
-                setQuery(event.target.value)
-              }
-            />
-          </div>
-
+        <div className="db-table-toolbar" style={{ justifyContent: 'flex-end' }}>
           <button
             type="button"
             className="db-btn-white-pill"

@@ -191,10 +191,6 @@ export function useLoopverseForm() {
       setCurrentStep(5);
     } catch (err) {
       const msg = err?.data?.message || err?.error || 'Registration failed';
-      if (err?.status === 409 || msg.toLowerCase().includes('already')) {
-        setErrorMsg('You are already registered for Loopverse 3.0.');
-        return;
-      }
       setErrorMsg(msg);
     }
   }

@@ -10,6 +10,8 @@ import {
 
 import ProofReceiptModal from '../components/ProofReceiptModal';
 import ActionConfirmModal from '../components/ActionConfirmModal';
+import RegistrationFilterBar from '../components/RegistrationFilterBar';
+import { exportToExcel, exportToPDF } from '../utils/exportHelpers';
 
 import {
   useGetAdminRegistrationsQuery,
@@ -73,6 +75,11 @@ function formatDate(value) {
 
 export default function RegistrationsPageView() {
   const [query, setQuery] = useState('');
+  const [moduleFilter, setModuleFilter] = useState('All Modules');
+  const [trackFilter, setTrackFilter] = useState('All Tracks');
+  const [parkingFilter, setParkingFilter] = useState('All Parking');
+  const [promoFilter, setPromoFilter] = useState('All Promo');
+
   const [selectedProof, setSelectedProof] = useState(null);
   const [processingId, setProcessingId] = useState(null);
   const [removedIds, setRemovedIds] = useState([]);
@@ -121,28 +128,81 @@ export default function RegistrationsPageView() {
   const filteredRows = useMemo(() => {
     const searchText = query.trim().toLowerCase();
 
-    if (!searchText) return rows;
-
     return rows.filter((registration) => {
-      const participant = getParticipant(registration);
+      const p = getParticipant(registration);
 
-      const searchableText = [
-        participant.fullName,
-        participant.email,
-        participant.phone,
-        participant.university,
-        participant.department,
-        participant.trackSelect,
-        participant.attendanceMode,
-        getEventTitle(registration),
-      ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
+      // Search Query Filter
+      if (searchText) {
+        const searchableText = [
+          p.fullName,
+          p.email,
+          p.phone,
+          p.cnic,
+          p.university,
+          p.department,
+          p.module,
+          p.moduleName,
+          p.trackSelect,
+          getEventTitle(registration),
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
 
-      return searchableText.includes(searchText);
+        if (!searchableText.includes(searchText)) return false;
+      }
+
+      // Module Filter
+      if (moduleFilter !== 'All Modules') {
+        const modName = (p.module || p.moduleName || p.trackSelect || '').toLowerCase();
+        if (!modName.includes(moduleFilter.toLowerCase())) return false;
+      }
+
+      // Track Filter
+      if (trackFilter !== 'All Tracks') {
+        const trackVal = (p.track || p.attendanceMode || '').toLowerCase();
+        if (trackFilter === 'Onsite' && !trackVal.includes('onsite')) return false;
+        if (trackFilter === 'Virtual' && !trackVal.includes('virtual')) return false;
+      }
+
+      // Parking Filter
+      if (parkingFilter !== 'All Parking') {
+        const isParkingReq =
+          p.needsParking === 'Yes' ||
+          p.needsParking === true ||
+          p.needsParking === 'true' ||
+          String(p.needsParking).toLowerCase() === 'yes';
+
+        if (parkingFilter === 'Yes' && !isParkingReq) return false;
+        if (parkingFilter === 'No' && isParkingReq) return false;
+      }
+
+      // Promo Filter
+      if (promoFilter !== 'All Promo') {
+        const hasPromo = Boolean(registration.appliedPromoCode || p.appliedPromoCode);
+        if (promoFilter === 'With Promo' && !hasPromo) return false;
+        if (promoFilter === 'No Promo' && hasPromo) return false;
+      }
+
+      return true;
     });
-  }, [query, rows]);
+  }, [query, moduleFilter, trackFilter, parkingFilter, promoFilter, rows]);
+
+  function handleResetFilters() {
+    setQuery('');
+    setModuleFilter('All Modules');
+    setTrackFilter('All Tracks');
+    setParkingFilter('All Parking');
+    setPromoFilter('All Promo');
+  }
+
+  function handleExportExcel() {
+    exportToExcel(filteredRows, 'Loopverse_Pending_Registrations');
+  }
+
+  function handleExportPDF() {
+    exportToPDF(filteredRows, 'Pending Registrations Report', 'Loopverse_Pending_Registrations');
+  }
 
   function removeRow(id) {
     setRemovedIds((previousIds) => {
@@ -258,46 +318,41 @@ export default function RegistrationsPageView() {
 
   function openReceipt(registration) {
     const participant = getParticipant(registration);
+    const isParkingRequired =
+      participant.needsParking === 'Yes' ||
+      participant.needsParking === true ||
+      participant.needsParking === 'true' ||
+      String(participant.needsParking).toLowerCase() === 'yes';
 
     setSelectedProof({
       ...registration,
-
-      fullName:
-        participant.fullName || 'Unknown Applicant',
-
-      name:
-        participant.fullName || 'Unknown Applicant',
-
+      fullName: participant.fullName || 'Unknown Applicant',
+      name: participant.fullName || 'Unknown Applicant',
       email: participant.email || '—',
       phone: participant.phone || '—',
-
-      university:
-        participant.university || '—',
-
-      department:
-        participant.department || '—',
-
-      event: getEventTitle(registration),
-
+      cnic: participant.cnic || '—',
+      university: participant.university || '—',
+      department: participant.department || '—',
+      module: participant.module || participant.moduleName || participant.trackSelect || '—',
+      track: participant.track === 'onsite' ? '⚡ Onsite' : participant.track === 'virtual' ? '🌐 Virtual' : participant.attendanceMode || '—',
+      needsParking: isParkingRequired,
+      parkingText: isParkingRequired
+        ? `Yes (${participant.vehicleType || 'Vehicle'} - ${participant.vehicleNumber || 'N/A'})`
+        : 'Not required',
+      vehicleType: participant.vehicleType || 'N/A',
+      vehicleNumber: participant.vehicleNumber || 'N/A',
+      appliedPromoCode: registration.appliedPromoCode || participant.appliedPromoCode || null,
+      baseAmount: Number(registration.baseAmount || 1000),
+      discountAmount: Number(registration.discountAmount || 0),
+      finalAmount: Number(registration.finalAmount || 0),
       amount: Number(registration.finalAmount || 0),
-
-      proofUrl:
-        registration.paymentScreenshotUrl || '',
-
-      paymentScreenshotUrl:
-        registration.paymentScreenshotUrl || '',
-
+      proofUrl: registration.paymentScreenshotUrl || '',
+      paymentScreenshotUrl: registration.paymentScreenshotUrl || '',
       transactionId:
         registration.transactionId ||
-        `REG-${String(registration._id || '')
-          .slice(-6)
-          .toUpperCase()}`,
-
+        `REG-${String(registration._id || '').slice(-6).toUpperCase()}`,
       status: registration.paymentStatus,
-
-      submittedAt:
-        registration.submittedAt ||
-        registration.createdAt,
+      submittedAt: registration.submittedAt || registration.createdAt,
     });
   }
 
@@ -385,21 +440,26 @@ export default function RegistrationsPageView() {
         </div>
       )}
 
+      {/* Multi-Field Filter Bar & Export Actions */}
+      <RegistrationFilterBar
+        query={query}
+        setQuery={setQuery}
+        moduleFilter={moduleFilter}
+        setModuleFilter={setModuleFilter}
+        trackFilter={trackFilter}
+        setTrackFilter={setTrackFilter}
+        parkingFilter={parkingFilter}
+        setParkingFilter={setParkingFilter}
+        promoFilter={promoFilter}
+        setPromoFilter={setPromoFilter}
+        onReset={handleResetFilters}
+        onExportExcel={handleExportExcel}
+        onExportPDF={handleExportPDF}
+        totalResultsCount={filteredRows.length}
+      />
+
       <div className="db-card">
-        <div className="db-table-toolbar">
-          <div className="db-table-search-pill">
-            <Search size={15} color="#9ca3af" />
-
-            <input
-              type="search"
-              value={query}
-              placeholder="Search name, email, university or event..."
-              onChange={(event) =>
-                setQuery(event.target.value)
-              }
-            />
-          </div>
-
+        <div className="db-table-toolbar" style={{ justifyContent: 'flex-end' }}>
           <button
             type="button"
             className="db-btn-white-pill"
@@ -490,9 +550,11 @@ export default function RegistrationsPageView() {
                     const working =
                       processingId === registration._id;
 
-                    const needsParking =
+                    const isParkingRequired =
+                      participant.needsParking === 'Yes' ||
                       participant.needsParking === true ||
-                      participant.needsParking === 'true';
+                      participant.needsParking === 'true' ||
+                      String(participant.needsParking).toLowerCase() === 'yes';
 
                     return (
                       <tr key={registration._id}>
@@ -527,25 +589,29 @@ export default function RegistrationsPageView() {
 
                         <td>
                           <div className="admin-person-cell">
-                            <span>
-                              {participant.trackSelect || '—'}
-                            </span>
+                            <strong style={{ color: '#0f172a' }}>
+                              {participant.module || participant.moduleName || participant.trackSelect || '—'}
+                            </strong>
 
-                            <span>
-                              {participant.attendanceMode || '—'}
+                            <span style={{ fontSize: '0.82rem', color: '#6b21a8', fontWeight: 600 }}>
+                              {participant.track === 'onsite'
+                                ? '⚡ Onsite'
+                                : participant.track === 'virtual'
+                                ? '🌐 Virtual'
+                                : participant.attendanceMode || '—'}
                             </span>
 
                             <strong
                               style={{
-                                color: needsParking
+                                color: isParkingRequired
                                   ? '#047857'
                                   : '#6b7280',
-                                fontSize: '0.75rem',
+                                fontSize: '0.78rem',
                               }}
                             >
                               Parking:{' '}
-                              {needsParking
-                                ? 'Required'
+                              {isParkingRequired
+                                ? `Yes (${participant.vehicleType || 'Vehicle'} - ${participant.vehicleNumber || 'N/A'})`
                                 : 'Not required'}
                             </strong>
                           </div>

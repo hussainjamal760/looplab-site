@@ -1,4 +1,4 @@
-﻿import {
+import {
   Schema,
   model,
   Document,
@@ -172,23 +172,12 @@ registrationSchema.index({
 });
 
 /*
- * Duplicate registration protection.
+ * Multiple registrations per email allowed.
  */
-registrationSchema.index(
-  {
-    eventId: 1,
-    normalizedEmail: 1,
-  },
-  {
-    unique: true,
-
-    partialFilterExpression: {
-      normalizedEmail: {
-        $type: 'string',
-      },
-    },
-  }
-);
+registrationSchema.index({
+  eventId: 1,
+  normalizedEmail: 1,
+});
 
 /*
  * Certificate IDs are unique.

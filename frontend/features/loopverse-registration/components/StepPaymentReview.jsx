@@ -1,6 +1,7 @@
 'use client';
 
-import { CheckCircle2, Loader2, TicketPercent, UploadCloud, Minus } from 'lucide-react';
+import { useState } from 'react';
+import { CheckCircle2, Loader2, TicketPercent, UploadCloud, Minus, Copy, Check, CreditCard } from 'lucide-react';
 import { MODULES_DATA } from '@/features/loopverse-details/modulesData';
 
 export default function StepPaymentReview({
@@ -14,11 +15,20 @@ export default function StepPaymentReview({
   receipt,
   setReceipt,
 }) {
+  const [copiedField, setCopiedField] = useState(null);
   const selectedModule = MODULES_DATA.find((m) => m.title === formData.module) || MODULES_DATA[0];
   const baseFee = selectedModule?.fee || Number(event?.baseFee || 0);
   const discountPercent = Number(promoResult?.discountPercent || 0);
   const discountAmount = Math.round((baseFee * discountPercent) / 100);
   const finalFee = Math.max(0, baseFee - discountAmount);
+
+  function copyToClipboard(text, fieldName) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      setCopiedField(fieldName);
+      setTimeout(() => setCopiedField(null), 2000);
+    }
+  }
 
   function handleFileChange(e) {
     const file = e.target.files?.[0];
@@ -160,23 +170,85 @@ export default function StepPaymentReview({
         </div>
       </div>
 
-      {/* Bank Transfer Info */}
-      <div className="lvr-bank-info">
-        <div className="lvr-bank-info-title">Payment Instructions</div>
+      {/* JazzCash Payment Instructions Card */}
+      <div className="lvr-bank-info" style={{ marginTop: '24px' }}>
+        <div className="lvr-bank-info-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <CreditCard size={18} color="#9E00FE" /> JazzCash Payment Details
+        </div>
+
         <div className="lvr-bank-info-row">
           <span>Account Title</span>
-          <strong>LoopLab — Loopverse 3.0</strong>
+          <strong>Muhammad Qasim Ali Tareen</strong>
         </div>
+
         <div className="lvr-bank-info-row">
-          <span>Bank</span>
-          <strong>JazzCash / EasyPaisa / Bank Transfer</strong>
+          <span>Bank / Wallet</span>
+          <strong>JazzCash</strong>
         </div>
+
         <div className="lvr-bank-info-row">
-          <span>Amount</span>
-          <strong className="lvr-bank-amount">PKR {finalFee.toLocaleString()}</strong>
+          <span>Mobile Account Number</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <strong style={{ fontSize: '1.05rem', color: '#1a1a1a', letterSpacing: '0.02em' }}>03334093999</strong>
+            <button
+              type="button"
+              onClick={() => copyToClipboard('03334093999', 'number')}
+              style={{
+                background: copiedField === 'number' ? '#10B981' : '#F3E8FF',
+                color: copiedField === 'number' ? '#ffffff' : '#9E00FE',
+                border: '1.5px solid #1a1a1a',
+                borderRadius: '8px',
+                padding: '4px 10px',
+                fontSize: '0.75rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              {copiedField === 'number' ? <Check size={12} /> : <Copy size={12} />}
+              {copiedField === 'number' ? 'Copied' : 'Copy'}
+            </button>
+          </div>
         </div>
-        <p className="lvr-bank-note">
-          Send the exact amount and upload the screenshot above. Your registration will be reviewed and approved within 24 hours.
+
+        <div className="lvr-bank-info-row">
+          <span>IBAN</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <strong style={{ fontFamily: 'monospace', fontSize: '0.92rem', color: '#1a1a1a' }}>PK53JCMA0705923334093999</strong>
+            <button
+              type="button"
+              onClick={() => copyToClipboard('PK53JCMA0705923334093999', 'iban')}
+              style={{
+                background: copiedField === 'iban' ? '#10B981' : '#F3E8FF',
+                color: copiedField === 'iban' ? '#ffffff' : '#9E00FE',
+                border: '1.5px solid #1a1a1a',
+                borderRadius: '8px',
+                padding: '4px 10px',
+                fontSize: '0.75rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              {copiedField === 'iban' ? <Check size={12} /> : <Copy size={12} />}
+              {copiedField === 'iban' ? 'Copied' : 'Copy'}
+            </button>
+          </div>
+        </div>
+
+        <div className="lvr-bank-info-row" style={{ marginTop: '8px', paddingTop: '10px', borderTop: '1px dashed #cbd5e1' }}>
+          <span>Total Amount Payable</span>
+          <strong className="lvr-bank-amount" style={{ fontSize: '1.25rem', color: '#10B981' }}>PKR {finalFee.toLocaleString()}</strong>
+        </div>
+
+        <p className="lvr-bank-note" style={{ marginTop: '12px' }}>
+          Please transfer exact amount <strong>PKR {finalFee.toLocaleString()}</strong> to the JazzCash account above and upload your transaction receipt before clicking Submit.
         </p>
       </div>
     </div>

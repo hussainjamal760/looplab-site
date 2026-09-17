@@ -25,14 +25,56 @@ export default function ProofReceiptModal({ proof, onClose, onApprove, onDecline
         </div>
 
         <div className="db-card__body">
-          <div style={{ marginBottom: '1rem' }}>
-            <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--dz-text-primary)', margin: 0 }}>{proof.fullName}</h4>
-            <p style={{ fontSize: '0.85rem', color: 'var(--dz-text-muted)', margin: '0.25rem 0' }}>
-              {proof.email} · TxID: <strong>{proof.transactionId}</strong>
-            </p>
-            <div style={{ marginTop: '0.5rem', fontWeight: 800, color: '#15803d', fontSize: '1.25rem' }}>
-              PKR {proof.amount}
+          <div style={{ marginBottom: '1.25rem', background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
+              <div>
+                <h4 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--dz-text-primary)', margin: 0 }}>{proof.fullName}</h4>
+                <p style={{ fontSize: '0.85rem', color: 'var(--dz-text-muted)', margin: '0.2rem 0' }}>
+                  {proof.email} {proof.phone ? `· ${proof.phone}` : ''} {proof.cnic ? `· CNIC: ${proof.cnic}` : ''}
+                </p>
+                <p style={{ fontSize: '0.82rem', color: '#64748b', margin: '0.2rem 0' }}>
+                  TxID: <strong style={{ color: '#0f172a' }}>{proof.transactionId}</strong>
+                </p>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Final Payable</div>
+                <div style={{ fontWeight: 900, color: '#15803d', fontSize: '1.4rem' }}>
+                  PKR {(proof.finalAmount ?? proof.amount ?? 0).toLocaleString()}
+                </div>
+              </div>
             </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px', marginTop: '14px', paddingTop: '12px', borderTop: '1px dashed #cbd5e1', fontSize: '0.84rem' }}>
+              <div>
+                <span style={{ color: '#64748b', display: 'block', fontSize: '0.72rem', textTransform: 'uppercase', fontWeight: 700 }}>Selected Module</span>
+                <strong style={{ color: '#0f172a' }}>{proof.module || '—'}</strong>
+              </div>
+              <div>
+                <span style={{ color: '#64748b', display: 'block', fontSize: '0.72rem', textTransform: 'uppercase', fontWeight: 700 }}>Track Mode</span>
+                <strong style={{ color: '#6b21a8' }}>{proof.track || '—'}</strong>
+              </div>
+              <div>
+                <span style={{ color: '#64748b', display: 'block', fontSize: '0.72rem', textTransform: 'uppercase', fontWeight: 700 }}>Parking Requirement</span>
+                <strong style={{ color: proof.needsParking ? '#047857' : '#64748b' }}>
+                  {proof.parkingText || (proof.needsParking ? `Yes (${proof.vehicleType || 'Vehicle'} - ${proof.vehicleNumber || 'N/A'})` : 'Not required')}
+                </strong>
+              </div>
+              <div>
+                <span style={{ color: '#64748b', display: 'block', fontSize: '0.72rem', textTransform: 'uppercase', fontWeight: 700 }}>Promo Code Used</span>
+                <strong style={{ color: proof.appliedPromoCode ? '#9333ea' : '#64748b' }}>
+                  {proof.appliedPromoCode ? proof.appliedPromoCode : 'None'}
+                </strong>
+              </div>
+            </div>
+
+            {proof.baseAmount > 0 && (
+              <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px dotted #cbd5e1', display: 'flex', gap: '16px', fontSize: '0.8rem', color: '#475569' }}>
+                <span>Base Price: <strong>PKR {Number(proof.baseAmount).toLocaleString()}</strong></span>
+                {proof.discountAmount > 0 && (
+                  <span style={{ color: '#dc2626' }}>Discount: <strong>- PKR {Number(proof.discountAmount).toLocaleString()}</strong></span>
+                )}
+              </div>
+            )}
           </div>
 
           <div
@@ -41,17 +83,17 @@ export default function ProofReceiptModal({ proof, onClose, onApprove, onDecline
               borderRadius: '12px',
               overflow: 'hidden',
               background: '#000',
-              maxHeight: '340px',
+              maxHeight: '320px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            {proof.proofUrl ? (
+            {proof.proofUrl || proof.paymentScreenshotUrl ? (
               <img
-                src={proof.proofUrl}
+                src={proof.proofUrl || proof.paymentScreenshotUrl}
                 alt={`Receipt for ${proof.fullName}`}
-                style={{ width: '100%', height: 'auto', maxHeight: '340px', objectFit: 'contain' }}
+                style={{ width: '100%', height: 'auto', maxHeight: '320px', objectFit: 'contain' }}
               />
             ) : (
               <div style={{ padding: '3rem', color: '#aaa' }}>No receipt image attached</div>

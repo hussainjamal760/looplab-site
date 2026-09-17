@@ -14,6 +14,8 @@
     "clsx": "^2.1.1",
     "framer-motion": "^13.2.0",
     "gsap": "^3.12.5",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.8",
     "lenis": "^1.1.14",
     "lucide-react": "^1.37.0",
     "next": "15.2.8",
@@ -22,6 +24,7 @@
     "react-dom": "^19.0.0",
     "react-redux": "^9.3.0",
     "tailwind-merge": "^3.6.0",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "xlsx": "^0.18.5"
   }
 }

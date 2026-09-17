@@ -11,18 +11,20 @@ export function BigFooter() {
         <div className="foot-col">
           <span className="pill">office</span>
           <b>
-            papaverhof 21
+            CEGA, Lahore
             <br />
-            1032 LX amsterdam
+            Pakistan
           </b>
-          <a href="#" className="underline-link">
+          <a href="https://maps.google.com/?q=CEGA+Lahore+Pakistan" target="_blank" rel="noopener noreferrer" className="underline-link">
             Google Maps
           </a>
         </div>
         <div className="foot-col">
           <span className="pill">contact</span>
           <b>
-            hello@looplab.co
+            <a href="mailto:qk04504@gmail.com" style={{ color: 'inherit', textDecoration: 'none' }}>
+              qk04504@gmail.com
+            </a>
             <br />
             send us a whatsapp*
           </b>

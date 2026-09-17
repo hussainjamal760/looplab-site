@@ -81,7 +81,7 @@ export function Hero() {
             style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer", textDecoration: "none" }}
           >
             <span className="contact-badge__dot" />
-            <span>+ LOOPVERSE 3.0 REGISTRATIONS OPEN</span>
+            <span>★ FLAGSHIP HYBRID HACKATHON · REGISTRATIONS OPEN</span>
           </Link>
 
           <div className="contact-hero__title-wrap">
@@ -90,15 +90,36 @@ export function Hero() {
             </h1>
           </div>
 
-          <p className="contact-hero__desc events-contact-hero__desc">
-            Pakistan&apos;s largest campus tech gathering is live. Join 1,500+ builders
-            from 20+ universities for keynote talks, build tracks, and a community
-            built by students for builders.
+          <p className="contact-hero__desc events-contact-hero__desc" style={{ maxWidth: '680px', margin: '0 auto 1.2rem' }}>
+            LoopLab&apos;s flagship hybrid hackathon uniting student developers, designers, and early founders across <strong>7 competition modules</strong>. Onsite &amp; Virtual tracks built by students, for builders.
           </p>
+
+          {/* Featured Event Metadata Highlights */}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: '10px',
+              marginBottom: '1.8rem',
+              fontSize: '0.88rem',
+              fontWeight: 700,
+            }}
+          >
+            <span style={{ padding: '8px 16px', borderRadius: '999px', background: '#f3e8ff', border: '1.5px solid #c084fc', color: '#581c87', fontWeight: 800, fontSize: '0.88rem' }}>
+              📍 CEGA, Lahore, Pakistan
+            </span>
+            <span style={{ padding: '8px 16px', borderRadius: '999px', background: '#dcfce7', border: '1.5px solid #4ade80', color: '#14532d', fontWeight: 800, fontSize: '0.88rem' }}>
+              📅 Friday, 9 Oct 2026 (10:45 AM – 5:00 PM)
+            </span>
+            <span style={{ padding: '8px 16px', borderRadius: '999px', background: '#fef3c7', border: '1.5px solid #facc15', color: '#78350f', fontWeight: 800, fontSize: '0.88rem' }}>
+              ⚡ 7 Modules (Onsite + Virtual)
+            </span>
+          </div>
 
           <div className="events-hero-actions">
             <Link href="/loopverse" className="events-hero-view-details-btn">
-              <span>View Details</span>
+              <span>Register for LoopVerse 3.0</span>
               <ArrowUpRight size={18} className="btn-arrow-icon" />
             </Link>
           </div>

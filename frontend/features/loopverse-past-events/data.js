@@ -1,64 +1,148 @@
 export const PAST_EVENTS = [
   {
-    name: "loopverse 1.0",
+    name: "LoopVerse 2.0",
     description:
-      "Loopverse 1.0 brought together passionate student developers, UI/UX designers, and technology founders from across 10+ campuses for a weekend of interactive project showcases, live hackathon demos, and technical masterclasses.",
+      "A high-energy innovation sprint where teams transformed ideas into functional software products, judged on real execution. Expanded reach, 50+ participants, and LoopLab's first taste of external partnerships.",
     meta: [
-      { icon: "📅", label: "March 14–16, 2022" },
+      { icon: "📅", label: "May 06, 2026" },
       { icon: "📍", label: "Lahore, Pakistan" },
-      { icon: "👥", label: "attendees", count: 480 },
-      { icon: "🏫", label: "campuses", count: 10 },
+      { icon: "👥", label: "participants", count: 50 },
+      { icon: "🏫", label: "partner communities", count: 20 },
     ],
     cubeFaces: [
-      "https://loremflickr.com/300/300/conference,audience,tech",
-      "https://loremflickr.com/300/300/conference,speaker,stage",
-      "https://loremflickr.com/300/300/conference,networking,tech",
-      "https://loremflickr.com/300/300/conference,students,tech",
-      "https://loremflickr.com/300/300/conference,crowd,tech",
-      "https://loremflickr.com/300/300/conference,presentation,tech",
+      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop",
     ],
-    ctaLabel: "View online events →",
-  },
-  {
-    name: "loopverse 2.0",
-    description:
-      "Loopverse 2.0 raised the stakes with live coding battles, design sprints, and mentorship circles — uniting builders from 15+ campuses for a weekend of shipping real projects, not just talking about them.",
-    meta: [
-      { icon: "📅", label: "November 8–10, 2023" },
-      { icon: "📍", label: "Karachi, Pakistan" },
-      { icon: "👥", label: "attendees", count: 720 },
-      { icon: "🏫", label: "campuses", count: 15 },
-    ],
-    cubeFaces: [
-      "https://loremflickr.com/300/300/techconference,speaker,stage",
-      "https://loremflickr.com/300/300/techconference,coding,hackathon",
-      "https://loremflickr.com/300/300/techconference,panel,discussion",
-      "https://loremflickr.com/300/300/techconference,audience,tech",
-      "https://loremflickr.com/300/300/techconference,networking,startup",
-      "https://loremflickr.com/300/300/techconference,crowd,event",
-    ],
-    ctaLabel: "Open Gallery →",
+    ctaLabel: "View LoopVerse 2.0 →",
     gallerySet: 1,
   },
   {
-    name: "Skillup Week One",
+    name: "SkillUp Week 2025",
     description:
-      "Skillup Week One upgraded your skillset with hands-on workshops led by industry mentors — covering real tools, real frameworks, and career-ready practice in tight, focused sessions across five days.",
+      "Focused sessions on technical and professional development, practical workflows, project building, networking, and mentorship across 5 specialized workshop tracks.",
     meta: [
-      { icon: "📅", label: "May 12–16, 2023" },
-      { icon: "📍", label: "Lahore, Pakistan" },
+      { icon: "📅", label: "Dec 06, 2025" },
+      { icon: "📍", label: "Online & Onsite" },
       { icon: "👥", label: "attendees", count: 310 },
       { icon: "🎓", label: "workshop tracks", count: 5 },
     ],
     cubeFaces: [
-      "https://loremflickr.com/300/300/workshop,coding,laptop",
-      "https://loremflickr.com/300/300/workshop,training,mentor",
-      "https://loremflickr.com/300/300/workshop,classroom,tech",
-      "https://loremflickr.com/300/300/workshop,students,coding",
-      "https://loremflickr.com/300/300/workshop,team,collaboration",
-      "https://loremflickr.com/300/300/workshop,presentation,tech",
+      "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop",
     ],
-    ctaLabel: "View Gallery →",
+    ctaLabel: "View SkillUp Gallery →",
     gallerySet: 2,
+  },
+  {
+    name: "LoopLab Meet & Greet",
+    description:
+      "Members connected, shared ideas, and explored community goals in an informal setting focused on teamwork, networking, and future planning.",
+    meta: [
+      { icon: "📅", label: "Oct 15, 2025" },
+      { icon: "📍", label: "Lahore, Pakistan" },
+      { icon: "👥", label: "attendees", count: 150 },
+      { icon: "🤝", label: "networking circles", count: 8 },
+    ],
+    cubeFaces: [
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&auto=format&fit=crop",
+    ],
+    ctaLabel: "Explore Meetup →",
+  },
+  {
+    name: "Orientation 2025",
+    description:
+      "Welcomed new members, introduced LoopLab's mission, and built the relationships and collaboration that carry the community through the year.",
+    meta: [
+      { icon: "📅", label: "Sep 15, 2025" },
+      { icon: "📍", label: "Lahore, Pakistan" },
+      { icon: "👥", label: "attendees", count: 250 },
+      { icon: "🏫", label: "campuses", count: 10 },
+    ],
+    cubeFaces: [
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&auto=format&fit=crop",
+    ],
+    ctaLabel: "View Orientation →",
+  },
+  {
+    name: "LoopVerse 2025",
+    description:
+      "A product innovation sprint focused on rapid software prototyping, technology validation, and client-ready demos for ambitious builders.",
+    meta: [
+      { icon: "📅", label: "Aug 10, 2025" },
+      { icon: "📍", label: "Lahore, Pakistan" },
+      { icon: "👥", label: "attendees", count: 400 },
+      { icon: "🚀", label: "demos shipped", count: 35 },
+    ],
+    cubeFaces: [
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&auto=format&fit=crop",
+    ],
+    ctaLabel: "View Demos →",
+  },
+  {
+    name: "LoopLearn Hackathon '26",
+    description:
+      "A 24-hour hackathon running Thursday noon to Friday noon, open to individuals or teams of two. Drew 40+ paid registrations, with cash prizes and shields awarded to top placements.",
+    meta: [
+      { icon: "⚡", label: "24-Hour Build" },
+      { icon: "📍", label: "CEGA, Lahore" },
+      { icon: "👥", label: "paid registrations", count: 40 },
+      { icon: "🏆", label: "top placements awarded", count: 4 },
+    ],
+    cubeFaces: [
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop",
+    ],
+    ctaLabel: "View Winners →",
+  },
+  {
+    name: "LoopLearn Online",
+    description:
+      "A free, one-month learning initiative covering AI & Prompt Engineering, Web Dev, MERN Stack, Cyber Security, Git & GitHub, and Freelancing. 200+ students registered.",
+    meta: [
+      { icon: "📅", label: "1 Month Program" },
+      { icon: "🌐", label: "Virtual Online" },
+      { icon: "👥", label: "students registered", count: 200 },
+      { icon: "💻", label: "active engaged builders", count: 60 },
+    ],
+    cubeFaces: [
+      "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop",
+    ],
+    ctaLabel: "View Course Tracks →",
+  },
+  {
+    name: "LoopVerse 1.0",
+    description:
+      "Where it started: A single-track campus hackathon that introduced LoopLab's build-first philosophy to 30+ passionate student developers across 10+ campuses.",
+    meta: [
+      { icon: "📅", label: "March 14–16, 2024" },
+      { icon: "📍", label: "Lahore, Pakistan" },
+      { icon: "👥", label: "participants", count: 30 },
+      { icon: "🏫", label: "campuses", count: 10 },
+    ],
+    cubeFaces: [
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop",
+    ],
+    ctaLabel: "View Origins →",
   },
 ];

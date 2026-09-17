@@ -1,33 +1,33 @@
 export const HERO_POLAROIDS = [
   {
     rot: -6,
-    image: "https://loremflickr.com/300/300/technology,conference,summit",
-    title: "Tech Leaders Summit",
-    subtitle: "Dubai, 2023",
+    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500&auto=format&fit=crop",
+    title: "LoopVerse 3.0",
+    subtitle: "CEGA Lahore · Oct 2026",
   },
   {
     rot: -3,
-    image: "https://loremflickr.com/300/300/tech,meetup,conference",
-    title: "MIDI, 2022",
-    subtitle: "May 25, 2022",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&auto=format&fit=crop",
+    title: "LoopLearn Hackathon",
+    subtitle: "24h Build · 2026",
   },
   {
     rot: 1,
-    image: "https://loremflickr.com/300/300/startup,networking,event",
-    title: "New Hey!",
-    subtitle: "Berlin, 2023",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=500&auto=format&fit=crop",
+    title: "LoopVerse 2.0",
+    subtitle: "Innovation Sprint · 2026",
   },
   {
     rot: -2,
-    image: "https://loremflickr.com/300/300/workshop,coding,training",
-    title: "Skillup",
-    subtitle: "Lahore, 2023",
+    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=500&auto=format&fit=crop",
+    title: "SkillUp Week",
+    subtitle: "Workshops · 2025",
   },
   {
     rot: 5,
-    image: "https://loremflickr.com/300/300/hackathon,coding,team",
-    title: "Hackathon 3.0",
-    subtitle: "Karachi, 2023",
+    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?w=500&auto=format&fit=crop",
+    title: "LoopVerse 1.0",
+    subtitle: "Where It Started · 2024",
   },
 ];
 

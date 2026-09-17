@@ -165,10 +165,10 @@ export default function Footer() {
                 <div className="footer-column">
                     <span className="footer-badge">office</span>
                     <address>
-                        papaverhof 21<br />
-                        1032 LX amsterdam
+                        CEGA, Lahore<br />
+                        Pakistan
                     </address>
-                    <a href="#" className="footer-map-link">
+                    <a href="https://maps.google.com/?q=CEGA+Lahore+Pakistan" target="_blank" rel="noopener noreferrer" className="footer-map-link">
                         <span>Google Maps</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 169 10" fill="none" className="draw-btn__svg">
                             <path d="M1 6.5661C56.3941 3.06082 112.187 1.20095 168 0.999878" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.25"></path>
@@ -179,7 +179,7 @@ export default function Footer() {
                 {/* Contact */}
                 <div className="footer-column">
                     <span className="footer-badge">contact</span>
-                    <a href="mailto:hello@looplab.co" className="footer-email">hello@looplab.co</a>
+                    <a href="mailto:qk04504@gmail.com" className="footer-email">qk04504@gmail.com</a>
                     <a href="#" className="footer-whatsapp">send us a whatsapp*</a>
                     <p className="footer-note">*we&apos;re millennials and gen-z: please do not call us.</p>
                     <div className="footer-socials" id="footer-socials">

@@ -23,7 +23,7 @@ export function useContactForm() {
         setFormData(prev => ({ ...prev, topic }));
     }, []);
 
-    const copyEmailToClipboard = useCallback(async (email = 'hello@looplab.co') => {
+    const copyEmailToClipboard = useCallback(async (email = 'qk04504@gmail.com') => {
         try {
             await navigator.clipboard.writeText(email);
             setCopiedEmail(true);

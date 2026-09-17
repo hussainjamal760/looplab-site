@@ -36,10 +36,10 @@ function EmailChannel({ copiedEmail, onCopyEmail }) {
                     ref={linkRef}
                     type="button"
                     className="channel-email footer-email"
-                    onClick={() => onCopyEmail('hello@looplab.co')}
+                    onClick={() => onCopyEmail('qk04504@gmail.com')}
                     aria-label="Copy email address"
                 >
-                    hello@looplab.co
+                    qk04504@gmail.com
                 </button>
                 {copiedEmail && (
                     <span className="copy-toast" role="status">

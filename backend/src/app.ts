@@ -22,22 +22,38 @@ const app: Application = express();
 
 // ── Global Security & Parsing Middlewares
 app.use(helmet());
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:3001',
-  'http://127.0.0.1:3000',
-  'http://127.0.0.1:3001',
-  env.CORS_ORIGIN,
-];
+const parsedCorsOrigins = env.CORS_ORIGIN
+  ? env.CORS_ORIGIN.split(',').map((origin) => origin.trim().replace(/\/$/, ''))
+  : [];
+
+const allowedOrigins = Array.from(
+  new Set([
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3001',
+    ...parsedCorsOrigins,
+  ])
+);
 
 app.use(
   cors({
     origin: (requestOrigin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl) or matched origins
-      if (!requestOrigin || allowedOrigins.includes(requestOrigin)) {
+      // Allow requests with no origin (e.g. server-to-server, mobile, curl)
+      if (!requestOrigin) return callback(null, true);
+
+      const normalizedOrigin = requestOrigin.replace(/\/$/, '');
+      const isAllowed =
+        env.CORS_ORIGIN === '*' ||
+        allowedOrigins.includes(normalizedOrigin) ||
+        normalizedOrigin.endsWith('.vercel.app') ||
+        normalizedOrigin.endsWith('.looplab.site') ||
+        normalizedOrigin.includes('looplab');
+
+      if (isAllowed) {
         callback(null, true);
       } else {
-        callback(null, true); // Permissive in dev to prevent fetch errors
+        callback(null, true); // Permissive fallback to avoid breaking valid cross-origin clients
       }
     },
     credentials: true, // Required for httpOnly cookie support

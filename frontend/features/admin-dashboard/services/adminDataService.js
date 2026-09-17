@@ -1,4 +1,4 @@
-﻿const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
 
 const INITIAL_METRICS = {
   totalMembers: 1420,
@@ -70,9 +70,21 @@ const INITIAL_PROMOS = [
   { _id: 'promo-03', code: 'EARLYBIRD', discountPercent: 15, maxUses: 200, usedCount: 200, isActive: false },
 ];
 
+function getAuthHeaders(extraHeaders = {}) {
+  const headers = { ...extraHeaders };
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('accessToken');
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+}
+
 export async function fetchAdminMetrics() {
   try {
-    const res = await fetch(`${API_BASE}/registrations/metrics`, { credentials: 'include' });
+    const res = await fetch(`${API_BASE}/registrations/metrics`, {
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    });
     if (res.ok) {
       const json = await res.json();
       return { ...INITIAL_METRICS, ...json.data };
@@ -85,7 +97,10 @@ export async function fetchAdminMetrics() {
 
 export async function fetchPendingRegistrations() {
   try {
-    const res = await fetch(`${API_BASE}/registrations?status=pending`, { credentials: 'include' });
+    const res = await fetch(`${API_BASE}/registrations?status=pending`, {
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    });
     if (res.ok) {
       const json = await res.json();
       if (json.data && json.data.length) return json.data;
@@ -98,7 +113,10 @@ export async function fetchPendingRegistrations() {
 
 export async function fetchSubmittedProofs() {
   try {
-    const res = await fetch(`${API_BASE}/registrations?status=under_review`, { credentials: 'include' });
+    const res = await fetch(`${API_BASE}/registrations?status=under_review`, {
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    });
     if (res.ok) {
       const json = await res.json();
       if (json.data && json.data.length) return json.data;
@@ -113,7 +131,7 @@ export async function updateRegistrationStatusApi(id, status) {
   try {
     const res = await fetch(`${API_BASE}/registrations/${id}/status`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
       credentials: 'include',
       body: JSON.stringify({ status }),
     });
@@ -125,7 +143,10 @@ export async function updateRegistrationStatusApi(id, status) {
 
 export async function fetchPromoCodes() {
   try {
-    const res = await fetch(`${API_BASE}/promo`, { credentials: 'include' });
+    const res = await fetch(`${API_BASE}/promo`, {
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    });
     if (res.ok) {
       const json = await res.json();
       if (json.data && json.data.length) return json.data;
@@ -140,7 +161,7 @@ export async function createPromoCodeApi(codeData) {
   try {
     const res = await fetch(`${API_BASE}/promo`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
       credentials: 'include',
       body: JSON.stringify(codeData),
     });

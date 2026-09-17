@@ -16,6 +16,12 @@ export const baseApi = createApi({
 
     prepareHeaders: (headers) => {
       headers.set('Accept', 'application/json');
+      if (typeof window !== 'undefined') {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+          headers.set('Authorization', `Bearer ${token}`);
+        }
+      }
       return headers;
     },
   }),

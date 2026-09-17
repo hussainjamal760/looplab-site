@@ -14,6 +14,8 @@ const envSchema = z.object({
   // JWT Auth
   JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters long'),
   JWT_EXPIRES_IN: z.string().default('7d'),
+  COOKIE_SAME_SITE: z.enum(['none', 'lax', 'strict']).default('none'),
+  COOKIE_DOMAIN: z.string().optional(),
 
   // Cloudinary
   CLOUDINARY_CLOUD_NAME: z.string().min(1, 'CLOUDINARY_CLOUD_NAME is required'),

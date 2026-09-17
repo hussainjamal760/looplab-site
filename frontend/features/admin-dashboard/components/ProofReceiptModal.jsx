@@ -39,7 +39,11 @@ export default function ProofReceiptModal({ proof, onClose, onApprove, onDecline
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Final Payable</div>
                 <div style={{ fontWeight: 900, color: '#15803d', fontSize: '1.4rem' }}>
-                  PKR {(proof.finalAmount ?? proof.amount ?? 0).toLocaleString()}
+                  PKR {(
+                    proof.discountAmount > 0
+                      ? Math.max(0, (proof.baseAmount ?? 1000) - (proof.discountAmount ?? 0))
+                      : (proof.finalAmount ?? proof.amount ?? proof.baseAmount ?? 0)
+                  ).toLocaleString()}
                 </div>
               </div>
             </div>
@@ -68,10 +72,15 @@ export default function ProofReceiptModal({ proof, onClose, onApprove, onDecline
             </div>
 
             {proof.baseAmount > 0 && (
-              <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px dotted #cbd5e1', display: 'flex', gap: '16px', fontSize: '0.8rem', color: '#475569' }}>
+              <div style={{ marginTop: '10px', paddingTop: '8px', borderTop: '1px dotted #cbd5e1', display: 'flex', gap: '16px', fontSize: '0.8rem', color: '#475569', flexWrap: 'wrap' }}>
                 <span>Base Price: <strong>PKR {Number(proof.baseAmount).toLocaleString()}</strong></span>
                 {proof.discountAmount > 0 && (
                   <span style={{ color: '#dc2626' }}>Discount: <strong>- PKR {Number(proof.discountAmount).toLocaleString()}</strong></span>
+                )}
+                {proof.discountAmount > 0 && (
+                  <span style={{ color: '#15803d', fontWeight: 700 }}>
+                    Net: PKR {Math.max(0, Number(proof.baseAmount) - Number(proof.discountAmount)).toLocaleString()}
+                  </span>
                 )}
               </div>
             )}
@@ -79,11 +88,12 @@ export default function ProofReceiptModal({ proof, onClose, onApprove, onDecline
 
           <div
             style={{
-              border: '1px solid var(--dz-border)',
+              border: '1px solid #e2e8f0',
               borderRadius: '12px',
               overflow: 'hidden',
-              background: '#000',
+              background: proof.proofUrl || proof.paymentScreenshotUrl ? '#000' : '#f8fafc',
               maxHeight: '320px',
+              minHeight: '120px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -96,7 +106,11 @@ export default function ProofReceiptModal({ proof, onClose, onApprove, onDecline
                 style={{ width: '100%', height: 'auto', maxHeight: '320px', objectFit: 'contain' }}
               />
             ) : (
-              <div style={{ padding: '3rem', color: '#aaa' }}>No receipt image attached</div>
+              <div style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>
+                <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🧾</div>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>No receipt uploaded</div>
+                <div style={{ fontSize: '0.78rem', marginTop: '0.25rem' }}>This registration was submitted without a payment screenshot</div>
+              </div>
             )}
           </div>
         </div>

@@ -5,6 +5,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'loremflickr.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com',
+            },
+        ],
+    },
     webpack: (config, { dev }) => {
         config.resolve.alias['@'] = path.resolve(__dirname);
         // On machines with very little free disk (this preview box often has ~0 MB

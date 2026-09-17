@@ -48,7 +48,18 @@ app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 app.use(cookieParser()); // Parse httpOnly JWT cookies
 app.use(requestLogger);
 
-// ── Public API Routes────────────────────
+// ── Root & Health Check Routes ───────────────────
+app.get('/', (_req: Request, res: Response) => {
+  res.status(200).json({
+    success: true,
+    message: '🚀 Looplab Backend API is running successfully!',
+    health: '/api/v1/health',
+    version: '1.0.0',
+  });
+});
+app.use('/health', healthRouter);
+
+// ── Public API Routes ───────────────────
 app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/events', eventPublicRouter);

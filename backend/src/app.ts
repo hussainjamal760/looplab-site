@@ -59,18 +59,33 @@ app.get('/', (_req: Request, res: Response) => {
 });
 app.use('/health', healthRouter);
 
-// ── Public API Routes ───────────────────
+// ── Public API Routes (Supported with & without /api/v1 prefix) ──
 app.use('/api/v1/health', healthRouter);
-app.use('/api/v1/auth', authRouter);
-app.use('/api/v1/events', eventPublicRouter);
-app.use('/api/v1/promo', promoPublicRouter);
-app.use('/api/v1/upload', uploadRouter);
-app.use('/api/v1/registrations', registrationPublicRouter);
 
-// ── Admin API Routes (JWT auth applied per router) ──
+app.use('/api/v1/auth', authRouter);
+app.use('/auth', authRouter);
+
+app.use('/api/v1/events', eventPublicRouter);
+app.use('/events', eventPublicRouter);
+
+app.use('/api/v1/promo', promoPublicRouter);
+app.use('/promo', promoPublicRouter);
+
+app.use('/api/v1/upload', uploadRouter);
+app.use('/upload', uploadRouter);
+
+app.use('/api/v1/registrations', registrationPublicRouter);
+app.use('/registrations', registrationPublicRouter);
+
+// ── Admin API Routes ───────────────────
 app.use('/api/v1/admin/events',         eventAdminRouter);
+app.use('/admin/events',                eventAdminRouter);
+
 app.use('/api/v1/admin/promo-codes',    promoAdminRouter);
+app.use('/admin/promo-codes',           promoAdminRouter);
+
 app.use('/api/v1/admin/registrations',  registrationAdminRouter);
+app.use('/admin/registrations',         registrationAdminRouter);
 
 // ── 404 Handler
 app.use((req: Request, _res: Response) => {

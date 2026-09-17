@@ -1,44 +1,48 @@
 import mongoose from 'mongoose';
 import { env } from './env.js';
 
-let isConnectingPromise: Promise<typeof mongoose> | null = null;
+// Disable query buffering in serverless to prevent 10s timeouts
+mongoose.set('bufferCommands', false);
 
-export const connectDatabase = async (): Promise<void> => {
-  if (mongoose.connection.readyState === 1) {
-    return;
+interface GlobalMongooseCache {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+}
+
+declare global {
+  var mongooseCache: GlobalMongooseCache | undefined;
+}
+
+const cached: GlobalMongooseCache = globalThis.mongooseCache || { conn: null, promise: null };
+if (!globalThis.mongooseCache) {
+  globalThis.mongooseCache = cached;
+}
+
+export const connectDatabase = async (): Promise<typeof mongoose> => {
+  if (cached.conn && mongoose.connection.readyState === 1) {
+    return cached.conn;
   }
 
-  if (isConnectingPromise) {
-    await isConnectingPromise;
-    return;
+  if (!cached.promise) {
+    const opts = {
+      dbName: 'looplab',
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000,
+    };
+
+    cached.promise = mongoose.connect(env.MONGODB_URI, opts).then((m) => {
+      console.log(`✅ MongoDB Connected successfully! Host: ${m.connection.host}`);
+      return m;
+    });
   }
 
   try {
-    isConnectingPromise = mongoose.connect(env.MONGODB_URI, {
-      serverSelectionTimeoutMS: 15000,
-      connectTimeoutMS: 15000,
-      bufferCommands: false, // Prevents queries from hanging indefinitely if connection fails
-    });
-    const connectionInstance = await isConnectingPromise;
-    console.log(`✅ MongoDB Connected successfully! Host: ${connectionInstance.connection.host}`);
+    cached.conn = await cached.promise;
   } catch (error) {
-    isConnectingPromise = null;
-    console.error('❌ MongoDB Connection Failure:', error);
-    if (env.NODE_ENV === 'development') {
-      return;
-    }
+    cached.promise = null;
+    console.error('❌ MongoDB Connection Error:', error);
     throw error;
   }
+
+  return cached.conn;
 };
-
-mongoose.connection.on('disconnected', () => {
-  console.warn('⚠️ MongoDB disconnected. Attempting to reconnect...');
-  mongoose.connect(env.MONGODB_URI, {
-    serverSelectionTimeoutMS: 15000,
-    connectTimeoutMS: 15000,
-  }).catch((err) => console.error('❌ Reconnect error:', err));
-});
-
-mongoose.connection.on('error', (err) => {
-  console.error('❌ MongoDB Connection Error:', err);
-});

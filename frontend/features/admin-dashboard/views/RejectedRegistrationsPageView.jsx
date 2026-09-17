@@ -377,6 +377,7 @@ export default function RejectedRegistrationsPageView() {
                     <th>Applicant</th>
                     <th>University</th>
                     <th>Event</th>
+                    <th>Parking</th>
                     <th>Submitted</th>
                     <th>Rejected On</th>
                     <th>Decline Reason</th>
@@ -392,6 +393,12 @@ export default function RejectedRegistrationsPageView() {
                         getParticipant(
                           registration
                         );
+
+                      const isParkingRequired =
+                        participant.needsParking === 'Yes' ||
+                        participant.needsParking === true ||
+                        participant.needsParking === 'true' ||
+                        String(participant.needsParking).toLowerCase() === 'yes';
 
                       return (
                         <tr
@@ -436,6 +443,30 @@ export default function RejectedRegistrationsPageView() {
                             {getEventTitle(
                               registration
                             )}
+                          </td>
+
+                          <td>
+                            <span
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '5px',
+                                padding: '4px 10px',
+                                borderRadius: '6px',
+                                fontSize: '0.78rem',
+                                fontWeight: 700,
+                                background: isParkingRequired ? '#ecfdf5' : '#f8fafc',
+                                color: isParkingRequired ? '#047857' : '#64748b',
+                                border: isParkingRequired ? '1px solid #a7f3d0' : '1px solid #e2e8f0',
+                                whiteSpace: 'nowrap',
+                              }}
+                            >
+                              {isParkingRequired ? (
+                                <>🚗 {participant.vehicleType || 'Vehicle'} ({participant.vehicleNumber || 'N/A'})</>
+                              ) : (
+                                'Not Required'
+                              )}
+                            </span>
                           </td>
 
                           <td>

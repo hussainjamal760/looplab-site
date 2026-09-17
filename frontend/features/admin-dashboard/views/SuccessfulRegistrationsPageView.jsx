@@ -314,6 +314,7 @@ export default function SuccessfulRegistrationsPageView() {
                 <th>Member</th>
                 <th>University</th>
                 <th>Event</th>
+                <th>Parking</th>
                 <th>Transaction ID</th>
                 <th>Amount</th>
                 <th>Approved Date</th>
@@ -326,6 +327,12 @@ export default function SuccessfulRegistrationsPageView() {
               {filteredRegistrations.map((registration) => {
                 const participant =
                   getParticipant(registration);
+
+                const isParkingRequired =
+                  participant.needsParking === 'Yes' ||
+                  participant.needsParking === true ||
+                  participant.needsParking === 'true' ||
+                  String(participant.needsParking).toLowerCase() === 'yes';
 
                 return (
                   <tr key={registration._id}>
@@ -347,6 +354,30 @@ export default function SuccessfulRegistrationsPageView() {
                     </td>
 
                     <td>{getEventName(registration)}</td>
+
+                    <td>
+                      <span
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          padding: '4px 10px',
+                          borderRadius: '6px',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          background: isParkingRequired ? '#ecfdf5' : '#f8fafc',
+                          color: isParkingRequired ? '#047857' : '#64748b',
+                          border: isParkingRequired ? '1px solid #a7f3d0' : '1px solid #e2e8f0',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {isParkingRequired ? (
+                          <>🚗 {participant.vehicleType || 'Vehicle'} ({participant.vehicleNumber || 'N/A'})</>
+                        ) : (
+                          'Not Required'
+                        )}
+                      </span>
+                    </td>
 
                     <td>
                       <span className="successful-code">

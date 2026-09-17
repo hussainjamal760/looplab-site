@@ -447,9 +447,471 @@
   transition: width 0.1s linear;
 }
 
+/* Module title row + fee badge (inside dark display card) */
+.lv-f2-module-title-row {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* Override margin on title when inside module-title-row */
+.lv-f2-module-title-row .lv-f2-display-title {
+  margin-bottom: 0;
+}
+
+.lv-f2-fee-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #f5c560;
+  border: 2px solid #1a1a1a;
+  color: #1a1a1a;
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 900;
+  box-shadow: 2px 2px 0 #1a1a1a;
+  white-space: nowrap;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.lv-f2-onsite-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--color-pink, #f0befa);
+  border: 1.5px solid #1a1a1a;
+  color: #1a1a1a;
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 2px 2px 0 #1a1a1a;
+  white-space: nowrap;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+/* ── Module Fee Summary Strip ── */
+.lv-module-fee-strip {
+  margin-top: 28px;
+  padding: 18px 24px;
+  background-color: #ffffff;
+  border: 2.5px solid #1a1a1a;
+  border-radius: 20px;
+  box-shadow: 4px 4px 0 #1a1a1a;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.lv-module-fee-strip-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-darkblue, #9E00FE);
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-right: 2px solid rgba(26, 26, 26, 0.15);
+  padding-right: 20px;
+}
+
+.lv-module-fee-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex: 1;
+}
+
+.lv-module-fee-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: #FAF8F5;
+  border: 2px solid #1a1a1a;
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 #1a1a1a;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lv-module-fee-pill:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+.lv-module-fee-pill--onsite {
+  background-color: var(--color-pink, #f0befa);
+}
+
+.lv-module-fee-pill-name {
+  font-weight: 700;
+}
+
+.lv-module-fee-pill-amount {
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 900;
+  font-size: 0.8rem;
+  color: var(--color-darkblue, #9E00FE);
+  padding: 1px 8px;
+  background: var(--color-lightblue, #EAD2FF);
+  border-radius: 999px;
+  border: 1px solid rgba(158, 0, 254, 0.3);
+}
+
+.lv-module-fee-pill--onsite .lv-module-fee-pill-amount {
+  background: rgba(245, 105, 60, 0.12);
+  color: var(--color-orange, #f5693c);
+  border-color: rgba(245, 105, 60, 0.3);
+}
+
+
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MARKING CRITERIA SECTION — NEO-BRUTALIST REDESIGN
+───────────────────────────────────────────────────────────────────────────── */
+
+.lv-marking-section {
+  padding: 90px 0;
+}
+
+/* Module Tab Selector */
+.lv-criteria-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.lv-criteria-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 2.5px solid #1a1a1a;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #1a1a1a;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lv-criteria-tab:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #1a1a1a;
+  background-color: var(--color-lightblue, #EAD2FF);
+}
+
+.lv-criteria-tab--active {
+  background-color: var(--color-darkblue, #9E00FE);
+  color: #ffffff;
+  border-color: #1a1a1a;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #1a1a1a;
+}
+
+.lv-criteria-tab-name {
+  font-weight: 800;
+}
+
+.lv-criteria-tab-fee {
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #EAE5DC;
+  color: #1a1a1a;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+}
+
+.lv-criteria-tab-fee--active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* Main Card */
+.lv-criteria-card {
+  background-color: #ffffff;
+  border: 3px solid #1a1a1a;
+  border-radius: 28px;
+  padding: 40px;
+  box-shadow: 8px 8px 0 #1a1a1a;
+}
+
+/* Card Header */
+.lv-criteria-card-header {
+  padding-bottom: 24px;
+  border-bottom: 2px dashed rgba(26, 26, 26, 0.15);
+  margin-bottom: 28px;
+}
+
+.lv-criteria-card-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.lv-criteria-module-num {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--color-lightblue, #EAD2FF);
+  border: 1.5px solid #1a1a1a;
+  color: #1a1a1a;
+  box-shadow: 1.5px 1.5px 0 #1a1a1a;
+}
+
+.lv-criteria-fee-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #f5c560;
+  border: 1.5px solid #1a1a1a;
+  color: #1a1a1a;
+  box-shadow: 1.5px 1.5px 0 #1a1a1a;
+}
+
+.lv-criteria-track-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1.5px solid #1a1a1a;
+  box-shadow: 1.5px 1.5px 0 #1a1a1a;
+}
+
+.lv-criteria-track-badge--onsite {
+  background: var(--color-pink, #f0befa);
+  color: #1a1a1a;
+}
+
+.lv-criteria-track-badge--dual {
+  background: var(--color-lightgreen, #e6fab9);
+  color: #1a1a1a;
+}
+
+.lv-criteria-card-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 900;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.lv-criteria-card-desc {
+  font-size: 1rem;
+  color: #555555;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 700px;
+}
+
+/* Body Grid */
+.lv-criteria-body-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .lv-criteria-body-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Left: Criteria Meters */
+.lv-criteria-meter-box {
+  background-color: #FAF8F5;
+  border: 2px solid #1a1a1a;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 3px 3px 0 #1a1a1a;
+}
+
+.lv-criteria-meter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #1a1a1a;
+}
+
+.lv-criteria-meter-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-darkblue, #9E00FE);
+}
+
+.lv-criteria-total-badge {
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--color-lightblue, #EAD2FF);
+  border: 1.5px solid #1a1a1a;
+  color: #1a1a1a;
+}
+
+.lv-criteria-meter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lv-criteria-meter-row {
+  background-color: #ffffff;
+  border: 1.5px solid #1a1a1a;
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 2px 2px 0 #1a1a1a;
+}
+
+.lv-criteria-meter-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.lv-criteria-row-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.lv-criteria-row-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-lightblue, #EAD2FF);
+  border: 1.5px solid #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+.lv-criteria-weight-pill {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 900;
+  padding: 3px 10px;
+  border-radius: 8px;
+  background: var(--color-darkblue, #9E00FE);
+  color: #ffffff;
+  box-shadow: 1.5px 1.5px 0 #1a1a1a;
+}
+
+/* Reuse existing .lv-criteria-bar-bg and .lv-criteria-bar-val from earlier */
+
+/* Right: Submission + Track Info Boxes */
+.lv-criteria-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lv-criteria-info-box {
+  padding: 18px 20px;
+  border-radius: 18px;
+  border: 2px solid #1a1a1a;
+  box-shadow: 3px 3px 0 #1a1a1a;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lv-criteria-info-box:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #1a1a1a;
+}
+
+.lv-criteria-info-box--submission {
+  background-color: #FAF5FF;
+  border-color: var(--color-darkblue, #9E00FE);
+  box-shadow: 3px 3px 0 var(--color-darkblue, #9E00FE);
+}
+
+.lv-criteria-info-box--submission:hover {
+  box-shadow: 5px 5px 0 var(--color-darkblue, #9E00FE);
+}
+
+.lv-criteria-info-box--onsite {
+  background-color: #FFF9F5;
+  border-color: var(--color-orange, #f5693c);
+  box-shadow: 3px 3px 0 var(--color-orange, #f5693c);
+}
+
+.lv-criteria-info-box--onsite:hover {
+  box-shadow: 5px 5px 0 var(--color-orange, #f5693c);
+}
+
+.lv-criteria-info-box--virtual {
+  background-color: var(--color-lightblue, #EAD2FF);
+  border-color: #1a1a1a;
+}
+
+.lv-criteria-info-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.lv-criteria-info-text {
+  font-size: 0.9rem;
+  color: #333333;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
    3. FEATURES-6: FOUR-CARD GRID WITH GRADIENT BLOBS & HOVER ACCENTS
 ───────────────────────────────────────────────────────────────────────────── */
+
 .lv-features6-section {
   padding: 90px 0;
 }
@@ -4683,4 +5145,609 @@ select.lv-form-input {
   }
 }
 
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   TIMELINE SECTION — NEO-BRUTALIST REDESIGN
+───────────────────────────────────────────────────────────────────────────── */
+
+.lv-timeline-glance-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 1024px) { .lv-timeline-glance-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px)  { .lv-timeline-glance-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.lv-timeline-glance-card {
+  padding: 16px 14px;
+  background-color: #ffffff;
+  border: 2.5px solid #1a1a1a;
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #1a1a1a;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lv-timeline-glance-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #1a1a1a;
+}
+
+.lv-timeline-glance-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-darkblue, #9E00FE);
+  margin-bottom: 6px;
+}
+
+.lv-timeline-glance-val {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+
+.lv-timeline-card {
+  background-color: #ffffff;
+  border: 3px solid #1a1a1a;
+  border-radius: 26px;
+  padding: 36px 36px 36px 60px;
+  box-shadow: 6px 6px 0 #1a1a1a;
+  margin-bottom: 20px;
+}
+
+.lv-timeline-steps {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.lv-timeline-steps::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: 17px;
+  bottom: 17px;
+  width: 2.5px;
+  background: linear-gradient(180deg, var(--color-darkblue, #9E00FE) 0%, var(--color-orange, #f5693c) 100%);
+  border-radius: 999px;
+  opacity: 0.3;
+}
+
+.lv-timeline-step {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px dashed rgba(26, 26, 26, 0.12);
+}
+
+.lv-timeline-step:last-child {
+  border-bottom: none;
+}
+
+.lv-timeline-step-dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--color-darkblue, #9E00FE);
+  color: #ffffff;
+  font-family: 'Epilogue', sans-serif;
+  font-weight: 900;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #1a1a1a;
+  box-shadow: 2px 2px 0 #1a1a1a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.lv-timeline-step-body { flex: 1; }
+
+.lv-timeline-step-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.lv-timeline-time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  background: var(--color-lightblue, #EAD2FF);
+  border: 1.5px solid #1a1a1a;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  box-shadow: 1.5px 1.5px 0 #1a1a1a;
+  white-space: nowrap;
+}
+
+.lv-timeline-step-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #1a1a1a;
+}
+
+.lv-timeline-step-desc {
+  font-size: 0.92rem;
+  color: #555555;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+.lv-timeline-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 22px;
+  background-color: #FFF9F5;
+  border: 2.5px solid var(--color-orange, #f5693c);
+  border-radius: 18px;
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+.lv-timeline-notice-text {
+  font-size: 0.92rem;
+  color: #333333;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   RULES & PERKS SECTION — NEO-BRUTALIST REDESIGN
+───────────────────────────────────────────────────────────────────────────── */
+
+.lv-rules-perks-section {
+  padding: 90px 0;
+}
+
+.lv-perks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 860px) { .lv-perks-grid { grid-template-columns: 1fr; } }
+
+.lv-perks-card {
+  background-color: #ffffff;
+  border: 3px solid #1a1a1a;
+  border-radius: 26px;
+  padding: 36px;
+  box-shadow: 6px 6px 0 #1a1a1a;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.lv-perks-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 #1a1a1a;
+}
+
+.lv-perks-card--onsite { border-left: 6px solid var(--color-orange, #f5693c); }
+.lv-perks-card--virtual { border-left: 6px solid var(--color-darkblue, #9E00FE); }
+
+.lv-perks-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 2px dashed rgba(26, 26, 26, 0.15);
+}
+
+.lv-perks-icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  border: 2px solid #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 2px 2px 0 #1a1a1a;
+  color: #ffffff;
+}
+
+.lv-perks-icon-box--orange { background-color: var(--color-orange, #f5693c); }
+.lv-perks-icon-box--purple { background-color: var(--color-darkblue, #9E00FE); }
+
+.lv-perks-location-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1.5px solid #1a1a1a;
+  margin-bottom: 6px;
+  box-shadow: 1.5px 1.5px 0 #1a1a1a;
+}
+
+.lv-perks-location-badge--orange { background: var(--color-pink, #f0befa); color: #1a1a1a; }
+.lv-perks-location-badge--purple { background: var(--color-lightblue, #EAD2FF); color: #1a1a1a; }
+
+.lv-perks-card-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  line-height: 1.3;
+}
+
+.lv-perks-card-sub {
+  font-size: 0.9rem;
+  color: #555555;
+  line-height: 1.6;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+.lv-perks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lv-perks-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #333333;
+  line-height: 1.5;
+}
+
+.lv-perks-check { flex-shrink: 0; margin-top: 2px; }
+.lv-perks-check--orange { color: var(--color-orange, #f5693c); }
+.lv-perks-check--purple { color: var(--color-darkblue, #9E00FE); }
+
+.lv-rules-card {
+  background-color: #ffffff;
+  border: 3px solid #1a1a1a;
+  border-radius: 26px;
+  padding: 38px;
+  box-shadow: 6px 6px 0 #1a1a1a;
+}
+
+.lv-rules-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 2.5px solid #1a1a1a;
+}
+
+.lv-rules-card-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.lv-rules-card-sub {
+  font-size: 0.88rem;
+  color: #666666;
+  font-weight: 500;
+}
+
+.lv-rules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 860px) { .lv-rules-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .lv-rules-grid { grid-template-columns: 1fr; } }
+
+.lv-rule-item {
+  padding: 20px;
+  background-color: #FAF8F5;
+  border: 2px solid #1a1a1a;
+  border-radius: 18px;
+  box-shadow: 3px 3px 0 #1a1a1a;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lv-rule-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #1a1a1a;
+}
+
+.lv-rule-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.lv-rule-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-lightblue, #EAD2FF);
+  border: 1.5px solid #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.lv-rule-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--color-lightblue, #EAD2FF);
+  border: 1.5px solid #1a1a1a;
+  color: #1a1a1a;
+}
+
+.lv-rule-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.lv-rule-desc {
+  font-size: 0.86rem;
+  color: #555555;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   PRIZES & CONTACT — NEO-BRUTALIST REDESIGN
+───────────────────────────────────────────────────────────────────────────── */
+
+.lv-prize-table-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 2.5px solid #1a1a1a;
+}
+
+.lv-prize-icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #FFF3E0;
+  border: 2px solid #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 2px 2px 0 #1a1a1a;
+  color: #c97c1b;
+}
+
+.lv-prize-table-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.lv-prize-table-sub {
+  font-size: 0.85rem;
+  color: #666666;
+  font-weight: 500;
+}
+
+.lv-prize-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.lv-prize-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px 18px;
+  background-color: #FAF8F5;
+  border: 2px solid #1a1a1a;
+  border-radius: 14px;
+  box-shadow: 2px 2px 0 #1a1a1a;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.lv-prize-row:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 #1a1a1a;
+  background-color: #ffffff;
+}
+
+.lv-prize-row-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.lv-prize-row-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1.5px solid #1a1a1a;
+  white-space: nowrap;
+  box-shadow: 1.5px 1.5px 0 #1a1a1a;
+}
+
+.lv-prize-row-badge--orange { background: var(--color-pink, #f0befa); color: #1a1a1a; }
+.lv-prize-row-badge--purple { background: var(--color-lightblue, #EAD2FF); color: #1a1a1a; }
+.lv-prize-row-badge--green  { background: var(--color-lightgreen, #e6fab9); color: #1a1a1a; }
+.lv-prize-row-badge--pink   { background: var(--color-pink, #f0befa); color: #1a1a1a; }
+
+.lv-prize-row-category {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.lv-prize-row-reward {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-darkblue, #9E00FE);
+}
+
+.lv-prize-notice {
+  padding: 14px 18px;
+  background-color: var(--color-lightblue, #EAD2FF);
+  border: 2px solid #1a1a1a;
+  border-radius: 14px;
+  box-shadow: 3px 3px 0 #1a1a1a;
+  font-size: 0.88rem;
+  color: #1a1a1a;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+/* Contact card — dark themed */
+.lv-contact-date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(158, 0, 254, 0.25);
+  border: 1.5px solid rgba(158, 0, 254, 0.5);
+  color: var(--color-lightblue, #EAD2FF);
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.lv-contact-card-title {
+  font-family: 'Epilogue', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.lv-contact-card-sub {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.lv-contact-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.12);
+}
+
+.lv-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+}
+
+.lv-contact-row-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.lv-contact-row-icon--amber  { background-color: #d97706; }
+.lv-contact-row-icon--orange { background-color: var(--color-orange, #f5693c); }
+.lv-contact-row-icon--purple { background-color: var(--color-darkblue, #9E00FE); }
+
+/* Override for dark card context */
+.lv-contact-card .lv-contact-lbl {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-lightblue, #EAD2FF);
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.lv-contact-card .lv-contact-val {
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.lv-contact-val--link {
+  color: #f5c560 !important;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.lv-contact-val--link:hover { opacity: 0.8; text-decoration: underline; }
+
+.lv-contact-cta-wrap {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.12);
+}
+
+.lv-contact-cta-wrap .lv-register-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--color-darkblue, #9E00FE) 0%, #7600c5 100%);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.15);
+}
+
+.lv-contact-cta-wrap .lv-register-btn:hover {
+  background: linear-gradient(135deg, #b020ff 0%, #9E00FE 100%);
+  box-shadow: 6px 6px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Override contact card bg — must come after existing .lv-contact-card rule */
+.lv-prizes-contact-section .lv-contact-card {
+  background: linear-gradient(145deg, #130f1e 0%, #1c1030 100%);
+  color: #ffffff;
+}
 

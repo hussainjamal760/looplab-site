@@ -72,7 +72,7 @@ export default function ModulesFeatures2() {
                       <span className="lv-dual-badge">Dual Track</span>
                     )}
                   </div>
-                  <div className="lv-f2-item-sub">{item.tag}</div>
+                  <div className="lv-f2-item-sub">Fee: {item.feeFormatted}</div>
                 </div>
                 <ArrowRight size={18} opacity={isSelected ? 1 : 0.3} />
               </button>
@@ -116,11 +116,14 @@ export default function ModulesFeatures2() {
                   <span className="lv-f2-display-number">0{activeModule.id}</span>
                 </div>
 
-                <div className="flex items-center gap-3 mb-2 flex-wrap">
-                  <h3 className="lv-f2-display-title mb-0">{activeModule.title}</h3>
-                  <span className="px-3 py-1 bg-amber-400 text-black border-2 border-black rounded-full font-black text-xs shadow-[2px_2px_0px_#1a1a1a]">
+                <div className="lv-f2-module-title-row">
+                  <h3 className="lv-f2-display-title">{activeModule.title}</h3>
+                  <span className="lv-f2-fee-badge">
                     Fee: {activeModule.feeFormatted}
                   </span>
+                  {activeModule.isOnsiteOnly && (
+                    <span className="lv-f2-onsite-tag">⚡ Onsite Only</span>
+                  )}
                 </div>
                 <p className="lv-f2-display-desc">{activeModule.desc}</p>
 
@@ -156,6 +159,23 @@ export default function ModulesFeatures2() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Fee Summary Strip */}
+      <div className="lv-module-fee-strip">
+        <div className="lv-module-fee-strip-label">Registration Fees</div>
+        <div className="lv-module-fee-pills">
+          {MODULES_DATA.map((mod) => {
+            const ModIcon = mod.icon;
+            return (
+              <div key={mod.id} className={`lv-module-fee-pill${mod.isOnsiteOnly ? ' lv-module-fee-pill--onsite' : ''}`}>
+                <ModIcon size={13} />
+                <span className="lv-module-fee-pill-name">{mod.title}</span>
+                <span className="lv-module-fee-pill-amount">{mod.feeFormatted}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

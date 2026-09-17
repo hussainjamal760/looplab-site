@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle2, ShieldCheck, Zap, Globe, Cpu, Users, Award, AlertCircle } from 'lucide-react';
+import { CheckCircle2, ShieldCheck, Zap, Globe, Users, Award, AlertCircle, FileCheck2, Sparkles } from 'lucide-react';
 
 const ONSITE_PERKS = [
   'A shorter, beginner-friendly sprint done in a single focused day (10:45 AM – 5:30 PM)',
@@ -25,87 +25,97 @@ const VIRTUAL_PERKS = [
 
 const RULES_LIST = [
   {
+    tag: 'Composition',
     title: 'Team Size & Eligibility',
     desc: 'Teams of 2 to 4 members; solo participation is allowed. Open to students and early-career developers, designers, and product builders — no prior hackathon experience needed.'
   },
   {
-    title: 'Code Originality & Sprint Window',
-    desc: 'All code must be written during the hackathon window; pre-built projects are not eligible.'
+    tag: 'Integrity',
+    title: 'Code Originality & Window',
+    desc: 'All code must be written during the hackathon window; pre-built projects are strictly not eligible.'
   },
   {
+    tag: 'Dependencies',
     title: 'Open Source & Public APIs',
     desc: 'Use of open-source libraries and public APIs is permitted; cite them clearly in your submission.'
   },
   {
+    tag: 'AI Tools',
     title: 'AI Tool Disclosure',
     desc: 'Use of AI tools (e.g., ChatGPT, Copilot, Claude) is allowed to assist with your build; disclose significant AI-generated code or content in your submission.'
   },
   {
-    title: 'Demo & Submission Deadlines',
+    tag: 'Submission',
+    title: 'Demo & Deadlines',
     desc: 'Every team must submit a working demo. Onsite teams deliver a live pitch before 5:00 PM. Virtual teams submit via the online portal before Saturday 11:59 AM.'
   },
   {
-    title: 'Code of Conduct Enforcement',
-    desc: 'Respect the LoopLab Code of Conduct; harassment or plagiarism results in immediate disqualification.'
+    tag: 'Governance',
+    title: 'Code of Conduct',
+    desc: 'Respect the LoopLab Code of Conduct; harassment, plagiarism, or unsportsmanlike behavior results in immediate disqualification.'
   }
 ];
 
 export default function RulesAndPerksSection() {
   return (
-    <section className="lv-rules-perks-section py-16" id="rules">
+    <section className="lv-rules-perks-section py-20" id="rules">
       {/* Section Header */}
-      <div className="lv-section-header mb-12">
+      <div className="lv-section-header mb-14 text-center">
         <span className="lv-section-tag">Track Experience &amp; Governance</span>
-        <h2 className="lv-section-title">Perks, Rules &amp; Hackathon Guidelines</h2>
+        <h2 className="lv-section-title">Perks &amp; Hackathon Rules</h2>
         <p className="lv-section-sub">
-          Whether you choose the fast, beginner-friendly Onsite Track in Lahore or the 24-Hour Virtual Marathon worldwide, review your track perks and official event rules below.
+          Compare the Onsite vs Virtual track perks and review official LoopVerse 3.0 competition guidelines.
         </p>
       </div>
 
-      {/* Perks Side-by-Side Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-        {/* Onsite Track Card */}
-        <div className="bg-orange-50/70 border-3 border-black rounded-2xl p-6 sm:p-8 shadow-[6px_6px_0px_#1a1a1a]">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-orange-500 text-white rounded-xl border-2 border-black flex items-center justify-center font-black">
-              <Zap size={22} />
+      {/* Perks Side-by-Side Comparison */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-14">
+        {/* Onsite Card */}
+        <div className="bg-[#fff9f4] border-3 border-[#1a1a1a] rounded-3xl p-6 sm:p-8 shadow-[8px_8px_0px_#1a1a1a] hover:-translate-y-1 transition-all">
+          <div className="flex items-center gap-3.5 mb-5 pb-4 border-b-2 border-[#1a1a1a]/10">
+            <div className="w-12 h-12 bg-[#f5693c] text-white rounded-2xl border-2 border-[#1a1a1a] flex items-center justify-center font-black shadow-[2px_2px_0px_#1a1a1a]">
+              <Zap size={24} />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-orange-900">Lahore, Pakistan</span>
-              <h3 className="font-black text-xl text-black font-['Epilogue']">Why Onsite Is the Beginner-Friendly Path</h3>
+              <span className="text-[11px] font-black uppercase tracking-wider text-orange-950 bg-orange-200 px-2.5 py-0.5 rounded-full border border-[#1a1a1a]">
+                Lahore, Pakistan
+              </span>
+              <h3 className="font-black text-2xl text-[#1a1a1a] font-['Epilogue'] mt-1">Why Onsite Is Beginner-Friendly</h3>
             </div>
           </div>
-          <p className="text-xs sm:text-sm text-gray-700 font-medium mb-5 leading-relaxed">
-            Going onsite is the simplest way to take part in LoopVerse 3.0. It&apos;s a short, focused sprint with approachable problem statements written for first-time hackathon participants, ready-made infrastructure, and same-day results.
+          <p className="text-xs sm:text-sm text-gray-700 font-medium mb-6 leading-relaxed">
+            Going onsite is the simplest way into LoopVerse 3.0. A short, focused sprint with approachable briefs, in-person floor mentors, workstations, food, and same-day awards.
           </p>
-          <ul className="space-y-2.5">
+          <ul className="space-y-3">
             {ONSITE_PERKS.map((perk, idx) => (
-              <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm font-semibold text-black">
-                <CheckCircle2 size={16} className="text-orange-600 shrink-0 mt-0.5" />
+              <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm font-bold text-[#1a1a1a]">
+                <CheckCircle2 size={18} className="text-[#f5693c] shrink-0 mt-0.5" />
                 <span>{perk}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Virtual Track Card */}
-        <div className="bg-purple-50/70 border-3 border-black rounded-2xl p-6 sm:p-8 shadow-[6px_6px_0px_#1a1a1a]">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-purple-600 text-white rounded-xl border-2 border-black flex items-center justify-center font-black">
-              <Globe size={22} />
+        {/* Virtual Card */}
+        <div className="bg-[#fcf8ff] border-3 border-[#1a1a1a] rounded-3xl p-6 sm:p-8 shadow-[8px_8px_0px_#1a1a1a] hover:-translate-y-1 transition-all">
+          <div className="flex items-center gap-3.5 mb-5 pb-4 border-b-2 border-[#1a1a1a]/10">
+            <div className="w-12 h-12 bg-[#9E00FE] text-white rounded-2xl border-2 border-[#1a1a1a] flex items-center justify-center font-black shadow-[2px_2px_0px_#1a1a1a]">
+              <Globe size={24} />
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-purple-900">Worldwide Remote</span>
-              <h3 className="font-black text-xl text-black font-['Epilogue']">Why Virtual Is the Tougher, Longer Challenge</h3>
+              <span className="text-[11px] font-black uppercase tracking-wider text-purple-950 bg-purple-200 px-2.5 py-0.5 rounded-full border border-[#1a1a1a]">
+                Worldwide Remote
+              </span>
+              <h3 className="font-black text-2xl text-[#1a1a1a] font-['Epilogue'] mt-1">Why Virtual Is a Tougher Marathon</h3>
             </div>
           </div>
-          <p className="text-xs sm:text-sm text-gray-700 font-medium mb-5 leading-relaxed">
-            The virtual track is built for teams who want a bigger challenge. It runs a full 24 hours — starting Friday 11:59 AM to Saturday 11:59 AM — with more advanced problem statements and remote mentor touchpoints.
+          <p className="text-xs sm:text-sm text-gray-700 font-medium mb-6 leading-relaxed">
+            The virtual track is built for remote teams wanting a bigger challenge. A full 24-hour window from Fri 11:59 AM to Sat 11:59 AM with higher-ceiling briefs and async mentor support.
           </p>
-          <ul className="space-y-2.5">
+          <ul className="space-y-3">
             {VIRTUAL_PERKS.map((perk, idx) => (
-              <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm font-semibold text-black">
-                <CheckCircle2 size={16} className="text-purple-600 shrink-0 mt-0.5" />
+              <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm font-bold text-[#1a1a1a]">
+                <CheckCircle2 size={18} className="text-[#9E00FE] shrink-0 mt-0.5" />
                 <span>{perk}</span>
               </li>
             ))}
@@ -113,22 +123,28 @@ export default function RulesAndPerksSection() {
         </div>
       </div>
 
-      {/* Rules & Guidelines Grid */}
-      <div className="bg-white border-3 border-black rounded-2xl p-6 sm:p-8 shadow-[6px_6px_0px_#1a1a1a]">
-        <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-black/10">
-          <ShieldCheck size={26} className="text-purple-700" />
-          <h3 className="font-black text-2xl text-black font-['Epilogue']">Official Hackathon Rules &amp; Guidelines</h3>
+      {/* Official Rules Showcase Grid */}
+      <div className="bg-white border-3 border-[#1a1a1a] rounded-3xl p-6 sm:p-10 shadow-[8px_8px_0px_#1a1a1a]">
+        <div className="flex items-center gap-3 mb-8 pb-5 border-b-2 border-[#1a1a1a]/10">
+          <ShieldCheck size={28} className="text-[#9E00FE]" />
+          <div>
+            <h3 className="font-black text-2xl sm:text-3xl text-[#1a1a1a] font-['Epilogue']">Official Competition Rules</h3>
+            <p className="text-xs sm:text-sm text-gray-600 font-medium">Mandatory guidelines for all onsite and virtual participants</p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {RULES_LIST.map((r, idx) => (
-            <div key={idx} className="p-4 bg-gray-50 border-2 border-black rounded-xl shadow-[2px_2px_0px_#1a1a1a]">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-6 h-6 bg-black text-white rounded-full font-bold text-xs flex items-center justify-center">
-                  {idx + 1}
+            <div key={idx} className="p-5 bg-[#f9f6f0] border-2 border-[#1a1a1a] rounded-2xl shadow-[3px_3px_0px_#1a1a1a] hover:-translate-y-1 transition-all">
+              <div className="flex items-center justify-between mb-3">
+                <span className="w-7 h-7 bg-[#1a1a1a] text-white rounded-full font-black text-xs flex items-center justify-center">
+                  0{idx + 1}
                 </span>
-                <h4 className="font-bold text-sm text-black">{r.title}</h4>
+                <span className="text-[10px] font-black uppercase tracking-wider text-purple-900 bg-purple-100 px-2.5 py-0.5 rounded-full border border-[#1a1a1a]">
+                  {r.tag}
+                </span>
               </div>
+              <h4 className="font-black text-base text-[#1a1a1a] font-['Epilogue'] mb-1.5">{r.title}</h4>
               <p className="text-xs text-gray-700 font-medium leading-relaxed">{r.desc}</p>
             </div>
           ))}

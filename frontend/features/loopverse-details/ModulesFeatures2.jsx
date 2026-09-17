@@ -116,7 +116,12 @@ export default function ModulesFeatures2() {
                   <span className="lv-f2-display-number">0{activeModule.id}</span>
                 </div>
 
-                <h3 className="lv-f2-display-title">{activeModule.title}</h3>
+                <div className="flex items-center gap-3 mb-2 flex-wrap">
+                  <h3 className="lv-f2-display-title mb-0">{activeModule.title}</h3>
+                  <span className="px-3 py-1 bg-amber-400 text-black border-2 border-black rounded-full font-black text-xs shadow-[2px_2px_0px_#1a1a1a]">
+                    Fee: {activeModule.feeFormatted}
+                  </span>
+                </div>
                 <p className="lv-f2-display-desc">{activeModule.desc}</p>
 
                 <div className="lv-f2-track-breakdown">

@@ -7,83 +7,155 @@ import {
   Mic, 
   Gamepad2 
 } from 'lucide-react';
+import { getModuleFee } from './moduleFeesData';
 
 export const MODULES_DATA = [
   {
     id: 1,
     title: 'Web Development',
     tag: 'Dual Track',
+    fee: getModuleFee('Web Development'),
+    feeFormatted: 'PKR 1,000',
     isOnsiteOnly: false,
     icon: Code,
     image: '/assets/loopverse/web-dev-art.jpg',
-    desc: 'Design and ship full stack web applications against a live problem statement.',
-    onsiteBrief: 'Beginner-friendly brief calibrated for a 7-hour sprint with live mentor support.',
-    virtualBrief: 'Harder, full-scale cloud/database challenges utilizing the full ~26-hour window.'
+    desc: 'Design and ship a full-stack web application against a beginner-friendly problem statement.',
+    onsiteBrief: 'Beginner-friendly brief calibrated for a focused 4-hour build sprint with live mentor floor support.',
+    virtualBrief: 'A 24-hour continuous build challenge with live deployed link, GitHub repo, and 3-5 min video demo.',
+    criteria: [
+      { name: 'Functionality & Completeness', weight: 25 },
+      { name: 'Code Quality & Architecture', weight: 20 },
+      { name: 'Responsiveness & Cross-Browser', weight: 15 },
+      { name: 'Innovation & Originality', weight: 20 },
+      { name: 'Presentation & Demo', weight: 20 },
+    ],
+    submissionFormat: 'Live deployed link (e.g., Vercel / Netlify / Render), GitHub repository, and a 3–5 minute demo video.'
   },
   {
     id: 2,
     title: 'App Development',
     tag: 'Dual Track',
+    fee: getModuleFee('App Development'),
+    feeFormatted: 'PKR 1,000',
     isOnsiteOnly: false,
     icon: Smartphone,
     image: '/assets/loopverse/app-dev-art.jpg',
-    desc: 'Build native or cross platform mobile apps that solve a real user problem.',
+    desc: 'Build a native or cross-platform mobile app that solves a real user problem.',
     onsiteBrief: 'Focus on core user flow, polished UI, and functional APK/iOS simulator demo.',
-    virtualBrief: 'Multi-screen architecture, offline sync, or production-grade background services.'
+    virtualBrief: 'Multi-screen architecture, offline sync, or production-grade background services with video walkthrough.',
+    criteria: [
+      { name: 'Functionality & Core Features', weight: 25 },
+      { name: 'Platform Implementation Quality', weight: 20 },
+      { name: 'UI/UX & Usability', weight: 20 },
+      { name: 'Innovation & Originality', weight: 15 },
+      { name: 'Presentation & Demo', weight: 20 },
+    ],
+    submissionFormat: 'Installable build (APK / TestFlight / Expo link), GitHub repository, and a demo video walkthrough.'
   },
   {
     id: 3,
-    title: 'AI / ML (Applied & Research)',
+    title: 'AI / ML',
     tag: 'Dual Track',
+    fee: getModuleFee('AI / ML'),
+    feeFormatted: 'PKR 1,000',
     isOnsiteOnly: false,
     icon: Brain,
     image: '/assets/loopverse/ai-ml-art.jpg',
-    desc: 'Design and train models or build AI powered features with real world applicability.',
+    desc: 'Design a model or build an AI-powered feature — approachable briefs, no research background required.',
     onsiteBrief: 'Fast LLM integrations, prompt engineering pipelines, and functional API agents.',
-    virtualBrief: 'Custom fine-tuned weights, complex inference pipelines, and novel research benchmarks.'
+    virtualBrief: 'Custom fine-tuned weights, complex inference pipelines, and hosted endpoint / Colab notebook demo.',
+    criteria: [
+      { name: 'Model / Approach Soundness', weight: 25 },
+      { name: 'Accuracy & Performance', weight: 25 },
+      { name: 'Real-World Applicability', weight: 20 },
+      { name: 'Innovation & Originality', weight: 15 },
+      { name: 'Presentation & Demo', weight: 15 },
+    ],
+    submissionFormat: 'GitHub repository with code/notebook, working demo (hosted endpoint or Colab), and video walkthrough.'
   },
   {
     id: 4,
     title: 'UI / UX Design',
     tag: 'Dual Track',
+    fee: getModuleFee('UI / UX Design'),
+    feeFormatted: 'PKR 1,000',
     isOnsiteOnly: false,
     icon: Palette,
     image: '/assets/loopverse/ui-ux-art.jpg',
-    desc: 'Reimagine a product experience end to end, from research to a polished prototype.',
+    desc: 'Reimagine a product experience end-to-end, from quick research to a polished prototype.',
     onsiteBrief: 'Rapid design sprint: user research summary, wireframes, and high-fidelity Figma prototype.',
-    virtualBrief: 'Deep design system tokenization, micro-animations, design tokens, and user test logs.'
+    virtualBrief: 'Deep design system tokenization, micro-animations, interactive Figma prototype, and case-study PDF.',
+    criteria: [
+      { name: 'User Research & Problem Framing', weight: 20 },
+      { name: 'Visual Design Quality', weight: 25 },
+      { name: 'Prototype Usability & Flow', weight: 25 },
+      { name: 'Innovation & Originality', weight: 15 },
+      { name: 'Presentation & Demo', weight: 15 },
+    ],
+    submissionFormat: 'Interactive Figma prototype (view access), a short case-study PDF, and a walkthrough video.'
   },
   {
     id: 5,
     title: 'Cybersecurity & Open Innovation',
     tag: 'Dual Track',
+    fee: getModuleFee('Cybersecurity & Open Innovation'),
+    feeFormatted: 'PKR 1,000',
     isOnsiteOnly: false,
     icon: ShieldAlert,
     image: '/assets/loopverse/cybersecurity-art.jpg',
-    desc: 'A capture the flag and open track hybrid for security challenges or any bold idea.',
+    desc: 'A beginner-friendly capture-the-flag and open track hybrid for security challenges or any bold idea.',
     onsiteBrief: 'Hands-on CTF jeopardy challenges and live vulnerability demonstration.',
-    virtualBrief: 'Complex multi-tier penetration challenges, open-source defense tools, and exploit audits.'
+    virtualBrief: 'Complex multi-tier penetration challenges, open-source defense tools, written report, and exploit audits.',
+    criteria: [
+      { name: 'Challenges Solved / Vulnerability Depth', weight: 25 },
+      { name: 'Technical Execution', weight: 20 },
+      { name: 'Creativity of Approach', weight: 15 },
+      { name: 'Real-World Relevance', weight: 15 },
+      { name: 'Report', weight: 15 },
+      { name: 'Presentation', weight: 10 },
+    ],
+    submissionFormat: 'Written report of challenges solved (or open-track idea), proof-of-concept code/repo, and a demo video.'
   },
   {
     id: 6,
     title: 'Pitching Competition',
     tag: 'Onsite Only',
+    fee: getModuleFee('Pitching Competition'),
+    feeFormatted: 'PKR 800',
     isOnsiteOnly: true,
     icon: Mic,
     image: '/assets/loopverse/pitching-art.jpg',
-    desc: 'Pitch a venture or product concept to a panel of investors, mentors, and judges.',
+    desc: 'Pitch a venture or product concept live to a panel of investors, mentors, and judges.',
     onsiteBrief: 'Live onstage 5-minute deck pitch + 3-minute Q&A with real venture capital judges.',
-    virtualBrief: 'Exclusive to the onsite track this edition. Not available for virtual teams.'
+    virtualBrief: 'Exclusive to the onsite track this edition. Not available for virtual teams.',
+    criteria: [
+      { name: 'Problem–Market Fit', weight: 25 },
+      { name: 'Business Model Clarity', weight: 20 },
+      { name: 'Innovation & Originality', weight: 20 },
+      { name: 'Pitch Delivery & Confidence', weight: 20 },
+      { name: 'Slide & Visual Design', weight: 15 },
+    ],
+    submissionFormat: 'Live onstage deck pitch presentation and prototype demo before the onsite deadline.'
   },
   {
     id: 7,
     title: 'Game Development',
     tag: 'Onsite Only',
+    fee: getModuleFee('Game Development'),
+    feeFormatted: 'PKR 1,000',
     isOnsiteOnly: true,
     icon: Gamepad2,
     image: '/assets/loopverse/game-dev-art.jpg',
-    desc: 'New for this edition. Design and build a playable game prototype within the sprint window.',
-    onsiteBrief: 'Create a playable 2D/3D build or physics prototype before the 5 PM cutoff.',
-    virtualBrief: 'Exclusive to the onsite track this edition. Not available for virtual teams.'
+    desc: 'New this edition — design and build a playable game prototype within the sprint window.',
+    onsiteBrief: 'Create a playable 2D/3D build or physics prototype before the evaluation cutoff.',
+    virtualBrief: 'Exclusive to the onsite track this edition. Not available for virtual teams.',
+    criteria: [
+      { name: 'Gameplay & Fun Factor', weight: 25 },
+      { name: 'Technical Execution', weight: 25 },
+      { name: 'Creativity & Originality', weight: 15 },
+      { name: 'Art, Design & Polish', weight: 20 },
+      { name: 'Presentation & Demo', weight: 15 },
+    ],
+    submissionFormat: 'Playable game build file / link and live onstage demo to judges.'
   }
 ];

@@ -30,11 +30,29 @@ export class AuthService {
       return { admin: devAdmin, token: signToken('dev-admin-id', 'superadmin') };
     }
 
-    const admin = await Admin.findOne({ email: input.email });
-    if (!admin || !admin.isActive) throw new ApiError(401, GENERIC_AUTH_ERROR);
+    const inputEmail = input.email.toLowerCase();
+    let admin = await Admin.findOne({ email: inputEmail });
 
-    const isMatch = await admin.comparePassword(input.password);
-    if (!isMatch) throw new ApiError(401, GENERIC_AUTH_ERROR);
+    if (!admin) {
+      const isSeedEmail = inputEmail === env.SEED_ADMIN_EMAIL.toLowerCase();
+      const isSeedPass = input.password === env.SEED_ADMIN_PASSWORD;
+
+      if (isSeedEmail && isSeedPass) {
+        admin = await Admin.create({
+          name: env.SEED_ADMIN_NAME,
+          email: inputEmail,
+          password: env.SEED_ADMIN_PASSWORD,
+          role: 'superadmin',
+          isActive: true,
+        });
+      } else {
+        throw new ApiError(401, GENERIC_AUTH_ERROR);
+      }
+    } else {
+      if (!admin.isActive) throw new ApiError(401, GENERIC_AUTH_ERROR);
+      const isMatch = await admin.comparePassword(input.password);
+      if (!isMatch) throw new ApiError(401, GENERIC_AUTH_ERROR);
+    }
 
     admin.lastLoginAt = new Date();
     await admin.save();

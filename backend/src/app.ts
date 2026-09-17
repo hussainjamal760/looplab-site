@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
+import { connectDatabase } from './config/database.js';
 import { requestLogger } from './middlewares/logger.middleware.js';
 import { errorHandler } from './middlewares/error.middleware.js';
 import { ApiError } from './utils/ApiError.js';
@@ -19,6 +20,16 @@ import {
 } from './features/registrations/registration.routes.js';
 
 const app: Application = express();
+
+// ── Database Connection Middleware for Serverless & Standalone Environments ──
+app.use(async (_req: Request, _res: Response, next) => {
+  try {
+    await connectDatabase();
+    next();
+  } catch (error) {
+    next(new ApiError(500, 'Database connection failed. Please check MongoDB URI and Network Access rules.'));
+  }
+});
 
 // ── Global Security & Parsing Middlewares
 app.use(helmet());

@@ -53,7 +53,7 @@ export default function StepPersonalDetails({ formData, updateField }) {
 
         <div className="lvr-field-group">
           <label className="lvr-label" htmlFor="cnic">
-            CNIC / B-Form Number
+            CNIC / B-Form Number <span className="lvr-req">*</span>
           </label>
           <input
             id="cnic"

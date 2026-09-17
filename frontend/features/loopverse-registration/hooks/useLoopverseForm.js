@@ -7,6 +7,7 @@ import {
   useUploadReceiptMutation,
   useValidatePromoCodeMutation,
 } from '@/store/api/registrationApi';
+import { MODULES_DATA } from '@/features/loopverse-details/modulesData';
 
 const DEFAULT_FORM = {
   fullName: '',
@@ -18,7 +19,9 @@ const DEFAULT_FORM = {
   year: '3rd Year',
   track: 'onsite',
   module: 'Web Development',
-  needsParking: false,
+  needsParking: 'No',
+  vehicleType: 'Bike',
+  vehicleNumber: '',
   answers: {},
 };
 
@@ -37,8 +40,33 @@ export function useLoopverseForm() {
   const [submitRegistration, { isLoading: submitting }] = useSubmitRegistrationMutation();
 
   const dynamicFields = useMemo(() => {
-    return [...(event?.formFields || [])].sort((a, b) => a.order - b.order);
+    const rawFields = event?.formFields || [];
+    const ignoredIds = [
+      'fullName',
+      'email',
+      'phone',
+      'university',
+      'department',
+      'trackSelect',
+      'attendanceMode',
+      'needsParking',
+      'vehicleType',
+      'vehicleNumber',
+    ];
+    return [...rawFields]
+      .filter((f) => !ignoredIds.includes(f.fieldId))
+      .sort((a, b) => a.order - b.order);
   }, [event]);
+
+  // Computed: module-specific fee with promo discount applied
+  const selectedModuleData = useMemo(
+    () => MODULES_DATA.find((m) => m.title === formData.module) || MODULES_DATA[0],
+    [formData.module]
+  );
+
+  const baseFee = selectedModuleData?.fee || Number(event?.baseFee || 0);
+  const discountPercent = Number(promoResult?.discountPercent || 0);
+  const finalFee = Math.max(0, baseFee - Math.round((baseFee * discountPercent) / 100));
 
   useEffect(() => {
     if (dynamicFields.length) {
@@ -68,12 +96,23 @@ export function useLoopverseForm() {
       if (!formData.fullName.trim()) return 'Full Name is required';
       if (!formData.email.trim() || !formData.email.includes('@')) return 'Valid email address is required';
       if (!formData.phone.trim()) return 'Phone number is required';
+      if (!formData.cnic.trim()) return 'CNIC / B-Form Number is required';
     }
     if (step === 2) {
       if (!formData.university.trim()) return 'University / Institute is required';
       if (!formData.department.trim()) return 'Department / Degree is required';
     }
     if (step === 3) {
+      if (!formData.module) return 'Please select a module';
+      if (!formData.track) return 'Please select Onsite or Virtual track';
+      if (formData.needsParking === 'Yes') {
+        if (!formData.vehicleType || !formData.vehicleType.trim()) {
+          return 'Please select your vehicle type (Bike or Car)';
+        }
+        if (!formData.vehicleNumber || !formData.vehicleNumber.trim()) {
+          return 'Vehicle registration / plate number is required for parking';
+        }
+      }
       for (const field of dynamicFields) {
         if (field.isRequired && field.fieldType !== 'checkbox') {
           const val = formData.answers[field.fieldId];
@@ -113,8 +152,8 @@ export function useLoopverseForm() {
   }
 
   async function handleFormSubmit() {
-    if (Number(event?.baseFee || 0) > 0 && !receipt) {
-      setErrorMsg('Please upload payment receipt');
+    if (baseFee > 0 && !receipt) {
+      setErrorMsg('Please upload payment receipt before submitting');
       return;
     }
     setErrorMsg('');
@@ -136,7 +175,12 @@ export function useLoopverseForm() {
           year: formData.year,
           track: formData.track,
           module: formData.module,
+          moduleFee: baseFee,
+          finalFee,
+          discountApplied: discountPercent,
           needsParking: formData.needsParking,
+          vehicleType: formData.needsParking === 'Yes' ? formData.vehicleType : 'N/A',
+          vehicleNumber: formData.needsParking === 'Yes' ? formData.vehicleNumber : 'N/A',
           ...formData.answers,
         },
         appliedPromoCode: promoCode,
@@ -146,7 +190,12 @@ export function useLoopverseForm() {
       setIsSuccess(true);
       setCurrentStep(5);
     } catch (err) {
-      setErrorMsg(err?.data?.message || err?.error || 'Registration failed');
+      const msg = err?.data?.message || err?.error || 'Registration failed';
+      if (err?.status === 409 || msg.toLowerCase().includes('already')) {
+        setErrorMsg('You are already registered for Loopverse 3.0.');
+        return;
+      }
+      setErrorMsg(msg);
     }
   }
 
@@ -174,5 +223,10 @@ export function useLoopverseForm() {
     errorMsg,
     isSuccess,
     handleFormSubmit,
+    selectedModuleData,
+    baseFee,
+    finalFee,
+    discountPercent,
   };
 }
+

@@ -6,8 +6,8 @@ export default function StepAcademicTrack({ formData, updateField }) {
   return (
     <div className="lvr-step-body">
       <div className="lvr-step-title-wrap">
-        <h3 className="lvr-step-heading">2. Academic & Track Path</h3>
-        <p className="lvr-step-desc">Tell us where you study and choose your participation mode.</p>
+        <h3 className="lvr-step-heading">2. Academic Information</h3>
+        <p className="lvr-step-desc">Tell us where you study and your current academic level.</p>
       </div>
 
       <div className="lvr-grid">
@@ -39,7 +39,7 @@ export default function StepAcademicTrack({ formData, updateField }) {
           />
         </div>
 
-        <div className="lvr-field-group">
+        <div className="lvr-field-group lvr-grid--full">
           <label className="lvr-label" htmlFor="year">
             Study Year <span className="lvr-req">*</span>
           </label>
@@ -55,37 +55,6 @@ export default function StepAcademicTrack({ formData, updateField }) {
               </option>
             ))}
           </select>
-        </div>
-
-        <div className="lvr-field-group lvr-grid--full">
-          <label className="lvr-label">
-            Select Track Journey <span className="lvr-req">*</span>
-          </label>
-          <div className="lvr-track-selector">
-            <button
-              type="button"
-              className={`lvr-track-card ${formData.track === 'onsite' ? 'lvr-track-card--selected' : ''}`}
-              onClick={() => updateField('track', 'onsite')}
-            >
-              <span className="lvr-track-badge">ONSITE SPRINT</span>
-              <span className="lvr-track-title">7-Hour Onsite Challenge</span>
-              <span className="lvr-track-desc">
-                Compete live shoulder to shoulder in Lahore, Pakistan with mentors on deck.
-              </span>
-            </button>
-
-            <button
-              type="button"
-              className={`lvr-track-card ${formData.track === 'virtual' ? 'lvr-track-card--selected' : ''}`}
-              onClick={() => updateField('track', 'virtual')}
-            >
-              <span className="lvr-track-badge">VIRTUAL ORBIT</span>
-              <span className="lvr-track-title">Remote Hackathon Track</span>
-              <span className="lvr-track-desc">
-                Build and submit remotely from anywhere across Pakistan and beyond.
-              </span>
-            </button>
-          </div>
         </div>
       </div>
     </div>

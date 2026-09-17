@@ -4,7 +4,7 @@ import { Check } from 'lucide-react';
 
 const STEPS = [
   { number: 1, label: 'Personal' },
-  { number: 2, label: 'Academic & Track' },
+  { number: 2, label: 'Academic' },
   { number: 3, label: 'Module & Custom' },
   { number: 4, label: 'Payment & Review' },
 ];

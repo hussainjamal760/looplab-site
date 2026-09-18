@@ -7,6 +7,7 @@ import { MODULES_DATA } from '@/features/loopverse-details/modulesData';
 export default function StepPaymentReview({
   event,
   formData,
+  teammates,
   promoCode,
   setPromoCode,
   promoResult,
@@ -85,7 +86,25 @@ export default function StepPaymentReview({
           </span>
         </div>
 
-        {/* Fee Breakdown */}
+        {/* Team Members */}
+        {teammates && teammates.length > 0 && (
+          <div className="lvr-summary-teammates">
+            <div className="lvr-summary-teammates-label">Team Members ({teammates.length + 1} total)</div>
+            {teammates.map((tm, i) => (
+              <div key={i} className="lvr-summary-teammate-row">
+                <span className="lvr-summary-teammate-index">{i + 2}</span>
+                <div className="lvr-summary-teammate-info">
+                  <span className="lvr-summary-teammate-name">{tm.fullName || '—'}</span>
+                  <span className="lvr-summary-teammate-meta">{tm.email} · {tm.cnic}</span>
+                  {tm.needsParking === 'Yes' && (
+                    <span className="lvr-summary-teammate-parking">🚗 Parking: {tm.vehicleType} — {tm.vehicleNumber}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="lvr-fee-breakdown">
           <div className="lvr-fee-row">
             <span>Base Registration Fee</span>

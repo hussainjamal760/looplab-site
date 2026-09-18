@@ -1,8 +1,19 @@
 'use client';
 
 import { MODULES_DATA } from '@/features/loopverse-details/modulesData';
+import TeammatesSection from './TeammatesSection';
 
-export default function StepModuleCustom({ formData, updateField, updateAnswer, dynamicFields }) {
+export default function StepModuleCustom({
+  formData,
+  updateField,
+  updateAnswer,
+  dynamicFields,
+  teammates,
+  addTeammate,
+  removeTeammate,
+  updateTeammate,
+  maxTeammates,
+}) {
   const selectedModule = MODULES_DATA.find((m) => m.title === formData.module) || MODULES_DATA[0];
 
   function handleSelectModule(mod) {
@@ -137,6 +148,18 @@ export default function StepModuleCustom({ formData, updateField, updateAnswer, 
           </div>
         </div>
       )}
+
+      {/* Teammates Section */}
+      <div style={{ marginTop: '28px' }}>
+        <div className="lvr-step-divider" />
+        <TeammatesSection
+          teammates={teammates}
+          addTeammate={addTeammate}
+          removeTeammate={removeTeammate}
+          updateTeammate={updateTeammate}
+          maxTeammates={maxTeammates}
+        />
+      </div>
 
       {/* Dynamic Fields from MongoDB if any */}
       {dynamicFields.length > 0 && (

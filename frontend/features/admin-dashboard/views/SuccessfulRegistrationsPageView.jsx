@@ -204,6 +204,7 @@ export default function SuccessfulRegistrationsPageView() {
         : 'Not required',
       vehicleType: participant.vehicleType || 'N/A',
       vehicleNumber: participant.vehicleNumber || 'N/A',
+      teammates: Array.isArray(participant.teammates) ? participant.teammates : [],
       appliedPromoCode: registration.appliedPromoCode || participant.appliedPromoCode || null,
       baseAmount: Number(registration.baseAmount || registration.finalAmount || 1000),
       discountAmount: Number(registration.discountAmount || 0),
@@ -356,27 +357,34 @@ export default function SuccessfulRegistrationsPageView() {
                     <td>{getEventName(registration)}</td>
 
                     <td>
-                      <span
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '5px',
-                          padding: '4px 10px',
-                          borderRadius: '6px',
-                          fontSize: '0.78rem',
-                          fontWeight: 700,
-                          background: isParkingRequired ? '#ecfdf5' : '#f8fafc',
-                          color: isParkingRequired ? '#047857' : '#64748b',
-                          border: isParkingRequired ? '1px solid #a7f3d0' : '1px solid #e2e8f0',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {isParkingRequired ? (
-                          <>🚗 {participant.vehicleType || 'Vehicle'} ({participant.vehicleNumber || 'N/A'})</>
-                        ) : (
-                          'Not Required'
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-start' }}>
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            padding: '4px 10px',
+                            borderRadius: '6px',
+                            fontSize: '0.78rem',
+                            fontWeight: 700,
+                            background: isParkingRequired ? '#ecfdf5' : '#f8fafc',
+                            color: isParkingRequired ? '#047857' : '#64748b',
+                            border: isParkingRequired ? '1px solid #a7f3d0' : '1px solid #e2e8f0',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {isParkingRequired ? (
+                            <>🚗 {participant.vehicleType || 'Vehicle'} ({participant.vehicleNumber || 'N/A'})</>
+                          ) : (
+                            'Not Required'
+                          )}
+                        </span>
+                        {Array.isArray(participant.teammates) && participant.teammates.length > 0 && (
+                          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#7c3aed', background: '#f5f3ff', border: '1px solid #ede9fe', borderRadius: '6px', padding: '2px 7px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                            👥 Team of {participant.teammates.length + 1}
+                          </span>
                         )}
-                      </span>
+                      </div>
                     </td>
 
                     <td>

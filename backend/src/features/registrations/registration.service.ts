@@ -356,17 +356,38 @@ function validateDynamicFields(
           'radio'
       ) &&
       field.options.length >
-        0 &&
-      !field.options.includes(
-        stringValue
-      )
+        0
     ) {
-      errors.push({
-        field: field.fieldId,
+      const lowerVal =
+        stringValue.toLowerCase();
 
-        message:
-          `Invalid choice for ${field.label}`,
-      });
+      const optionMatched =
+        field.options.some(
+          (opt) => {
+            const lowerOpt =
+              opt.toLowerCase();
+
+            return (
+              lowerOpt ===
+                lowerVal ||
+              lowerOpt.includes(
+                lowerVal
+              ) ||
+              lowerVal.includes(
+                lowerOpt
+              )
+            );
+          }
+        );
+
+      if (!optionMatched) {
+        errors.push({
+          field: field.fieldId,
+
+          message:
+            `Invalid choice for ${field.label}`,
+        });
+      }
     }
   }
 
@@ -1063,7 +1084,8 @@ export class RegistrationService {
 
       track:
         String(
-          participantData.trackSelect ||
+          participantData.track ||
+            participantData.trackSelect ||
             ''
         ),
 

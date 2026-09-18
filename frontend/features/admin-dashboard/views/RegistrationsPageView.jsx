@@ -341,6 +341,7 @@ export default function RegistrationsPageView() {
         : 'Not required',
       vehicleType: participant.vehicleType || 'N/A',
       vehicleNumber: participant.vehicleNumber || 'N/A',
+      teammates: Array.isArray(participant.teammates) ? participant.teammates : [],
       appliedPromoCode: registration.appliedPromoCode || participant.appliedPromoCode || null,
       baseAmount: Number(registration.baseAmount || 1000),
       discountAmount: Number(registration.discountAmount || 0),
@@ -614,6 +615,12 @@ export default function RegistrationsPageView() {
                                 ? `Yes (${participant.vehicleType || 'Vehicle'} - ${participant.vehicleNumber || 'N/A'})`
                                 : 'Not required'}
                             </strong>
+
+                            {Array.isArray(participant.teammates) && participant.teammates.length > 0 && (
+                              <span style={{ fontSize: '0.73rem', fontWeight: 700, color: '#7c3aed', background: '#f5f3ff', border: '1px solid #ede9fe', borderRadius: '6px', padding: '2px 7px', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                                👥 Team of {participant.teammates.length + 1}
+                              </span>
+                            )}
                           </div>
                         </td>
 

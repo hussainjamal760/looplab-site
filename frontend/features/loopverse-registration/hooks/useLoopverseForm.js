@@ -9,6 +9,21 @@ import {
 } from '@/store/api/registrationApi';
 import { MODULES_DATA } from '@/features/loopverse-details/modulesData';
 
+// ==========================================
+// CONSTANTS
+// ==========================================
+
+const MAX_TEAMMATES = 3;
+
+const EMPTY_TEAMMATE = {
+  fullName: '',
+  email: '',
+  cnic: '',
+  needsParking: 'No',
+  vehicleType: 'Bike',
+  vehicleNumber: '',
+};
+
 const DEFAULT_FORM = {
   fullName: '',
   email: '',
@@ -22,8 +37,29 @@ const DEFAULT_FORM = {
   needsParking: 'No',
   vehicleType: 'Bike',
   vehicleNumber: '',
+  teammates: [],
   answers: {},
 };
+
+// ==========================================
+// TEAMMATE VALIDATORS
+// ==========================================
+
+function validateTeammate(teammate, index) {
+  const n = index + 1;
+  if (!teammate.fullName.trim()) return `Teammate ${n}: Full Name is required`;
+  if (!teammate.email.trim() || !teammate.email.includes('@')) return `Teammate ${n}: Valid email is required`;
+  if (!teammate.cnic.trim()) return `Teammate ${n}: CNIC is required`;
+  if (teammate.needsParking === 'Yes') {
+    if (!teammate.vehicleType.trim()) return `Teammate ${n}: Vehicle type is required for parking`;
+    if (!teammate.vehicleNumber.trim()) return `Teammate ${n}: Vehicle plate number is required for parking`;
+  }
+  return '';
+}
+
+// ==========================================
+// HOOK
+// ==========================================
 
 export function useLoopverseForm() {
   const { data: event, isLoading: eventLoading, isError: eventError } = useGetEventBySlugQuery('loopverse-3');
@@ -58,7 +94,6 @@ export function useLoopverseForm() {
       .sort((a, b) => a.order - b.order);
   }, [event]);
 
-  // Computed: module-specific fee with promo discount applied
   const selectedModuleData = useMemo(
     () => MODULES_DATA.find((m) => m.title === formData.module) || MODULES_DATA[0],
     [formData.module]
@@ -78,6 +113,10 @@ export function useLoopverseForm() {
     }
   }, [dynamicFields]);
 
+  // ==========================================
+  // FIELD UPDATERS
+  // ==========================================
+
   function updateField(key, value) {
     setFormData((prev) => ({ ...prev, [key]: value }));
     setErrorMsg('');
@@ -90,6 +129,41 @@ export function useLoopverseForm() {
     }));
     setErrorMsg('');
   }
+
+  // ==========================================
+  // TEAMMATE HELPERS
+  // ==========================================
+
+  function addTeammate() {
+    if (formData.teammates.length >= MAX_TEAMMATES) return;
+    setFormData((prev) => ({
+      ...prev,
+      teammates: [...prev.teammates, { ...EMPTY_TEAMMATE }],
+    }));
+    setErrorMsg('');
+  }
+
+  function removeTeammate(index) {
+    setFormData((prev) => ({
+      ...prev,
+      teammates: prev.teammates.filter((_, i) => i !== index),
+    }));
+    setErrorMsg('');
+  }
+
+  function updateTeammate(index, field, value) {
+    setFormData((prev) => {
+      const updated = prev.teammates.map((tm, i) =>
+        i === index ? { ...tm, [field]: value } : tm
+      );
+      return { ...prev, teammates: updated };
+    });
+    setErrorMsg('');
+  }
+
+  // ==========================================
+  // VALIDATION
+  // ==========================================
 
   function validateStep(step) {
     if (step === 1) {
@@ -112,6 +186,10 @@ export function useLoopverseForm() {
         if (!formData.vehicleNumber || !formData.vehicleNumber.trim()) {
           return 'Vehicle registration / plate number is required for parking';
         }
+      }
+      for (let i = 0; i < formData.teammates.length; i++) {
+        const err = validateTeammate(formData.teammates[i], i);
+        if (err) return err;
       }
       for (const field of dynamicFields) {
         if (field.isRequired && field.fieldType !== 'checkbox') {
@@ -140,6 +218,10 @@ export function useLoopverseForm() {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   }
 
+  // ==========================================
+  // PROMO
+  // ==========================================
+
   async function handleApplyPromo() {
     if (!promoCode.trim()) return;
     setErrorMsg('');
@@ -150,6 +232,10 @@ export function useLoopverseForm() {
       setErrorMsg(err?.data?.message || 'Invalid promo code');
     }
   }
+
+  // ==========================================
+  // SUBMIT
+  // ==========================================
 
   async function handleFormSubmit() {
     if (baseFee > 0 && !receipt) {
@@ -163,6 +249,34 @@ export function useLoopverseForm() {
         const uploaded = await uploadReceipt(receipt).unwrap();
         receiptUrl = uploaded?.url || '';
       }
+
+      const sanitizedTeammates = formData.teammates.map((tm) => ({
+        fullName: tm.fullName,
+        email: tm.email,
+        cnic: tm.cnic,
+        needsParking: tm.needsParking,
+        vehicleType: tm.needsParking === 'Yes' ? tm.vehicleType : 'N/A',
+        vehicleNumber: tm.needsParking === 'Yes' ? tm.vehicleNumber : 'N/A',
+      }));
+
+      const attendanceOptions = event?.formFields?.find((f) => f.fieldId === 'attendanceMode')?.options || [];
+      const trackSelectOptions = event?.formFields?.find((f) => f.fieldId === 'trackSelect')?.options || [];
+
+      const targetTrackKeyword = formData.track === 'virtual' ? 'virtual' : 'onsite';
+      const matchedAttendance =
+        attendanceOptions.find((opt) => opt.toLowerCase().includes(targetTrackKeyword)) ||
+        (formData.track === 'virtual' ? 'Virtual' : 'Onsite');
+
+      const matchedTrackSelect =
+        trackSelectOptions.find(
+          (opt) =>
+            opt.toLowerCase().includes(formData.module.toLowerCase()) ||
+            formData.module.toLowerCase().includes(opt.toLowerCase())
+        ) ||
+        formData.module ||
+        trackSelectOptions[0] ||
+        '';
+
       await submitRegistration({
         eventId: event._id,
         participantData: {
@@ -175,12 +289,15 @@ export function useLoopverseForm() {
           year: formData.year,
           track: formData.track,
           module: formData.module,
+          trackSelect: matchedTrackSelect,
+          attendanceMode: matchedAttendance,
           moduleFee: baseFee,
           finalFee,
           discountApplied: discountPercent,
           needsParking: formData.needsParking,
           vehicleType: formData.needsParking === 'Yes' ? formData.vehicleType : 'N/A',
           vehicleNumber: formData.needsParking === 'Yes' ? formData.vehicleNumber : 'N/A',
+          teammates: sanitizedTeammates,
           ...formData.answers,
         },
         appliedPromoCode: promoCode,
@@ -190,7 +307,10 @@ export function useLoopverseForm() {
       setIsSuccess(true);
       setCurrentStep(5);
     } catch (err) {
-      const msg = err?.data?.message || err?.error || 'Registration failed';
+      let msg = err?.data?.message || err?.error || 'Registration failed';
+      if (err?.data?.errors && Array.isArray(err.data.errors) && err.data.errors.length > 0) {
+        msg = err.data.errors.map((e) => e.message).join(' | ');
+      }
       setErrorMsg(msg);
     }
   }
@@ -204,6 +324,9 @@ export function useLoopverseForm() {
     formData,
     updateField,
     updateAnswer,
+    addTeammate,
+    removeTeammate,
+    updateTeammate,
     dynamicFields,
     nextStep,
     prevStep,
@@ -223,6 +346,6 @@ export function useLoopverseForm() {
     baseFee,
     finalFee,
     discountPercent,
+    maxTeammates: MAX_TEAMMATES,
   };
 }
-

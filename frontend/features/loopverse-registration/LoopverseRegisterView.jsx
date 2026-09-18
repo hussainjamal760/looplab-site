@@ -60,6 +60,11 @@ export default function LoopverseRegisterView() {
               updateField={form.updateField}
               updateAnswer={form.updateAnswer}
               dynamicFields={form.dynamicFields}
+              teammates={form.formData.teammates}
+              addTeammate={form.addTeammate}
+              removeTeammate={form.removeTeammate}
+              updateTeammate={form.updateTeammate}
+              maxTeammates={form.maxTeammates}
             />
           )}
 
@@ -67,6 +72,7 @@ export default function LoopverseRegisterView() {
             <StepPaymentReview
               event={form.event}
               formData={form.formData}
+              teammates={form.formData.teammates}
               promoCode={form.promoCode}
               setPromoCode={form.setPromoCode}
               promoResult={form.promoResult}

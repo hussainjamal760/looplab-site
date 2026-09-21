@@ -179,7 +179,7 @@ export function useLoopverseForm() {
     if (step === 3) {
       if (!formData.module) return 'Please select a module';
       if (!formData.track) return 'Please select Onsite or Virtual track';
-      if (formData.needsParking === 'Yes') {
+      if (formData.track !== 'virtual' && formData.needsParking === 'Yes') {
         if (!formData.vehicleType || !formData.vehicleType.trim()) {
           return 'Please select your vehicle type (Bike or Car)';
         }
@@ -269,11 +269,8 @@ export function useLoopverseForm() {
 
       const matchedTrackSelect =
         trackSelectOptions.find(
-          (opt) =>
-            opt.toLowerCase().includes(formData.module.toLowerCase()) ||
-            formData.module.toLowerCase().includes(opt.toLowerCase())
+          (opt) => opt.toLowerCase().includes(targetTrackKeyword)
         ) ||
-        formData.module ||
         trackSelectOptions[0] ||
         '';
 

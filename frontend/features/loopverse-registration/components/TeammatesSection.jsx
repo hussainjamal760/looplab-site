@@ -6,7 +6,7 @@ import { UserPlus, X, Car, Bike } from 'lucide-react';
 // TEAMMATE CARD
 // ==========================================
 
-function TeammateCard({ teammate, index, onRemove, onUpdate }) {
+function TeammateCard({ teammate, index, onRemove, onUpdate, isVirtual }) {
   return (
     <div className="lvr-teammate-card">
       <div className="lvr-teammate-card-header">
@@ -67,23 +67,25 @@ function TeammateCard({ teammate, index, onRemove, onUpdate }) {
           />
         </div>
 
-        <div className="lvr-field-group">
-          <label className="lvr-label" htmlFor={`tm-parking-${index}`}>
-            Needs Parking?
-          </label>
-          <select
-            id={`tm-parking-${index}`}
-            className="lvr-input"
-            value={teammate.needsParking}
-            onChange={(e) => onUpdate(index, 'needsParking', e.target.value)}
-          >
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-          </select>
-        </div>
+        {!isVirtual && (
+          <div className="lvr-field-group">
+            <label className="lvr-label" htmlFor={`tm-parking-${index}`}>
+              Needs Parking?
+            </label>
+            <select
+              id={`tm-parking-${index}`}
+              className="lvr-input"
+              value={teammate.needsParking}
+              onChange={(e) => onUpdate(index, 'needsParking', e.target.value)}
+            >
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+        )}
       </div>
 
-      {teammate.needsParking === 'Yes' && (
+      {!isVirtual && teammate.needsParking === 'Yes' && (
         <div className="lvr-teammate-parking-box">
           <div className="lvr-grid">
             <div className="lvr-field-group">
@@ -125,7 +127,7 @@ function TeammateCard({ teammate, index, onRemove, onUpdate }) {
 // TEAMMATES SECTION (exported)
 // ==========================================
 
-export default function TeammatesSection({ teammates, addTeammate, removeTeammate, updateTeammate, maxTeammates }) {
+export default function TeammatesSection({ teammates, addTeammate, removeTeammate, updateTeammate, maxTeammates, isVirtual }) {
   const canAddMore = teammates.length < maxTeammates;
   const totalMembers = teammates.length + 1;
 
@@ -141,7 +143,7 @@ export default function TeammatesSection({ teammates, addTeammate, removeTeammat
           </span>
         </div>
         <p className="lvr-teammates-desc">
-          Competing as a team? Add up to {maxTeammates} teammates. Each member needs their own details and parking info.
+          Competing as a team? Add up to {maxTeammates} teammates. Each member needs their own details{isVirtual ? '.' : ' and parking info.'}
         </p>
       </div>
 
@@ -158,6 +160,7 @@ export default function TeammatesSection({ teammates, addTeammate, removeTeammat
           teammate={teammate}
           onRemove={removeTeammate}
           onUpdate={updateTeammate}
+          isVirtual={isVirtual}
         />
       ))}
 

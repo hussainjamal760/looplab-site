@@ -97,24 +97,26 @@ export default function StepModuleCustom({
         </div>
       )}
 
-      {/* Required Parking Dropdown */}
-      <div className="lvr-field-group lvr-grid--full" style={{ marginTop: '24px' }}>
-        <label className="lvr-label" htmlFor="needsParking">
-          Do you require parking?
-        </label>
-        <select
-          id="needsParking"
-          className="lvr-input"
-          value={formData.needsParking || 'No'}
-          onChange={(e) => updateField('needsParking', e.target.value)}
-        >
-          <option value="No">No</option>
-          <option value="Yes">Yes</option>
-        </select>
-      </div>
+      {/* Required Parking Dropdown — only for Onsite participants */}
+      {formData.track !== 'virtual' && (
+        <div className="lvr-field-group lvr-grid--full" style={{ marginTop: '24px' }}>
+          <label className="lvr-label" htmlFor="needsParking">
+            Do you require parking?
+          </label>
+          <select
+            id="needsParking"
+            className="lvr-input"
+            value={formData.needsParking || 'No'}
+            onChange={(e) => updateField('needsParking', e.target.value)}
+          >
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+        </div>
+      )}
 
-      {/* Conditional Vehicle Details when Parking is Yes */}
-      {formData.needsParking === 'Yes' && (
+      {/* Conditional Vehicle Details when Parking is Yes — Onsite only */}
+      {formData.track !== 'virtual' && formData.needsParking === 'Yes' && (
         <div className="lvr-parking-box" style={{ marginTop: '16px' }}>
           <div className="lvr-grid">
             <div className="lvr-field-group">
@@ -158,6 +160,7 @@ export default function StepModuleCustom({
           removeTeammate={removeTeammate}
           updateTeammate={updateTeammate}
           maxTeammates={maxTeammates}
+          isVirtual={formData.track === 'virtual'}
         />
       </div>
 

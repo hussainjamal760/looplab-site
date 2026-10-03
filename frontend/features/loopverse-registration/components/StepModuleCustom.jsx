@@ -18,9 +18,8 @@ export default function StepModuleCustom({
 
   function handleSelectModule(mod) {
     updateField('module', mod.title);
-    if (mod.isOnsiteOnly) {
-      updateField('track', 'onsite');
-    }
+    // Onsite booking is closed — always keep virtual track regardless of module type
+    updateField('track', 'virtual');
   }
 
   return (
@@ -75,11 +74,15 @@ export default function StepModuleCustom({
           <div className="lvr-track-mode-options">
             <button
               type="button"
-              className={`lvr-track-mode-btn ${formData.track === 'onsite' ? 'lvr-track-mode-btn--active' : ''}`}
-              onClick={() => updateField('track', 'onsite')}
+              disabled
+              className="lvr-track-mode-btn lvr-track-mode-btn--closed"
+              title="Onsite registration is closed"
             >
-              <span className="lvr-track-mode-title">⚡ Onsite Track</span>
-              <span className="lvr-track-mode-sub">Attend live at venue in Lahore, PK</span>
+              <span className="lvr-track-mode-title">
+                ⚡ Onsite Track
+                <span className="lvr-track-mode-closed-badge">Booking Closed</span>
+              </span>
+              <span className="lvr-track-mode-sub">Onsite registration is no longer available</span>
             </button>
             <button
               type="button"
@@ -92,8 +95,8 @@ export default function StepModuleCustom({
           </div>
         </div>
       ) : (
-        <div className="lvr-track-mode-notice">
-          <span>📍 Note: <strong>{selectedModule?.title}</strong> is strictly an Onsite module (Lahore, PK).</span>
+        <div className="lvr-track-mode-notice lvr-track-mode-notice--closed">
+          <span>🔒 <strong>{selectedModule?.title}</strong> was an Onsite-only module — Onsite bookings are now <strong>closed</strong>. Please choose a Dual Track module and register virtually.</span>
         </div>
       )}
 

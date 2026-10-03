@@ -337,6 +337,45 @@
   color: #ffffff;
 }
 
+/* Onsite Booking Closed State */
+.lvr-track-mode-btn--closed {
+  background: #f5f5f5;
+  border-color: #d0d0d0;
+  cursor: not-allowed;
+  opacity: 0.65;
+  position: relative;
+}
+
+.lvr-track-mode-btn--closed:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.lvr-track-mode-btn--closed .lvr-track-mode-title {
+  color: #888888;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.lvr-track-mode-btn--closed .lvr-track-mode-sub {
+  color: #aaaaaa;
+}
+
+.lvr-track-mode-closed-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
 .lvr-track-mode-title {
   font-size: 0.95rem;
   font-weight: 800;
@@ -361,6 +400,12 @@
   font-weight: 700;
   color: #92400E;
   margin-top: 20px;
+}
+
+.lvr-track-mode-notice--closed {
+  background: #FEF2F2;
+  border-color: #DC2626;
+  color: #7F1D1D;
 }
 
 /* Parking Details Box */

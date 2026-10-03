@@ -32,7 +32,7 @@ const DEFAULT_FORM = {
   university: '',
   department: '',
   year: '3rd Year',
-  track: 'onsite',
+  track: 'virtual',
   module: 'Web Development',
   needsParking: 'No',
   vehicleType: 'Bike',

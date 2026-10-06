@@ -69,7 +69,7 @@ export default function AnimatedTechRunnerPrizes() {
               className="lv-action-button lv-action-button--primary"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', fontSize: '0.88rem' }}
             >
-              Register to Compete <ArrowRight size={16} />
+              Registrations Closed <ArrowRight size={16} />
             </Link>
           </div>
         </div>

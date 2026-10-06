@@ -102,7 +102,7 @@ export default function PrizesAndContact() {
           <div className="lv-contact-cta-wrap">
             <Link href="/loopverse/register" className="lv-register-btn">
               <Sparkles size={18} />
-              <span>Register Now for LoopVerse 3.0</span>
+              <span>Registrations Closed</span>
               <ArrowRight size={18} />
             </Link>
           </div>

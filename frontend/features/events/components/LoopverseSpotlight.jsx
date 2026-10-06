@@ -69,12 +69,12 @@ export default function LoopverseSpotlight() {
                             </div>
 
                             <div className="spotlight-cta-wrap">
-                                <MagnetButton
-                                    href={data.portalUrl}
-                                    className="spotlight-cta-btn"
-                                >
-                                    Register Now / Active Portal ↗
-                                </MagnetButton>
+                                    <MagnetButton
+                                        href="/loopverse/register"
+                                        className="spotlight-cta-btn"
+                                    >
+                                        Registrations Closed 🔒
+                                    </MagnetButton>
                             </div>
                         </div>
                     </div>

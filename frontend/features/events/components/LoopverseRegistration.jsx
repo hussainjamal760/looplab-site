@@ -1,23 +1,26 @@
 'use client';
 
+import Link from 'next/link';
+
 export default function LoopverseRegistration() {
   return (
     <section className="loopverse-registration-section">
       <div className="registration-card">
-        <span className="registration-badge">FLAGSHIP 2024 • NOW LIVE</span>
-        <h2 className="registration-title">loopverse 3.0 Registrations Open</h2>
+        <span className="registration-badge" style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)', color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.4)' }}>
+          FLAGSHIP • REGISTRATIONS CLOSED
+        </span>
+        <h2 className="registration-title">loopverse 3.0 Registrations Closed</h2>
         <p className="registration-subtitle">
-          Secure your spot at Pakistan's largest campus tech gathering. 1,500+ builders, 20+ universities, keynote speakers, and 48-hour build tracks.
+          Registrations for Pakistan's premier campus tech gathering are officially closed. Stay tuned for live event coverage and updates.
         </p>
-        <a
-          href="https://looplab.dev/register"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href="/loopverse/register"
           className="portal-button"
+          style={{ opacity: 0.9, cursor: 'pointer' }}
         >
-          <span>ENTER PORTAL</span>
-          <span>✨</span>
-        </a>
+          <span>REGISTRATIONS CLOSED</span>
+          <span>🔒</span>
+        </Link>
       </div>
     </section>
   );

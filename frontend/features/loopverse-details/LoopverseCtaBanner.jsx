@@ -98,7 +98,7 @@ export default function LoopverseCtaBanner() {
             alignItems: 'center',
             gap: '12px',
             padding: '18px 42px',
-            backgroundColor: '#9E00FE',
+            backgroundColor: '#ef4444',
             color: '#ffffff',
             border: '2.5px solid #1a1a1a',
             borderRadius: '16px',
@@ -109,7 +109,7 @@ export default function LoopverseCtaBanner() {
             transition: 'transform 0.2s ease, box-shadow 0.2s ease',
           }}
         >
-          Start Registration Now <ArrowRight size={22} />
+          Registrations Closed <ArrowRight size={22} />
         </Link>
       </motion.div>
     </section>

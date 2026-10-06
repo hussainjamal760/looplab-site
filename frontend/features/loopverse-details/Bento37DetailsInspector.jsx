@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Trophy, CheckCircle2, Sparkles, ExternalLink, Mail, Phone, User } from 'lucide-react';
 import { PRIZES_CONTRIBUTIONS_DATA } from './prizesData';
 
@@ -82,17 +83,15 @@ export default function Bento37DetailsInspector({ activeIndex }) {
           </div>
         </div>
 
-        <a
-          href="https://forms.google.com"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          href="/loopverse/register"
           className="lv-register-btn"
           style={{ marginTop: 16 }}
         >
           <Sparkles size={18} />
-          <span>Register Team for LoopVerse 3.0</span>
+          <span>Registrations Closed</span>
           <ExternalLink size={16} />
-        </a>
+        </Link>
       </div>
     </div>
   );

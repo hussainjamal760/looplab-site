@@ -125,7 +125,7 @@ export function PastBlock({ event, index = 0 }) {
             shine={false}
             onClick={handleRegisterClick}
           >
-            Register Now →
+            Registrations Closed 🔒
           </MagneticButton>
 
           {/* Small Popover Interface Card */}
@@ -139,11 +139,11 @@ export function PastBlock({ event, index = 0 }) {
                 ✕
               </button>
               <div className="small-card-text">
-                <span className="oops-tag">⚠️ Oops! Date passed</span>
-                <p>but you can register for <strong>Loopverse 3.0</strong></p>
+                <span className="oops-tag">🔒 Registrations Closed</span>
+                <p>Registrations for <strong>Loopverse 3.0</strong> are closed.</p>
               </div>
               <button className="small-card-action" onClick={handleGoToLoopverse3}>
-                Register for Loopverse 3.0 →
+                View Loopverse 3.0 Details →
               </button>
             </div>
           )}

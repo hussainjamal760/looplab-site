@@ -119,7 +119,7 @@ export function Hero() {
 
           <div className="events-hero-actions">
             <Link href="/loopverse" className="events-hero-view-details-btn">
-              <span>Register for LoopVerse 3.0</span>
+              <span>Registrations Closed • LoopVerse 3.0</span>
               <ArrowUpRight size={18} className="btn-arrow-icon" />
             </Link>
           </div>

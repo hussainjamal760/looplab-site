@@ -220,10 +220,10 @@ export default function HeroBanner() {
                 whileTap={{
                   scale: 0.97,
                 }}
-                aria-label="Register for Loopverse 3.0"
+                aria-label="Loopverse 3.0 Registrations Closed"
               >
                 <span>
-                  Register Now
+                  Registrations Closed
                 </span>
 
                 <ArrowRight

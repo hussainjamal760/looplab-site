@@ -238,11 +238,9 @@ export function useLoopverseForm() {
   // ==========================================
 
   async function handleFormSubmit() {
-    if (baseFee > 0 && !receipt) {
-      setErrorMsg('Please upload payment receipt before submitting');
-      return;
-    }
-    setErrorMsg('');
+    setErrorMsg('Registrations for Loopverse 3.0 are officially closed. Form submissions are no longer accepted.');
+    return;
+  }
     try {
       let receiptUrl = '';
       if (receipt) {

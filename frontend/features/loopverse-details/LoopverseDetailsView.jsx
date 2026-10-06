@@ -30,7 +30,7 @@ export default function LoopverseDetailsView() {
             </span>
             <h2>Ready to enter the loop?</h2>
             <p>
-              Register for LoopVerse 3.0 (Onsite Lahore or Virtual Worldwide) or verify an officially issued LoopLab certificate.
+              Registrations for LoopVerse 3.0 (Onsite Lahore or Virtual Worldwide) are now closed. You can verify officially issued LoopLab certificates below.
             </p>
           </div>
 
@@ -39,7 +39,7 @@ export default function LoopverseDetailsView() {
               href="/loopverse/register"
               className="lv-action-button lv-action-button--primary"
             >
-              Register Now
+              Registrations Closed
               <ArrowRight size={18} />
             </Link>
 
